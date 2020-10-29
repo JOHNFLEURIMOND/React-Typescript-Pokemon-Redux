@@ -1,0 +1,32 @@
+{
+  "include": ["assets", "test",],
+  "exclude": ["node_modules", "build"],
+  "compilerOptions": {
+    "outDir": "build/lib",
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["dom", "esnext"],
+    "importHelpers": true,
+    "declaration": true,
+    "sourceMap": true,
+    "rootDir": "./",
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@": ["./"],
+      "*": ["assets/*",]
+    },
+    "jsx": "react",
+    "esModuleInterop": true
+  }
+}
