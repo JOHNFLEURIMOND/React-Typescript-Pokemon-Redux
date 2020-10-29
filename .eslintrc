@@ -1,0 +1,45 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true,
+    "amd": true,
+    "commonjs": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "jsx": true,
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "jest",
+    "prettier",
+    "react",
+    "react-hooks"
+  ],
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "prettier",
+    "prettier/react",
+    "prettier",
+    "prettier/babel",
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard",
+    "prettier/unicorn",
+    "prettier/vue"
+  ],
+  "rules": {
+    "indent": "off",
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "prettier/prettier": "error"
+  }
+}
