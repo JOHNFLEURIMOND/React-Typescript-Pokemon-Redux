@@ -26,7 +26,7 @@ const baseFooterStyles = css({
 
   a: {
     textDecoration: 'none',
-    color: fleurimondColors.steelTeal,
+    color: fleurimondColors.woooRed,
     '&:hover,&:active,&:focus': {
       borderColor: fleurimondColors.white,
       color: fleurimondColors.white,

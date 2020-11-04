@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import shouldForwardProp from '@styled-system/should-forward-prop';
@@ -11,7 +12,7 @@ const baseNavStyles = css({
   boxSizing: 'border-box',
   fontSize: '20px',
   height: '55px',
-  color: fleurimondColors.steelTeal,
+  color: fleurimondColors.woooRed,
   textAlign: 'center',
   position: 'fixed',
   width: '100vw',
@@ -30,15 +31,15 @@ const baseNavStyles = css({
   '.App-header-nav ': {
     fontSize: '20px',
     height: '55px',
-    color: fleurimondColors.steelTeal,
+    color: fleurimondColors.woooRed,
     textAlign: 'center',
     padding: '20px',
     position: 'absolute',
     left: '0',
-    top: '0',
+    top: '0'
   },
   li: {
-    listStyle: 'none',
+    listStyle: 'none'
   },
   ul: {
     width: '52vw',
@@ -46,47 +47,47 @@ const baseNavStyles = css({
     flexDirection: 'row',
     justifyContent: 'space-around',
     margin: 0,
-    padding: '1rem',
+    padding: '1rem'
   },
 
   a: {
     color: fleurimondColors.blue,
-    textDecoration: 'none',
+    textDecoration: 'none'
   },
 
   '.BannerHeader': {
-    width: '50%',
+    width: '50%'
   },
   '.BannerHeader2': {
-    width: '50%',
+    width: '50%'
   },
   '*': {
-    fontFamily: 'Montserrat, sans-serif',
-  },
+    fontFamily: 'Montserrat, sans-serif'
+  }
 });
 
 const JFNav = (props): JSX.Element => {
   return (
-    <Container className="App-header-nav" {...props}>
-      {' '}
+    <Container className='App-header-nav' {...props}>
       <header>
-        {' '}
         <ul>
-          <li>Home</li>
-          <li>Portfolio</li>
-          <li>Experience</li>
-
-          <li>Contact </li>
-
-          <li>Map</li>
-        </ul>{' '}
+          <li>
+          <Link to="/">Marvel</Link>
+          </li>
+          <li>
+          <Link to="/Login">Login</Link>
+          </li>
+          <li>
+          <Link to="/SignUp">Sign Up</Link>
+          </li>
+        </ul>
       </header>
     </Container>
   );
 };
 
 const JFNavWithStyle = styled(JFNav, {
-  shouldForwardProp,
+  shouldForwardProp
 })(baseNavStyles, space, flexbox, typography);
 
 export default JFNavWithStyle;

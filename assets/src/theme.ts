@@ -4,6 +4,7 @@ const fleurimondColors = {
   haitianGold: '#d4af37',
   me: '#4c3e10',
   trueBlack: '#000000',
+  woooRed: '#ff0000',
   fierceFuchsia: '#d92b85',
   roboticRed: '#d92b85',
   orneryOrange: '#fd7333',
