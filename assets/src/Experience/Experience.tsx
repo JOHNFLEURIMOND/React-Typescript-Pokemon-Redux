@@ -8,9 +8,7 @@ import { Container } from 'semantic-ui-react';
 import { Header } from '../Header';
 import { Card } from '../Card';
 import { Button } from '../Button';
-import Skills from './Skills';
 import { fleurimondColors } from '../theme';
-import 'normalize.css';
 
 type CardVariation = 'frontEnd' | 'backEnd';
 
@@ -172,12 +170,9 @@ const JFBanner = (props): JSX.Element => {
       </div>
       <div className="resume">
         <Button variant="primary" aria-label="Primary Small Button" mt={50}>
-          <a href={require('./2020.pdf')} download="myFile">
             Download Resume
-          </a>
         </Button>
       </div>
-      <Skills />
     </Container>
   );
 };
