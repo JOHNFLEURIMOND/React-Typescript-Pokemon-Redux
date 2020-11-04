@@ -18,6 +18,7 @@ module.exports = {
   devServer: {
     contentBase: BUILD_DIR + "index/html",
     port: 5000,
+    
   },
 
   plugins: [
