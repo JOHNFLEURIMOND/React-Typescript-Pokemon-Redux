@@ -49,8 +49,8 @@ const buttonVariants = {
     borderColor: fleurimondColors.black,
 
     '&:hover,&:active,&:focus': {
-      backgroundColor: fleurimondColors.me,
-      borderColor: fleurimondColors.me,
+      backgroundColor: fleurimondColors.woooRed,
+      borderColor: fleurimondColors.woooRed,
       color: fleurimondColors.white,
     },
 
