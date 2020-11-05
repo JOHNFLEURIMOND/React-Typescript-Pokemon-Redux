@@ -1,0 +1,85 @@
+body.dimmed.dimmable {
+  overflow: hidden;
+}
+
+.dimmable:not(body) {
+  position: relative;
+}
+
+.ui.dimmer {
+  display: none;
+  position: absolute;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100%;
+  height: 100%;
+  padding-top: 1.6em;
+  background-color: #ffffff;
+  opacity: 0;
+  line-height: 1;
+  animation-fill-mode: both;
+  animation-duration: 0.5s;
+  transition: background-color 0.5s linear;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  user-select: none;
+  z-index: 1000;
+}
+
+.dimmed.dimmable:not(body) {
+  overflow: hidden;
+}
+
+/* Active / Visible */
+.dimmed.dimmable > .ui.visible.dimmer,
+.ui.active.dimmer {
+  display: flex;
+  opacity: 1;
+}
+
+/* Disabled */
+.ui.disabled.dimmer {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.ui.inverted.dimmer {
+  background-color: rgba(245, 245, 245, 0.6);
+}
+
+.ui.inverted.dimmer > .content > * {
+  color: #ffffff;
+}
+
+.modal-demo-content p {
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-bottom: 20px;
+  right: 50%;
+}
+
+.modal-demo-content .form-row {
+  display: flex;
+  margin: 8px 0 35px 0;
+}
+
+.modal-demo-content .form-row .form-radio-group-label {
+  flex: 0 1 30px;
+  margin-right: 8px;
+  padding-left: 9px;
+  white-space: nowrap;
+}
+
+.modal-demo-content .form-row label {
+  display: block;
+  padding-left: 20px;
+}
+
+.modal-demo-content .form-row input[type='radio'] {
+  margin-left: -20px;
+}
+
+.modal-demo-content input.vendor-radioButton-section {
+  font-size: 0.9em;
+}

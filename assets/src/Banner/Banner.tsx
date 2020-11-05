@@ -6,6 +6,8 @@ import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
 import { Container } from "semantic-ui-react";
 import { Header } from "../Header";
+import HomePageModal from "../Modal/HomePageModal";
+
 import { fleurimondColors } from "../theme";
 
 const baseBannerStyles = css({
@@ -60,14 +62,17 @@ const JFBanner = (props): JSX.Element => {
             Super Hero Index
           </Header>
         </div>
-        <div className="rightHalf" />
+
+        <div className="rightHalf">
+          <HomePageModal />
+          </div>
       </Animated>
     </Container>
   );
 };
 
 const JFBannerWithStyle = styled(JFBanner, {
-  shouldForwardProp,
+        shouldForwardProp,
 })(baseBannerStyles, space, flexbox, typography);
 
 export default JFBannerWithStyle;

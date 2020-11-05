@@ -1,0 +1,80 @@
+.tooltip-position-demo {
+  display: grid;
+  width: 35vw;
+  height: 35vh;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  margin: 5rem auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.tooltip-top {
+  grid-column: 2 / 2;
+  grid-row: 1 / 1;
+}
+
+.tooltip-right {
+  grid-column: 3 / 3;
+  grid-row: 2 / 2;
+}
+
+.tooltip-bottom {
+  grid-column: 2 / 2;
+  grid-row: 3 / 3;
+}
+
+.tooltip-left {
+  grid-column: 1 / 1;
+  grid-row: 2 / 2;
+}
+
+.tooltip-width-demo {
+  display: grid;
+  width: 10vw;
+  height: 60vh;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  margin: 5rem 1rem;
+  justify-items: center;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.tooltip-trigger {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.tooltip-normal {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+}
+
+.tooltip-wide {
+  grid-column: 1 / 1;
+  grid-row: 2 / 2;
+}
+
+.tooltip-very-wide {
+  grid-column: 1 / 1;
+  grid-row: 3 / 3;
+}
+
+.tooltip-custom {
+  grid-column: 1 / 1;
+  grid-row: 4 / 4;
+}
+
+.tooltip-fluid {
+  grid-column: 1 / 1;
+  grid-row: 5 / 5;
+}
+
+.tooltip-custom-width {
+  max-width: 850px !important;
+}

@@ -29,8 +29,7 @@ const Homepage = (): JSX.Element => {
       <Banner />
       <pre>
         <code>{message && JSON.stringify(message, null, 4)}</code>
-      </pre>{" "}
-      <Login />
+      </pre>
       <Footer />
     </div>
   );
