@@ -73,7 +73,6 @@ const getModalStyles = (): SerializedStyles => {
 };
 
 const VCModal = (props): JSX.Element => {
-  /* Veracode Modals always have the 'inverted' dimmer aka the 'Milkout' */
   return <SUIModal {...props} dimmer="inverted" css={getModalStyles()} />;
 };
 
