@@ -4,13 +4,13 @@ import {
   Card as SUICard,
   CardProps as SUICardProps,
 } from 'semantic-ui-react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import shouldForwardProp from '@styled-system/should-forward-prop';
 import { space, flexbox, typography } from 'styled-system';
+import axios from "Axios";
 
-import { Header } from '../Header';
 import { fleurimondColors } from '../theme';
 
 const baseProjectCardsStyles = css({
@@ -59,57 +59,51 @@ const baseProjectCardsStyles = css({
   },
 });
 
-const src =
-  'https://github.com/JOHNFLEURIMOND/MysqlExpressReactNode/blob/master/public/App.png?raw=true';
-const src2 =
-  'https://github.com/JOHNFLEURIMOND/screenshots/blob/main/Screen%20Shot%202020-10-08%20at%201.58.19%20AM.png?raw=true';
-const src3 =
-  'https://github.com/JOHNFLEURIMOND/screenshots/blob/main/Screen%20Shot%202020-10-06%20at%205.55.05%20PM.png?raw=true';
-const src5 =
-  'https://github.com/JOHNFLEURIMOND/redux-api/raw/master/Redux.png?raw=true';
-const src4 =
-  'https://github.com/JOHNFLEURIMOND/PassportReactExpressNode/blob/master/public/PASSPORT.png?raw=true';
-const src6 =
-  'https://github.com/JOHNFLEURIMOND/screenshots/blob/main/Screen%20Shot%202020-10-05%20at%206.10.30%20PM.png?raw=true';
-
 const JFProjectCards = (props: SUICardProps): JSX.Element => {
+  interface MarvelCharacters {
+    id?: number;
+    name: string;
+    description: string;
+    thumbnail: any;
+  }
+
+  const marvelProps: MarvelCharacters[] = [];
+
+  const [characters, setCharacters]: [
+    MarvelCharacters[],
+    (results: MarvelCharacters[]) => void
+  ] = useState(marvelProps);
+
+  useEffect(() => {
+    getMarvelCharacters();
+  }, []);
+
+  const getMarvelCharacters = async () => {
+    await axios.get("http://localhost:8080/backend/api").then(response => {
+      setCharacters(response.data.data.results);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    });
+  };
+
   return (
-    <Container {...props}>
-      <Header className="ProjectHeader" as="h1" pt={100} pb={100}>
-        Projects
-      </Header>
-      <Card.Group itemsPerRow={4}>
-        <SUICard
-          image={src}
-          href="https://mern-formik.herokuapp.com/"
-          header="MERN STACK"
-        />
-        <SUICard
-          image={src2}
-          href="https://github.com/JOHNFLEURIMOND/BoardsCommissionsForm"
-          header="Application Page"
-        />
-        <SUICard
-          image={src3}
-          href="https://simplisafe.com/privacy-protected"
-          header="SimpliSafe Page"
-        />
-        <SUICard
-          image={src4}
-          href="https://github.com/JOHNFLEURIMOND/PassportReactExpressNode/tree/master/read"
-          header="OAuth2 login"
-        />
-        <SUICard
-          image={src5}
-          href="https://github.com/JOHNFLEURIMOND/redux-api"
-          header="Redux-API"
-        />
-        <SUICard
-          image={src6}
-          href="https://tastysinsbyari.com/"
-          header="Client's Page"
-        />
-      </Card.Group>
+    <Container style={{ display: 'inline-block' }}  {...props}>
+      {characters && characters.map((characters) => (
+
+        <div style={{ display: 'inline-block' }} key={characters.id}>
+          <Card.Group itemsPerRow={4}>
+            <SUICard
+              image={`${characters.thumbnail.path}/portrait_fantastic.${characters.thumbnail.extension}`}
+              header={characters.name}
+              description={characters.description}
+            />
+          </Card.Group>
+
+        </div>
+      ))}
+
     </Container>
   );
 };

@@ -12,8 +12,7 @@ const CardActionsStyles = css({
   display: 'flex',
   textAlign: 'center',
   justifyContent: 'center',
-  padding: '1.2rem',
-  boxSizing: 'border-box',
+  boxSizing: 'border-box', 
   flex: '0 0 auto',
 });
 

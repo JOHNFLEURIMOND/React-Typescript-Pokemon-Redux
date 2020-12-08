@@ -17,6 +17,7 @@ const JFCardContentStyles = css({
   paddingBottom: 0,
   overflowY: 'auto',
   flex: '1 1 auto',
+  
 });
 
 const JFCardContent = (props): React.ReactElement => {

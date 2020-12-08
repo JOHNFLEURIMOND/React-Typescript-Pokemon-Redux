@@ -160,7 +160,7 @@ const getButtonStyles = ({ variant, size }, props): SerializedStyles => {
 };
 
 const VCButton = (props: VCButtonProps): JSX.Element => {
-  const { variant, size, ...rest } = props;
+  const { variant, onClick, size, ...rest } = props;
 
   return (
     <SUIButton

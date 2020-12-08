@@ -16,7 +16,7 @@ const baseProjectsStyles = css({
   fontWeight: 600,
   height: '100%',
   width: '100%',
-  backgroundColor: fleurimondColors.steelTeal,
+  backgroundColor: fleurimondColors.white,
   display: 'flex',
   justifyContent: 'center',
   overflowX: 'hidden',
@@ -31,7 +31,7 @@ const baseProjectsStyles = css({
     margin: '0 3rem 0 0',
   },
   '.ui.four.cards>.card': {
-    width: 'calc(25% - 1.5em)',
+    width: '15rem',
     marginLeft: '.75em',
     marginRight: '.75em',
   },

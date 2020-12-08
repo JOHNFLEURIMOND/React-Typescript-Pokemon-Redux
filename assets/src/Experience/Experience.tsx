@@ -114,6 +114,7 @@ const JFBanner = (props): JSX.Element => {
 
   return (
     <Container {...props}>
+      
       <Header className="ExperienceHeader" as="h1" pt={100}>
         Experience
       </Header>
@@ -136,6 +137,7 @@ const JFBanner = (props): JSX.Element => {
         </div>
       </div>
       <div className="toggleCard">
+
         {unSetDivMenu ? (
           <Card className="backend backendShow">
             <Card.Content>
