@@ -5,9 +5,11 @@ import { Animated } from 'react-animated-css';
 import shouldForwardProp from '@styled-system/should-forward-prop';
 import { space, flexbox, typography } from 'styled-system';
 import { Container } from 'semantic-ui-react';
-import { Header } from '../Header';
+import Nav from "../Navbar/Nav";
+import Footer from "../Footer/Footer";
+import Banner from "../Banner/Banner";
+import Projects from "../Projects/Projects";
 import { fleurimondColors } from '../theme';
-import { Button } from '../Button';
 
 const baseBannerStyles = css({
   boxSizing: 'border-box',
@@ -35,40 +37,27 @@ const baseBannerStyles = css({
   }
 });
 
-const JFLogin = (props): JSX.Element => {
+const JFCharacterCards = (props): JSX.Element => {
   return (
     <Container {...props}>
+      <Nav />
+
       <Animated
         animationInDelay={0}
         animationIn='slideInUp'
         animationOut='slideOutDown'
         isVisible>
-        <Header className='BannerHeader' as='h1' pt={200} pl={100}>
-          welcome
-        </Header>
-        <div className='leftHalf'>
-          <Button
-            variant='primary'
-            aria-label='Primary Button'
-           >
-            Login
-          </Button>
-        </div>
-        <div className='rightHalf'>
-          <Button
-            variant='primary'
-            aria-label='Primary Button'
-            >
-            Sign Up
-          </Button>
-        </div>
+        <Banner />
+        <Projects />
       </Animated>
+      <Footer />
+
     </Container>
   );
 };
 
-const JFLoginWithStyle = styled(JFLogin, {
+const JFCharacterCardsWithStyle = styled(JFCharacterCards, {
   shouldForwardProp
 })(baseBannerStyles, space, flexbox, typography);
 
-export default JFLoginWithStyle;
+export default JFCharacterCardsWithStyle;

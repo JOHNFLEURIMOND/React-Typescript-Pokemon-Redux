@@ -12,7 +12,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
   },
-  entry: [`${APP_DIR}/Main.js`, `${APP_DIR}/src/Modal/3-Modal.stories.css`],
+  entry: [`${APP_DIR}/Main.js`],
   output: {
     path: path.resolve(BUILD_DIR),
     publicPath: "/",

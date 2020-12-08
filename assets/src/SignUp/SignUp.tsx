@@ -1,5 +1,8 @@
 import React from 'react';
-import { Formik } from 'formik';
+import {
+  Formik,
+  Form,
+} from 'formik';
 import * as Yup from 'yup';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -10,9 +13,8 @@ import { Container } from 'semantic-ui-react';
 import { Header } from '../Header';
 import { fleurimondColors } from '../theme';
 import TextInput from '../Form/TextInput';
-import CommentInput from '../Form/CommentInput';
 
-import { Button } from '../Button';
+
 
 const baseBannerStyles = css({
   boxSizing: 'border-box',
@@ -115,123 +117,72 @@ const JFSignUp = (props): JSX.Element => {
             <div className="jumbotron">
               <Formik
                 initialValues={{
-                  firstName: '',
-                  middleName: '',
-                  lastName: '',
-                  phone: '',
-                  email: '',
-                  confirmEmail: '',
-                  comments: '',
+                  email: "",
+                  confirmEmail: "",
+                  password: "",
+                  confirmPassword: ""
                 }}
                 validationSchema={Yup.object().shape({
-                  zip: Yup.string()
-                    .required('Zip Code Is Required')
-                    .matches(new RegExp(/^\d{5}$/), 'Zip Codes Contains 5 Digits'),
-                  firstName: Yup.string()
-                    .required('Your First Name Is Required!')
-                    .min(2, 'Your First Name Needs To Be Valid'),
-                  lastName: Yup.string()
-                    .required('Your Last Name Is Required!')
-                    .min(2, 'Your Last Name Needs To Be Valid'),
-                  phone: Yup.string()
-                    .matches(new RegExp(/^\d{5}$/), 'Your Phone Number Is Not Valid')
-                    .required('Your State Name Is Required!'),
-                  comments: Yup.string().min(1),
+                  email: Yup.string().email().required("Your Email Is Required!"),
+                  confirmEmail: Yup.string()
+                    .email()
+                    .required("Your Confirm Email Is Required!")
+                    .oneOf([Yup.ref("email", undefined)], "Make Sure Emails Match!"),
+                  password: Yup.string()
+                    .required("Password Is Required!")
+                    .min(2, "Your Password Needs To Be Valid"),
+                  confirmPassword: Yup.string()
+                    .matches(new RegExp(/^\d{5}$/), "Your Phone Number Is Not Valid")
+                    .required("Your State Name Is Required!")
+                    .oneOf(
+                      [Yup.ref("password", undefined)],
+                      "Make Sure Password Match!"
+                    )
                 })}
                 onSubmit={(values, actions) => {
                   setTimeout(() => {
-                    console.log({ values, actions });
+                    console.log("hi", { values, actions });
                     alert(JSON.stringify(values, null, 2));
                     actions.setSubmitting(false);
-                  }, 400);
+                  }, 4000);
                 }}
                 render={({
                   isSubmitting,
-                  handleSubmit,
-                  values,
-                  handleChange,
-                  handleBlur,
-                  dirty,
+                  dirty
                 }) => (
-                    <form onSubmit={handleSubmit}>
+                    <Form>
                       <TextInput
-                        size="small"
-                        title="First Name"
-                        name="firstName"
-                        placeholder="First Name"
-                        value={values.firstName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                      />
-
-                      <TextInput
-                        size="small"
-                        title="Initial"
-                        name="middleName"
-                        placeholder="Middle Initial"
-                        value={values.middleName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-
-                      <TextInput
-                        size="small"
-                        title="Last Name"
-                        name="lastName"
-                        placeholder="Last Name"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                      />
-
-                      <TextInput
-                        size="small"
-                        title="Phone"
-                        name="phone"
-                        placeholder="Phone Number"
-                        value={values.phone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <TextInput
-                        size="small"
                         title="Email"
                         name="email"
                         placeholder="Email"
-                        value={values.email}
-                        onChange={handleChange}
                         required
-                        onBlur={handleBlur}
                       />
                       <TextInput
-                        size="small"
                         title="Confirm Email"
                         name="confirmEmail"
                         placeholder="Confirm Email"
-                        value={values.confirmEmail}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
                         required
                       />
-
-                      <CommentInput
-                        name="comments"
-                        size="large"
-                        title="Comments"
-                        placeholder="Other Comments You Would Like Us to Know."
-                        value={values.comments}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
+                      <hr className="hr hr--sq" />
+                      <TextInput
+                        title="password"
+                        name="password"
+                        placeholder="Please, Create a secure password"
                       />
-                      <Button
-                        type="submit"
-                        disabled={!dirty || isSubmitting}
-                      >
+                      <TextInput
+                        title="Confirm Password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password!"
+                      />
+
+                      <button 
+                      type="submit" 
+                      disabled={!dirty || isSubmitting}
+                        aria-label="Primary Small Button"
+                       >
                         Send A Message
-              </Button>
-                    </form>
+              </button>
+                    </Form>
                   )}
               />
             </div>

@@ -1,47 +1,28 @@
 import "react-app-polyfill/ie11";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import Banner from "./src/Banner/Banner";
 import Nav from "./src/Navbar/Nav";
-import Login from "./src/Login/Login";
-import SignUp from "./src/SignUp/SignUp";
 import Footer from "./src/Footer/Footer";
-import fetcher from "./fetcher";
+import Banner from "./src/Banner/Banner";
+import CharacterPage from "./src/CharacterPage/CharacterPage";
+import SignUp from "./src/SignUp/SignUp";
 
 const Homepage = (): JSX.Element => {
-  const [message, setMessage] = useState<string>("Frontend");
-  console.log(setMessage);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      fetcher("http://localhost:8080/api/test").then(result => {
-        setMessage(result);
-      });
-    };
-
-    fetchData();
-  });
-
-  console.log(setMessage);
   return (
     <div>
       <Nav />
       <Banner />
-      <pre>
-        <code>{message && JSON.stringify(message, null, 4)}</code>
-      </pre>
       <Footer />
     </div>
   );
 };
-
 
 const App = () => {
   return (
     <Router>
       <Switch>
         <Route path="/" exact component={Homepage} />
-        <Route path="/Login" component={Login} />
+        <Route path="/CharacterPage" component={CharacterPage} />
         <Route path="/SignUp" component={SignUp} />
       </Switch>
     </Router>

@@ -1,10 +1,7 @@
 # :checkered_flag:What It Looks Like :checkered_flag:: 
 
 # How It's Made :nut_and_bolt:🔨 :hammer::wrench::
- This application built with React.js, Express, Node, Webpack, & Babel.
-
-## Optimizations.
-This is just a basic template layout to start my fullstack apps
+ This application built with Nodemon.
 
 
  # How It's Works:white_check_mark::
@@ -12,64 +9,31 @@ This is just a basic template layout to start my fullstack apps
 
 2.) The backend server response back with a message saying its connected.
 
-## My Awesome Project && Lessons Learned :mortar_board::
+## My Awesome Project 
 
-I learned how to get React going without using `create-react-app` By using `Babel` which is code transpiler, it will ES6 Javascript and transpiles it to ES5 Javascript which will be readable for more modern browser. With plugins `preset-env` that helps compiles to ES5 but also takes the browser into play for the environment setup  `preset-react` that helps compiles the jsx syntax, other plugings to help with the syntax tree to help with the source code. 
+Your task is to take in a list of refrigerator contents and return a list containing weight by
+category of expired contents to be composted. Below is a list of smell scores by category and
+an example of refrigerator contents.
+Category smell limits
+● Produce expires at an 8 or above
+● Dairy expires at a 5 or above
+● Meat expires at a 6 or above
+Example refrigerator contents
+1. 2.2 lbs of produce with a smell score of 0 (fresh)
+2. 1.4 lbs of dairy with a smell score of 4 (fresh)
+3. 1.5 lbs of produce with a smell score if 8 (expired)
+4. 0.75 lbs of meat with a smell score of 6 (expired)
+5. 0.55 lbs of snacks with a smell score of 9 (fresh)
+6. 4.8 lbs of frozen with a smell score of 10 (expired)
+7. 0.8 lbs of produce with a smell score of 10 (expired)
+In this example, the contents should evaluate to
+● Meat: 0.75
+● Frozen: 4.8
+● Produce: 2.3
 
-`Webpack` is a module bundler that all of your Javascript files and creates one big file. It will sort all dependencies and configure scope. I defined my entry point at `Main.js`, this is where I tell webpack to started looking for other dependencies, so it can make a dependency graph. It will parse this javascript file and view all imports there and create another Abstract Syntax Tree, kind like babel but looks for import statements depending on other files and sort that and output one big file.
 
-`React` is a library to build composable user interfacts. Composablility being that system design princile of that deals with the inter relationships of components, like how each component contains its own state and being resuseable components. It is a one of the top Javascript frameworks. You don't need to use `Webpack` or `Babel`, you can easily use `npx create-react-app my-app`, `cd my-app`, and `npm start`, tada! you have yourself an app but I wanted to challenge my self.
-
-## Express, Nodemon, Body-Parser, Cors
-
-The first thing I wanted to do is to create a server where browsers can connect to. We can do so with the help of a listen method provided by `Express` You define routing using methods of the Express app object that correspond to HTTP methods; for example, app.get() to handle GET requests and app.post to handle POST requests. Like app.METHOD or You can also use app.all() to handle all HTTP methods and app.use() to specify middleware as the callback function and using Nodemon to restart the server automatically whenever I or the user save a file that the server uses.
-
-```const express = require('express');
-const app = express();
-
-app.use(express.json());
-```
-
-```//------
-app.listen(8080, function() {
-  console.log('listening on 3000')
-})
-```
-or 
-
-```//------
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {
-    console.log(`Our app is running on port ${PORT}`);
-});
-```
-
-`Express` allows us to add middleware like body-parser to our application with the use method. You’ll hear the term middleware a lot when dealing with `Express`. These things are basically plugins that change the request or response object before they get handled by our application. Make sure you place body-parser before your CRUD handlers!
-
-```//------
-const express = require('express')
-const bodyParser= require('body-parser')
-const app = express()
-
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
-);
-// All your handlers here...
-```
-A request for a resource (like an image or a font) outside of the origin is known as a cross-origin request. CORS (cross-origin resource sharing) manages cross-origin requests.
-
-Cross-origin requests, however, that means servers must implement ways to handle requests from origins outside of their own. CORS allows servers to specify who (i.e., which origins) can access the assets on the server, among many other things.
-
-The `CORS` standard is needed because it allows servers to specify not just who can access its assets, but also how the assets can be accessed.
-
-```const cors = require('cors');
-
-app.use(cors());
-```
-
+Write a function that can receive contents and return the total weight of each expired category.
+Include some code that calls the function with the example input above and print the results.
 
 # Portfolio :open_file_folder::
 
@@ -86,7 +50,7 @@ app.use(cors());
 
 In the project directory, you can run:
 
-### `npm run serve`
+### `npm run start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:5000](http://localhost:5000) to view it in the browser.

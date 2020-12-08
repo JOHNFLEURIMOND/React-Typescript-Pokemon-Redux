@@ -51,7 +51,7 @@ const baseNavStyles = css({
   },
 
   a: {
-    color: fleurimondColors.blue,
+    color: fleurimondColors.woooRed,
     textDecoration: 'none'
   },
 
@@ -63,7 +63,7 @@ const baseNavStyles = css({
   },
   '*': {
     fontFamily: 'Montserrat, sans-serif'
-  }
+  },
 });
 
 const JFNav = (props): JSX.Element => {
@@ -75,10 +75,10 @@ const JFNav = (props): JSX.Element => {
           <Link to="/">Marvel</Link>
           </li>
           <li>
-          <Link to="/Login">Login</Link>
+          <Link to="/CharacterPage">Characters</Link>
           </li>
           <li>
-          <Link to="/SignUp">Sign Up</Link>
+          <Link to="/SignUp">About Us</Link>
           </li>
         </ul>
       </header>

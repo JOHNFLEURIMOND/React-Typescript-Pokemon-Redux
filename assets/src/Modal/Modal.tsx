@@ -72,12 +72,12 @@ const getModalStyles = (): SerializedStyles => {
   return css([modalStyles]);
 };
 
-const VCModal = (props): JSX.Element => {
+const JFModal = (props): JSX.Element => {
   return <SUIModal {...props} dimmer="inverted" css={getModalStyles()} />;
 };
 
-VCModal.Header = ModalHeader;
-VCModal.Content = ModalContent;
-VCModal.Actions = ModalActions;
+JFModal.Header = ModalHeader;
+JFModal.Content = ModalContent;
+JFModal.Actions = ModalActions;
 
-export default VCModal;
+export default JFModal;
