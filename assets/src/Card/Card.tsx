@@ -1,12 +1,12 @@
 /** @jsx jsx */
-import React from 'react';
-import { jsx, css, SerializedStyles } from '@emotion/core';
-import { Card as SUICard, CardProps as SUICardProps } from 'semantic-ui-react';
-import CardContent from './CardContent';
-import CardDescription from './CardDescription';
-import CardHeader from './CardHeader';
+import React from "react";
+import { jsx, css, SerializedStyles } from "@emotion/core";
+import { Card as SUICard, CardProps as SUICardProps } from "semantic-ui-react";
+import CardContent from "./CardContent";
+import CardDescription from "./CardDescription";
+import CardHeader from "./CardHeader";
 
-import { fleurimondColors } from '../theme';
+import { fleurimondColors } from "../theme";
 
 export interface JFCardProps extends SUICardProps {
   as?: string;
@@ -14,14 +14,14 @@ export interface JFCardProps extends SUICardProps {
 }
 
 const baseCardStyles = css({
-  '&.card': {
-    width: '290px',
-    marginTop: '3rem',
-    padding: '3rem',
+  "&.card": {
+    width: "290px",
+    marginTop: "3rem",
+    padding: "3rem",
     backgroundColor: fleurimondColors.white,
-    borderRadius: '.28571429rem',
-    display: 'inline-block',
-    boxShadow: '1px 3px 3px #000000',
+    borderRadius: ".28571429rem",
+    display: "inline-block",
+    boxShadow: "1px 3px 3px #000000",
   },
 });
 

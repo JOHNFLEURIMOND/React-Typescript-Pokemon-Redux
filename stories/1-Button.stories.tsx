@@ -1,10 +1,10 @@
-import React from 'react';
-import { action } from '@storybook/addon-actions';
-import { Button } from '../src/Button';
-import { Header } from '../src/Header';
+import React from "react";
+import { action } from "@storybook/addon-actions";
+import { Button } from "../src/Button";
+import { Header } from "../src/Header";
 
 export default {
-  title: 'Button',
+  title: "Button",
 };
 
 export const variations = (): React.ReactElement => (
@@ -18,14 +18,14 @@ export const variations = (): React.ReactElement => (
     <Button
       variant="primary"
       aria-label="Primary Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       mb={2}
       mr={1}
     >
       Start a Scan
     </Button>
 
-    <Button variant="primary" onClick={action('clicked')} disabled mb={2}>
+    <Button variant="primary" onClick={action("clicked")} disabled mb={2}>
       Start a Scan
     </Button>
 
@@ -36,14 +36,14 @@ export const variations = (): React.ReactElement => (
     <Button
       variant="secondary"
       aria-label="Secondary Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       mb={2}
       mr={1}
     >
       Start a Scan
     </Button>
 
-    <Button variant="secondary" onClick={action('clicked')} disabled mb={2}>
+    <Button variant="secondary" onClick={action("clicked")} disabled mb={2}>
       Start a Scan
     </Button>
 
@@ -54,14 +54,14 @@ export const variations = (): React.ReactElement => (
     <Button
       variant="tertiary"
       aria-label="Tertiary Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       mb={2}
       mr={1}
     >
       Start a Scan
     </Button>
 
-    <Button variant="tertiary" onClick={action('clicked')} disabled mb={2}>
+    <Button variant="tertiary" onClick={action("clicked")} disabled mb={2}>
       Start a Scan
     </Button>
 
@@ -72,14 +72,14 @@ export const variations = (): React.ReactElement => (
     <Button
       variant="urgentPrimary"
       aria-label="Urgent Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       mb={2}
       mr={1}
     >
       Start a Scan
     </Button>
 
-    <Button variant="urgentPrimary" onClick={action('clicked')} disabled mb={2}>
+    <Button variant="urgentPrimary" onClick={action("clicked")} disabled mb={2}>
       Start a Scan
     </Button>
 
@@ -90,7 +90,7 @@ export const variations = (): React.ReactElement => (
     <Button
       variant="urgentSecondary"
       aria-label="Secondary Urgent Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       mb={2}
       mr={1}
     >
@@ -99,7 +99,7 @@ export const variations = (): React.ReactElement => (
 
     <Button
       variant="urgentSecondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       disabled
       mb={2}
     >
@@ -119,7 +119,7 @@ export const sizes = (): React.ReactElement => (
     <Button
       variant="primary"
       aria-label="Primary Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="small"
       mb={2}
       mr={1}
@@ -128,7 +128,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="secondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="small"
       mb={2}
       mr={1}
@@ -138,7 +138,7 @@ export const sizes = (): React.ReactElement => (
 
     <Button
       variant="tertiary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="small"
       mb={2}
       mr={1}
@@ -148,7 +148,7 @@ export const sizes = (): React.ReactElement => (
 
     <Button
       variant="urgentPrimary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="small"
       mb={2}
       mr={1}
@@ -158,7 +158,7 @@ export const sizes = (): React.ReactElement => (
 
     <Button
       variant="urgentSecondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="small"
       mb={2}
       mr={1}
@@ -172,7 +172,7 @@ export const sizes = (): React.ReactElement => (
     <Button
       variant="primary"
       aria-label="Primary Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="medium"
       mb={2}
       mr={1}
@@ -181,7 +181,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="secondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="medium"
       mb={2}
       mr={1}
@@ -190,7 +190,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="tertiary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="medium"
       mb={2}
       mr={1}
@@ -199,7 +199,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="urgentPrimary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="medium"
       mb={2}
       mr={1}
@@ -208,7 +208,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="urgentSecondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="medium"
       mb={2}
       mr={1}
@@ -222,7 +222,7 @@ export const sizes = (): React.ReactElement => (
     <Button
       variant="primary"
       aria-label="Primary Small Button"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="large"
       mb={2}
       mr={1}
@@ -231,7 +231,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="secondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="large"
       mb={2}
       mr={1}
@@ -240,7 +240,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="tertiary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="large"
       mb={2}
       mr={1}
@@ -249,7 +249,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="urgentPrimary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="large"
       mb={2}
       mr={1}
@@ -258,7 +258,7 @@ export const sizes = (): React.ReactElement => (
     </Button>
     <Button
       variant="urgentSecondary"
-      onClick={action('clicked')}
+      onClick={action("clicked")}
       size="large"
       mb={2}
       mr={1}
@@ -271,13 +271,13 @@ export const sizes = (): React.ReactElement => (
 variations.story = {
   parameters: {
     notes:
-      'Used to highlight the most important actions. Don’t use more than one primary button within a section or view.',
+      "Used to highlight the most important actions. Don’t use more than one primary button within a section or view.",
   },
 };
 
 sizes.story = {
   parameters: {
     notes:
-      'Used to highlight the most important actions. Don’t use more than one primary button within a section or view.',
+      "Used to highlight the most important actions. Don’t use more than one primary button within a section or view.",
   },
 };

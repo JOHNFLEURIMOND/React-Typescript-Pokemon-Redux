@@ -1,28 +1,28 @@
-import React from 'react';
-import { Form, Header } from '../src';
+import React from "react";
+import { Form, Header } from "../src";
 
 export default {
-  title: 'Form',
+  title: "Form",
 };
 
 export const Input = (): React.ReactElement => {
   return (
     <>
-      <div style={{ marginBottom: '2em' }}>
+      <div style={{ marginBottom: "2em" }}>
         <Header as="h1" my={2}>
           Short Input
         </Header>
         <Form.Input fluid size="tiny" />
       </div>
 
-      <div style={{ marginBottom: '2em' }}>
+      <div style={{ marginBottom: "2em" }}>
         <Header as="h1" my={2}>
           Long Input
         </Header>
         <Form.Input fluid size="large" />
       </div>
 
-      <div style={{ marginBottom: '2em' }}>
+      <div style={{ marginBottom: "2em" }}>
         <Header as="h1" my={2}>
           Disabled Input
         </Header>
@@ -34,7 +34,7 @@ export const Input = (): React.ReactElement => {
 
 export const Radio = (): React.ReactElement => (
   <>
-    <div style={{ marginBottom: '2em' }}>
+    <div style={{ marginBottom: "2em" }}>
       <Header as="h1" my={2}>
         Radio
       </Header>
@@ -54,7 +54,7 @@ export const Radio = (): React.ReactElement => (
 
 export const Checkbox = (): React.ReactElement => (
   <>
-    <div style={{ marginBottom: '2em' }}>
+    <div style={{ marginBottom: "2em" }}>
       <Header as="h1" my={2}>
         Checkbox
       </Header>
@@ -66,7 +66,7 @@ export const Checkbox = (): React.ReactElement => (
 
 export const Select = (): React.ReactElement => (
   <>
-    <div style={{ marginBottom: '2em' }}>
+    <div style={{ marginBottom: "2em" }}>
       <Header as="h1" my={2}>
         Select
       </Header>

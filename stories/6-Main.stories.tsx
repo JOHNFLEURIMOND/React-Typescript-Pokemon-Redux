@@ -1,8 +1,8 @@
-import React from 'react';
-import { Banner, Nav, Experience } from '../src';
+import React from "react";
+import { Banner, Nav, Experience } from "../src";
 
 export default {
-  title: 'Main',
+  title: "Main",
 };
 
 export const Main = (): React.ReactElement => {

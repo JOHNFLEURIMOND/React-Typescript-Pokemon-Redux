@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from "react";
-import { Formik } from "formik";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { Container } from "semantic-ui-react";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { Header } from "../Header";
 import { Button } from "../Button";
@@ -25,7 +25,6 @@ const formStyles = css({
   alignContent: "center",
   height: "850px",
   width: "100vw",
-  backgroundColor: fleurimondColors.white,
   overflowX: "hidden",
 
   ".ContactHeader": {
@@ -33,7 +32,7 @@ const formStyles = css({
     justifyContent: "center",
     textAlign: "center",
     alignContent: "center",
-    padding: "5rem"
+    padding: "5rem",
   },
   ".Comment": {
     borderRadius: "4px",
@@ -46,11 +45,11 @@ const formStyles = css({
     fontFamily: '"Helvetica", Helvetica, sans-serif',
     fontSize: "13px",
     margin: "2.5rem",
-    width: "200px"
+    width: "200px",
   },
   button: {
     display: "block",
-    marginLeft: "5.5rem"
+    marginLeft: "5.5rem",
   },
   form: {
     width: "295px",
@@ -65,8 +64,8 @@ const formStyles = css({
     boxShadow: "-3px 3px 4px 0 rgba(0, 0, 0, 0.13)",
     borderRadius: "3px",
     letterSpacing: "2px",
-    lineHeight: "40px"
-  }
+    lineHeight: "40px",
+  },
 });
 
 const JFForm = (props): React.ReactElement => {
@@ -81,7 +80,7 @@ const JFForm = (props): React.ReactElement => {
             email: "",
             confirmEmail: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string().email().required("Your Email Is Required!"),
@@ -98,7 +97,7 @@ const JFForm = (props): React.ReactElement => {
               .oneOf(
                 [Yup.ref("password", undefined)],
                 "Make Sure Password Match!"
-              )
+              ),
           })}
           onSubmit={(values, actions) => {
             setTimeout(() => {
@@ -107,33 +106,33 @@ const JFForm = (props): React.ReactElement => {
               actions.setSubmitting(false);
             }, 400);
           }}
-          render={({
-            isSubmitting,
-            handleSubmit,
-            dirty
-          }) => (
+          render={({ isSubmitting, handleSubmit, dirty }) => (
             <form onSubmit={handleSubmit}>
               <TextInput
                 title="Email"
                 name="email"
                 placeholder="Email"
+                size=""
                 required
               />
               <TextInput
                 title="Confirm Email"
                 name="confirmEmail"
                 placeholder="Confirm Email"
+                size=""
                 required
               />
               <hr className="hr hr--sq" />
               <TextInput
                 title="password"
                 name="password"
+                size=""
                 placeholder="Please, Create a secure password"
               />
               <TextInput
                 title="Confirm Password"
                 name="confirmPassword"
+                size=""
                 placeholder="Confirm Password!"
               />
               <Button type="submit" disabled={!dirty || isSubmitting}>

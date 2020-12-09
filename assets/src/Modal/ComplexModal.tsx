@@ -1,5 +1,5 @@
-import React from 'react';
-import Modal from './Modal';
+import React from "react";
+import Modal from "./Modal";
 
 const ComplexModal = (props): React.ReactElement => {
   return <Modal size="large" {...props} />;

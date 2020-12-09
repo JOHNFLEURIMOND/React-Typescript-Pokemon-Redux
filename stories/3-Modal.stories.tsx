@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { action } from '@storybook/addon-actions';
-import { Modal, ConfirmModal, ComplexModal, SimpleModal } from '../src/Modal';
-import { Button } from '../src/Button';
-import { Header } from '../src/Header';
-import './3-Modal.stories.css';
+import React, { useState } from "react";
+import { action } from "@storybook/addon-actions";
+import { Modal, ConfirmModal, ComplexModal, SimpleModal } from "../src/Modal";
+import { Button } from "../src/Button";
+import { Header } from "../src/Header";
+import "./3-Modal.stories.css";
 
 export default {
-  title: 'Modal',
+  title: "Modal",
 };
 
 export const Confirm = (): React.ReactElement => {
@@ -48,7 +48,7 @@ export const Confirm = (): React.ReactElement => {
           <Button
             variant="primary"
             aria-label="Primary Button"
-            onClick={action('clicked')}
+            onClick={action("clicked")}
           >
             Submit
           </Button>
@@ -95,7 +95,7 @@ export const Simple = (): React.ReactElement => {
                   type="radio"
                   name="Scan"
                   value="Organization"
-                />{' '}
+                />{" "}
                 My Organization will pay for the scan
               </label>
               <label htmlFor="vendor">
@@ -105,7 +105,7 @@ export const Simple = (): React.ReactElement => {
                   type="radio"
                   name="Scan"
                   value="Vendor"
-                />{' '}
+                />{" "}
                 Vendor will pay for the scan
               </label>
             </div>
@@ -125,7 +125,7 @@ export const Simple = (): React.ReactElement => {
           <Button
             variant="primary"
             aria-label="Primary Button"
-            onClick={action('clicked')}
+            onClick={action("clicked")}
           >
             Submit
           </Button>
@@ -251,7 +251,7 @@ export const Complex = (): React.ReactElement => {
           <Button
             variant="primary"
             aria-label="Primary Button"
-            onClick={action('clicked')}
+            onClick={action("clicked")}
           >
             Submit
           </Button>

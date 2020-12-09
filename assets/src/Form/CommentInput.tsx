@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
-import { TextArea as SUITextArea } from 'semantic-ui-react';
+import { jsx } from "@emotion/core";
+import { TextArea as SUITextArea } from "semantic-ui-react";
 
 export interface TextAreaProps {
-  size: 'small' | 'large';
+  size: "small" | "large";
   name: string;
   value: string;
   onChange: any;

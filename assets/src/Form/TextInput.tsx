@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
-import {
-  Field,
-} from 'formik';
+import { jsx } from "@emotion/core";
+import { Field } from "formik";
 
 export interface InputProps {
   name: string;
@@ -11,29 +9,24 @@ export interface InputProps {
   title: string;
   error?: string;
   required?: boolean;
+  size: string;
 }
 
-const VCInput = (props: InputProps ): JSX.Element => {
+const VCInput = (props: InputProps): JSX.Element => {
   return (
     <div>
-    <label >
-      {props.title}
-      {props.required && (
-        <span aria-hidden="true">
-          {' '}
-          Required
-        </span>
-      )}
-    </label>
-    <Field
-      name={props.name}
-      placeholder={props.placeholder}
-      required={props.required}
-    />
-    {props.error && (
-      <div>{props.error}</div>
-    )}
-  </div>
+      <label>
+        {props.title}
+        {props.required && <span aria-hidden="true"> Required</span>}
+      </label>
+      <Field
+        name={props.name}
+        placeholder={props.placeholder}
+        required={props.required}
+        size={props.size}
+      />
+      {props.error && <div>{props.error}</div>}
+    </div>
   );
 };
 

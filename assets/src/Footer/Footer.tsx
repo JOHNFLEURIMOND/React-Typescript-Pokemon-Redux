@@ -1,12 +1,12 @@
-import React from 'react';
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
-import shouldForwardProp from '@styled-system/should-forward-prop';
-import { space, flexbox, typography } from 'styled-system';
-import { Container } from 'semantic-ui-react';
-import moment from 'moment';
+import React from "react";
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
+import shouldForwardProp from "@styled-system/should-forward-prop";
+import { space, flexbox, typography } from "styled-system";
+import { Container } from "semantic-ui-react";
+import moment from "moment";
 
-import { fleurimondColors } from '../theme';
+import { fleurimondColors } from "../theme";
 
 const baseFooterStyles = css({
   boxSizing: "border-box",
@@ -66,7 +66,7 @@ const JFProjects = (props): JSX.Element => {
         <div className="App-footer">
           <ul>
             <li>
-              <a href="#about">{moment().format('llll')}</a>
+              <a href="#about">{moment().format("llll")}</a>
             </li>
             <li>
               <a href="https://twitter.com/TCODEMONGER">Twitter</a>
