@@ -1,111 +1,111 @@
 /* eslint-disable global-require */
-import React, { useState } from 'react';
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
-import shouldForwardProp from '@styled-system/should-forward-prop';
-import { space, flexbox, typography } from 'styled-system';
-import { Container } from 'semantic-ui-react';
-import { Header } from '../Header';
-import { Card } from '../Card';
-import { Button } from '../Button';
-import { fleurimondColors } from '../theme';
+import React, { useState } from "react";
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
+import shouldForwardProp from "@styled-system/should-forward-prop";
+import { space, flexbox, typography } from "styled-system";
+import { Container } from "semantic-ui-react";
+import { Header } from "../Header";
+import { Card } from "../Card";
+import { Button } from "../Button";
+import { fleurimondColors } from "../theme";
 
-type CardVariation = 'frontEnd' | 'backEnd';
+type CardVariation = "frontEnd" | "backEnd";
 
 export interface JFCardProps {
   variant?: CardVariation;
 }
 
 const baseExperienceStyles = css({
-  boxSizing: 'border-box',
+  boxSizing: "border-box",
   minWidth: 0,
   color: fleurimondColors.black,
-  lineHeight: 'normal',
+  lineHeight: "normal",
   fontWeight: 600,
-  height: 'auto',
-  width: '100vw',
+  height: "auto",
+  width: "100vw",
   backgroundColor: fleurimondColors.haitianGold,
-  overflowX: 'hidden',
+  overflowX: "hidden",
 
-  '.ExperienceHeader': {
-    width: '100%',
-    fontSize: '2rem',
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    margin: '0 3rem 0 0',
+  ".ExperienceHeader": {
+    width: "100%",
+    fontSize: "2rem",
+    display: "flex",
+    justifyContent: "center",
+    textAlign: "center",
+    margin: "0 3rem 0 0",
   },
-  '.ExperienceHeader1': {
-    width: '50%',
-    fontSize: '2rem',
-    textAlign: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-    '&:hover,&:active,&:focus': {
+  ".ExperienceHeader1": {
+    width: "50%",
+    fontSize: "2rem",
+    textAlign: "center",
+    justifyContent: "center",
+    display: "flex",
+    "&:hover,&:active,&:focus": {
       borderColor: fleurimondColors.buttons.darkBlue,
       color: fleurimondColors.white,
     },
   },
-  '.ExperienceHeader2': {
-    width: '50%',
-    fontSize: '2rem',
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    '&:hover,&:active,&:focus': {
+  ".ExperienceHeader2": {
+    width: "50%",
+    fontSize: "2rem",
+    display: "flex",
+    justifyContent: "center",
+    textAlign: "center",
+    "&:hover,&:active,&:focus": {
       borderColor: fleurimondColors.buttons.darkBlue,
       color: fleurimondColors.white,
     },
   },
   svg: {
-    '&:hover,&:active,&:focus': {
+    "&:hover,&:active,&:focus": {
       borderColor: fleurimondColors.buttons.darkBlue,
       color: fleurimondColors.white,
     },
   },
 
-  '.Experience': {
-    display: 'flex',
+  ".Experience": {
+    display: "flex",
   },
-  '*': {
-    fontFamily: 'Montserrat, sans-serif',
+  "*": {
+    fontFamily: "Montserrat, sans-serif",
   },
   div: {
-    display: 'inline-block',
+    display: "inline-block",
   },
-  '.resume': {
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    margin: '4rem',
+  ".resume": {
+    display: "flex",
+    justifyContent: "center",
+    textAlign: "center",
+    margin: "4rem",
   },
   a: {
-    textDecoration: 'none',
+    textDecoration: "none",
     color: fleurimondColors.white,
   },
-  '.backend': {
-    display: 'none !important',
+  ".backend": {
+    display: "none !important",
   },
-  '.backendShow': {
-    display: 'block !important',
+  ".backendShow": {
+    display: "block !important",
   },
-  '.fullstack-toggle': {
-    display: 'block',
-    width: '100%',
+  ".fullstack-toggle": {
+    display: "block",
+    width: "100%",
   },
-  '.halves': {
-    width: '26%',
-    padding: '0px 7% 0 17%',
+  ".halves": {
+    width: "26%",
+    padding: "0px 7% 0 17%",
   },
-  '.toggleCard': {
-    display: 'flex',
-    justifyContent: 'center',
+  ".toggleCard": {
+    display: "flex",
+    justifyContent: "center",
   },
-  '.Skills-container': {
-    display: 'block',
-    justifyContent: 'center',
-    width: '88rem',
-    margin: '0px 2%',
+  ".Skills-container": {
+    display: "block",
+    justifyContent: "center",
+    width: "88rem",
+    margin: "0px 2%",
   },
 });
 
@@ -114,7 +114,6 @@ const JFBanner = (props): JSX.Element => {
 
   return (
     <Container {...props}>
-      
       <Header className="ExperienceHeader" as="h1" pt={100}>
         Experience
       </Header>
@@ -137,7 +136,6 @@ const JFBanner = (props): JSX.Element => {
         </div>
       </div>
       <div className="toggleCard">
-
         {unSetDivMenu ? (
           <Card className="backend backendShow">
             <Card.Content>
@@ -172,7 +170,7 @@ const JFBanner = (props): JSX.Element => {
       </div>
       <div className="resume">
         <Button variant="primary" aria-label="Primary Small Button" mt={50}>
-            Download Resume
+          Download Resume
         </Button>
       </div>
     </Container>

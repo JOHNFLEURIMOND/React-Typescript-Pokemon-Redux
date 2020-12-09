@@ -1,8 +1,8 @@
-import React from 'react';
-import { Header } from '../src/Header';
+import React from "react";
+import { Header } from "../src/Header";
 
 export default {
-  title: 'Header',
+  title: "Header",
 };
 
 export const Sizes = (): React.ReactElement => (

@@ -1,11 +1,11 @@
-import React from 'react';
-import { Button } from '../src/Button';
-import { Header } from '../src/Header';
-import { Tooltip } from '../src/Tooltip';
-import './4-Tooltip.stories.css';
+import React from "react";
+import { Button } from "../src/Button";
+import { Header } from "../src/Header";
+import { Tooltip } from "../src/Tooltip";
+import "./4-Tooltip.stories.css";
 
 export default {
-  title: 'Tooltip',
+  title: "Tooltip",
 };
 
 export const Positions = (): React.ReactElement => (

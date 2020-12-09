@@ -1,45 +1,43 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true,
-    "jest": true,
-    "node": true,
-    "amd": true,
-    "commonjs": true
-  },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": 6,
     "sourceType": "module",
-    "jsx": true,
-    "ecmaVersion": 2017,
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "experimentalObjectRestSpread": true
     }
   },
-  "plugins": [
-    "jest",
-    "prettier",
-    "react",
-    "react-hooks"
-  ],
   "extends": [
     "airbnb",
     "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
-    "prettier/react",
-    "prettier",
-    "prettier/babel",
-    "prettier/flowtype",
-    "prettier/react",
-    "prettier/standard",
-    "prettier/unicorn",
-    "prettier/vue"
+    "prettier/@typescript-eslint",
+    "prettier/react"
   ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true
+  },
+  "plugins": ["prettier", "react", "@typescript-eslint"],
   "rules": {
-    "indent": "off",
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "import/prefer-default-export": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+    "react/jsx-props-no-spreading": 0
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".tsx"]
+      }
+    }
   }
 }

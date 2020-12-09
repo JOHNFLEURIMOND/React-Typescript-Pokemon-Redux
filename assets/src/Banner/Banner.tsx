@@ -65,14 +65,14 @@ const JFBanner = (props): JSX.Element => {
 
         <div className="rightHalf">
           <HomePageModal />
-          </div>
+        </div>
       </Animated>
     </Container>
   );
 };
 
 const JFBannerWithStyle = styled(JFBanner, {
-        shouldForwardProp,
+  shouldForwardProp,
 })(baseBannerStyles, space, flexbox, typography);
 
 export default JFBannerWithStyle;
