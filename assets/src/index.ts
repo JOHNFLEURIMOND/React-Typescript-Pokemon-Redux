@@ -5,8 +5,10 @@ import { Tooltip } from "./Tooltip";
 import { TextInput } from "./Form";
 import { Nav } from "./Navbar";
 import { Banner } from "./Banner";
-import { Experience } from "./Experience";
+import { SearchBar } from "./SearchBar";
 import { Card } from "./Card";
+import {  Heros } from "./Heros";
+import {  Footer } from "./Footer";
 
 export {
   Button,
@@ -19,6 +21,8 @@ export {
   Banner,
   Nav,
   TextInput,
-  Experience,
+  SearchBar,
   Card,
+  Heros,
+  Footer
 };

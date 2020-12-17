@@ -8,7 +8,6 @@ import { Container } from "semantic-ui-react";
 import Nav from "../Navbar/Nav";
 import Footer from "../Footer/Footer";
 import SearchBar from "../SearchBar/SearchBar";
-import Projects from "../Projects/Projects";
 import { fleurimondColors } from "../theme";
 
 const baseBannerStyles = css({
@@ -41,7 +40,6 @@ const JFCharacterCards = (props): JSX.Element => {
   return (
     <Container {...props}>
       <Nav />
-
       <Animated
         animationInDelay={0}
         animationIn="slideInUp"
@@ -49,7 +47,6 @@ const JFCharacterCards = (props): JSX.Element => {
         isVisible
       >
         <SearchBar />
-        <Projects />
       </Animated>
       <Footer />
     </Container>

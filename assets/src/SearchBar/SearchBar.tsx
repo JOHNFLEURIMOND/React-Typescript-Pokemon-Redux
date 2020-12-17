@@ -1,15 +1,14 @@
-import React,{useState, useCallback, useMemo} from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Animated } from "react-animated-css";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
 import { Container } from "semantic-ui-react";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import { Header } from "../Header";
-import { Button } from "../Button";
-import TextInput from "../Form/TextInput";
+  import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "../../Store";
+import { GetMarvelCharacter } from "../actions/MarvelActions";
 
 import { fleurimondColors } from "../theme";
 
@@ -48,16 +47,14 @@ const baseBannerStyles = css({
   },
 });
 
-const useUserInput = (defaultValue: string = "") => {
-  const [value, setValue] = useState(defaultValue);
-  const onChange = useCallback((e) => setValue(e.target.value), []);
-
-  return {value, onChange,};
-};
-
-const searchText = useUserInput("");
 
 const JFBanner = (props): JSX.Element => {
+  const dispatch = useDispatch();
+  const [marvelCharacterName, setMarvelCharacterName] = useState("");
+  const marvelState = useSelector((state: RootStore) => state.pokemon);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setMarvelCharacterName(event.target.value);
+  const handleSubmit = () => dispatch(GetMarvelCharacter(marvelCharacterName));
+
   return (
     <Container {...props}>
       <Animated
@@ -78,38 +75,23 @@ const JFBanner = (props): JSX.Element => {
         <div className="rightHalf">
           <Container {...props}>
             <div className="jumbotron">
-              <Formik
-                initialValues={{
-                  Hero: "",
-                }}
-                validationSchema={Yup.object().shape({
-                  Hero: Yup.string()
-                    .required("Super Hero Name Is Required!")
-                    .min(2, "Super Hero Name  Needs To Be Valid"),
-                })}
-                onSubmit={(values, actions) => {
-                  setTimeout(() => {
-                    console.log({ values, actions });
-                    alert(JSON.stringify(values, null, 2));
-                    actions.setSubmitting(false);
-                  }, 400);
-                }}
-                render={({ isSubmitting, handleSubmit, dirty }) => (
-                  <form onSubmit={handleSubmit}>
-                    <TextInput
-                      title=""
-                      name="Hero"
-                      placeholder="Search For Your Favorite Super Hero "
-                      size="large"
-                      {...searchText}
-                    />
 
-                    <Button type="submit" disabled={!dirty || isSubmitting}>
-                      Send A Message
-              </Button>
-                  </form>
-                )}
+              <input
+                  onChange={handleChange}
               />
+
+              <button type="submit" onClick={handleSubmit}>
+                {console.log("????")}
+                submit
+              </button>
+              {marvelState.pokemon && (
+                <div>
+                  <img src={marvelState.pokemon.sprites.front_default} alt="" />
+                  {marvelState.pokemon.abilities.map(ability => {
+                    return <p>{ability.ability.name}</p>
+                  })}
+                </div>
+              )}
             </div>
           </Container>
         </div>
