@@ -11,6 +11,7 @@ import { Header } from "../Header";
 import { fleurimondColors } from "../theme";
 import TextInput from "../Form/TextInput";
 
+
 const baseBannerStyles = css({
   boxSizing: "border-box",
   minWidth: 0,
@@ -153,31 +154,21 @@ const JFSignUp = (props): JSX.Element => {
                 render={({ isSubmitting, dirty }) => (
                   <Form>
                     <TextInput
-                      title="Email"
-                      name="email"
-                      placeholder="Email"
                       size="small"
-                      required
+                      onChange={()=>""}
                     />
                     <TextInput
-                      title="Confirm Email"
-                      name="confirmEmail"
-                      placeholder="Confirm Email"
                       size="small"
-                      required
+                      onChange={()=>""}
                     />
                     <hr className="hr hr--sq" />
                     <TextInput
-                      title="password"
-                      name="password"
                       size="small"
-                      placeholder="Please, Create a secure password"
+                      onChange={()=>""}
                     />
                     <TextInput
-                      title="Confirm Password"
-                      name="confirmPassword"
                       size="small"
-                      placeholder="Confirm Password!"
+                      onChange={()=>""}
                     />
 
                     <button
