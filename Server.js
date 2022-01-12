@@ -36,7 +36,8 @@ app.get('/backend/api', async (req, res) => {
   const fetch_response = await fetch(api_url)
   const json = await fetch_response.json();
   res.json(json)
-
+  const answer = res.json(json)
+console.log(answer)
 });
 
 app.use(bodyParser.json()); // get information from html forms
