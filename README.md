@@ -1,5 +1,5 @@
 # :checkered_flag:What It Looks Like :checkered_flag:: 
-
+![pokemon](public/pokemon.png)
 # How It's Made :nut_and_bolt:🔨 :hammer::wrench::
  This application built with Nodemon.
 
