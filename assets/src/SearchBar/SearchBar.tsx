@@ -91,7 +91,7 @@ const JFBanner = (props): JSX.Element => {
 
         <div className="rightHalf">
           <Container {...props}>
-            <div className="jumbotron">
+            <div className="    ">
 
               <input
                 onChange={handleChange}
