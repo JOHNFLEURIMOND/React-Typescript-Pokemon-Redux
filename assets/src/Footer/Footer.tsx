@@ -16,9 +16,8 @@ justify-content: center;
 font-size: 20px;
 background: linear-gradient(
   90deg,
-  ${fleurimondColors.black} 0%,
-  ${fleurimondColors.smoke} 27%,
-  ${fleurimondColors.graySmoke} 85%
+  ${fleurimondColors.buttons.blue} 0%,
+  ${fleurimondColors.leapingLemon} 85%
 );
 padding: 20px;
 `;

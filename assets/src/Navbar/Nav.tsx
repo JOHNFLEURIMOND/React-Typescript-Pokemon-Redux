@@ -15,9 +15,8 @@ export const Nav = styled.nav`
   height: 80px;
   background: linear-gradient(
     90deg,
-    ${fleurimondColors.black} 0%,
-    ${fleurimondColors.smoke} 27%,
-    ${fleurimondColors.graySmoke} 85%
+    ${fleurimondColors.buttons.blue} 0%,
+    ${fleurimondColors.leapingLemon} 85%
   );
   /* box-shadow: ${fleurimondColors.graySmoke} ; */
   box-shadow: 0px 2px 10px ${fleurimondColors.graySmoke};
