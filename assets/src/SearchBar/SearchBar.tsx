@@ -24,6 +24,9 @@ const baseBannerStyles = css({
   height: "700px",
   width: "100%",
   backgroundColor: fleurimondColors.white,
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr 1fr",
+  gridAutoRows: "1fr 1fr 1fr",
 
   img: {
     width: "auto",
@@ -41,6 +44,10 @@ const baseBannerStyles = css({
   ".rightHalf": {
     width: "50%",
     display: "inline-block",
+  },
+  ".block": {
+    width: "100%",
+    display: "block",
   },
   "*": {
     fontFamily: "Montserrat, sans-serif",
@@ -80,27 +87,23 @@ const JFBanner = (props): JSX.Element => {
         animationOut="slideOutDown"
         isVisible
       >
-        <div className="leftHalf">
-          <Header className="BannerHeader" as="h1" pt={200} pl={100}>
-            Pokemon
-          </Header>
+
+
           <Header className="BannerHeader2" as="h2" pt={50} pl={100}>
-            Moveset
+            Pokemon Characters
           </Header>
-        </div>
-
-        <div className="rightHalf">
           <Container {...props}>
-            <div className="    ">
-
+            <div className="block">
               <input
                 onChange={handleChange}
               />
-              <p> {message && JSON.stringify(message, null, 4)}</p>
               <button type="submit" onClick={handleSubmit}>
                 {console.log("????")}
                 submit
               </button>
+              <p> {message && JSON.stringify(message, null, 4)}</p>
+            </div>
+            <div className="block">
               {marvelState.pokemon && (
                 <div>
                   <img src={marvelState.pokemon.sprites.front_default} alt="" />
@@ -111,7 +114,6 @@ const JFBanner = (props): JSX.Element => {
               )}
             </div>
           </Container>
-        </div>
       </Animated>
     </Container>
   );
