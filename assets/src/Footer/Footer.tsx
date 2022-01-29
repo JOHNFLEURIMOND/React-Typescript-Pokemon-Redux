@@ -14,7 +14,7 @@ const baseFooterStyles = css({
   height: "6vw",
   textAlign: "center",
   width: "100vw",
-  backgroundColor: fleurimondColors.black,
+  backgroundColor: fleurimondColors.buttons.darkBlue,
   minHeight: "8vh",
   position: "fixed",
   display: "flex",
@@ -32,7 +32,7 @@ const baseFooterStyles = css({
   "App-footer": {
     fontSize: "20px",
     height: "55px",
-    color: fleurimondColors.woooRed,
+    color: fleurimondColors.leapingLemon,
     textAlign: "center",
     padding: "20px",
     position: "absolute",
@@ -40,7 +40,7 @@ const baseFooterStyles = css({
 
   a: {
     textDecoration: "none",
-    color: fleurimondColors.woooRed,
+    color: fleurimondColors.leapingLemon,
     "&:hover,&:active,&:focus": {
       borderColor: fleurimondColors.white,
       color: fleurimondColors.white,

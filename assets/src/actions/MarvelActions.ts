@@ -12,9 +12,7 @@ export const GetMarvelCharacter = (Character: string) => async (dispatch: Dispat
     dispatch({
       type: MARVEL_LOADING
     })
-
     const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${Character}`);
-
     dispatch({
       type: MARVEL_SUCCESS,
       payload: res.data

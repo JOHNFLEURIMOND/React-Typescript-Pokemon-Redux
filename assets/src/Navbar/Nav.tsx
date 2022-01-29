@@ -12,11 +12,11 @@ const baseNavStyles = css({
   boxSizing: "border-box",
   fontSize: "20px",
   height: "55px",
-  color: fleurimondColors.woooRed,
+  color: fleurimondColors.leapingLemon,
   textAlign: "center",
   position: "fixed",
   width: "100vw",
-  backgroundColor: fleurimondColors.black,
+  backgroundColor: fleurimondColors.buttons.darkBlue,
   minHeight: "5vh",
   display: "flex",
   padding: "20px",
@@ -31,7 +31,7 @@ const baseNavStyles = css({
   ".App-header-nav ": {
     fontSize: "20px",
     height: "55px",
-    color: fleurimondColors.woooRed,
+    color: fleurimondColors.leapingLemon,
     textAlign: "center",
     padding: "20px",
     position: "absolute",
@@ -51,7 +51,7 @@ const baseNavStyles = css({
   },
 
   a: {
-    color: fleurimondColors.woooRed,
+    color: fleurimondColors.leapingLemon,
     textDecoration: "none",
   },
 
@@ -72,10 +72,10 @@ const JFNav = (props): JSX.Element => {
       <header>
         <ul>
           <li>
-            <Link to="/">Marvel</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/CharacterPage">Characters</Link>
+            <Link to="/CharacterPage">Pokemon Movesets</Link>
           </li>
           <li>
             <Link to="/SignUp">About Us</Link>
