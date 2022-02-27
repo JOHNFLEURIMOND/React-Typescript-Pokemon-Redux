@@ -151,7 +151,8 @@ const JFBanner = (props): JSX.Element => {
   const marvelState = useSelector((state: RootStore) => state.pokemon);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setMarvelCharacterName(event.target.value);
-  const handleSubmit = () => dispatch(GetPokemonCharacter(pokemonlCharacterName));
+  const handleSubmit = () =>
+    dispatch(GetPokemonCharacter(pokemonlCharacterName));
   console.log(setMessage);
   let UID = uid2(8);
   let keyNumber = md5(UID);
