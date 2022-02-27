@@ -3,6 +3,7 @@ import moment from "moment";
 import styled from "styled-components";
 import { fleurimondColors } from "../theme";
 import { Link } from "react-router-dom";
+import { Container } from "../layout/global-style";
 
 export const Footer = styled.footer`
   width: 100%;
@@ -12,7 +13,7 @@ export const Footer = styled.footer`
   align-items: center;
   text-align: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 1.4rem;
   background: linear-gradient(
     90deg,
     ${fleurimondColors.buttons.blue} 0%,
@@ -21,7 +22,7 @@ export const Footer = styled.footer`
   padding: 20px;
 `;
 
-export const FooterContainer = styled(Footer)`
+export const FooterContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,7 +35,7 @@ export const FooterLogo = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size:1.4rem;
   font-weight: 800;
   transition: all 0.5s ease;
   &:hover,
@@ -54,7 +55,7 @@ export const MenuIcon = styled.div`
     top: 0;
     right: 0;
     transform: translate(-50%, 20%);
-    font-size: 4rem;
+    font-size: 1.4rem;
     cursor: pointer;
   }
 `;
@@ -95,7 +96,7 @@ export const MenuItem = styled.li`
 export const MenuLink = styled(Link)`
   text-decoration: none;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #fff;
   display: flex;
   justify-content: space-between;

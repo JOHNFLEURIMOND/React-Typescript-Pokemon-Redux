@@ -145,15 +145,14 @@ export const FlippedCardInfoFieldset = styled.span`
 `;
 
 const JFBanner = (props): JSX.Element => {
+  const [card, flipCard] = useState(false);
   const dispatch = useDispatch();
-  const [pokemonlCharacterName, setMarvelCharacterName] = useState("");
-  const [message, setMessage] = useState("");
+  const [pokemonlCharacterName, setPokemonCharacterName] = useState("");
   const marvelState = useSelector((state: RootStore) => state.pokemon);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setMarvelCharacterName(event.target.value);
+  setPokemonCharacterName(event.target.value);
   const handleSubmit = () =>
     dispatch(GetPokemonCharacter(pokemonlCharacterName));
-  console.log(setMessage);
   let UID = uid2(8);
   let keyNumber = md5(UID);
   if (!marvelState) {
@@ -181,13 +180,23 @@ const JFBanner = (props): JSX.Element => {
         isVisible
       >
         <Header>Pokemon Characters</Header>
-        <CineDiv>
-          <Input onChange={handleChange} />
-          <Button type="submit" onClick={handleSubmit}>
-            submit
-          </Button>
-          <p> {message && JSON.stringify(message, null, 4)}</p>
-        </CineDiv>
+        <div className="innie">
+        <Input size="large" onChange={handleChange} />
+        <Button
+          variant="primary"
+          aria-label="Primary Small Button"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          submit
+        </Button>
+      </div>
+      <Animated
+                      animationInDelay={0}
+                      animationIn="fadeInLeft"
+                      animationOut="fadeOutRight"
+                      isVisible
+                    > 
         <CineDiv>
           {marvelState.pokemon && (
             <div>
@@ -197,15 +206,10 @@ const JFBanner = (props): JSX.Element => {
                 ui={true}
               />{" "}
               {marvelState.pokemon.abilities.map((ability) => {
-                return (
+                return card ? (
                   <div key={keyNumber}>
-                    <Animated
-                      animationInDelay={0}
-                      animationIn="fadeInLeft"
-                      animationOut="fadeOutRight"
-                      isVisible
-                    >
-                      <Card>
+                
+                      <Card  onClick={() => flipCard(false)}>
                         <Card.Content>
                           <Image
                             src={marvelState.pokemon.sprites.front_default}
@@ -223,13 +227,35 @@ const JFBanner = (props): JSX.Element => {
                           </a>
                         </Card.Content>
                       </Card>
-                    </Animated>
                   </div>
+                ) : (
+                  <div key={keyNumber}>
+               
+                    <Card  onClick={() => flipCard(true)}>
+                      <Card.Content>
+                        <Image
+                          src={marvelState.pokemon.sprites.front_shiny}
+                          wrapped
+                          ui={true}
+                        />
+                      </Card.Content>
+                      <Card.Content>
+                        <Card.Header>{marvelState.pokemon.moves.moves}</Card.Header>
+                        <Card.Description></Card.Description>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <a>
+                          <Icon name="user" />
+                        </a>
+                      </Card.Content>
+                    </Card>
+                </div>
                 );
               })}
             </div>
           )}
         </CineDiv>
+        </Animated>
       </Animated>
     </ProjectsSectionContainer>
   );
