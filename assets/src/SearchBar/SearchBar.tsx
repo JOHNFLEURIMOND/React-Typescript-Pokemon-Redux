@@ -145,12 +145,12 @@ export const FlippedCardInfoFieldset = styled.span`
 `;
 
 const JFBanner = (props): JSX.Element => {
-  const [card, flipCard] = useState(false);
+  const [card, flipCard] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const [pokemonlCharacterName, setPokemonCharacterName] = useState("");
+  const [pokemonlCharacterName, setPokemonCharacterName] = useState<string>("");
   const marvelState = useSelector((state: RootStore) => state.pokemon);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  setPokemonCharacterName(event.target.value);
+    setPokemonCharacterName(event.target.value);
   const handleSubmit = () =>
     dispatch(GetPokemonCharacter(pokemonlCharacterName));
   let UID = uid2(8);
@@ -181,35 +181,29 @@ const JFBanner = (props): JSX.Element => {
       >
         <Header>Pokemon Characters</Header>
         <div className="innie">
-        <Input size="large" onChange={handleChange} />
-        <Button
-          variant="primary"
-          aria-label="Primary Small Button"
-          type="submit"
-          onClick={handleSubmit}
+          <Input size="large" onChange={handleChange} />
+          <Button
+            variant="primary"
+            aria-label="Primary Small Button"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            submit
+          </Button>
+        </div>
+        <Animated
+          animationInDelay={0}
+          animationIn="fadeInLeft"
+          animationOut="fadeOutRight"
+          isVisible
         >
-          submit
-        </Button>
-      </div>
-      <Animated
-                      animationInDelay={0}
-                      animationIn="fadeInLeft"
-                      animationOut="fadeOutRight"
-                      isVisible
-                    > 
-        <CineDiv>
-          {marvelState.pokemon && (
-            <div>
-              <Image
-                src={marvelState.pokemon.sprites.front_default}
-                wrapped
-                ui={true}
-              />{" "}
-              {marvelState.pokemon.abilities.map((ability) => {
-                return card ? (
-                  <div key={keyNumber}>
-                
-                      <Card  onClick={() => flipCard(false)}>
+          <CineDiv>
+            {marvelState.pokemon && (
+              <div>
+                {marvelState.pokemon.abilities.map((ability) => {
+                  return card ? (
+                    <div>
+                      <Card key={keyNumber} onClick={() => flipCard(false)}>
                         <Card.Content>
                           <Image
                             src={marvelState.pokemon.sprites.front_default}
@@ -227,11 +221,10 @@ const JFBanner = (props): JSX.Element => {
                           </a>
                         </Card.Content>
                       </Card>
-                  </div>
-                ) : (
-                  <div key={keyNumber}>
-               
-                    <Card  onClick={() => flipCard(true)}>
+                    </div>
+                  ) : (
+                    <div>
+                    <Card key={keyNumber} onClick={() => flipCard(true)}>
                       <Card.Content>
                         <Image
                           src={marvelState.pokemon.sprites.front_shiny}
@@ -240,7 +233,8 @@ const JFBanner = (props): JSX.Element => {
                         />
                       </Card.Content>
                       <Card.Content>
-                        <Card.Header>{marvelState.pokemon.moves.moves}</Card.Header>
+                        <Card.Header>
+                        </Card.Header>
                         <Card.Description></Card.Description>
                       </Card.Content>
                       <Card.Content extra>
@@ -249,12 +243,12 @@ const JFBanner = (props): JSX.Element => {
                         </a>
                       </Card.Content>
                     </Card>
-                </div>
-                );
-              })}
-            </div>
-          )}
-        </CineDiv>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CineDiv>
         </Animated>
       </Animated>
     </ProjectsSectionContainer>
