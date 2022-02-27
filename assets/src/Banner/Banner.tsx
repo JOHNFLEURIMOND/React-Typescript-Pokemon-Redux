@@ -62,8 +62,7 @@ const JFBanner = (props): JSX.Element => {
           </Header>
         </div>
 
-        <div className="rightHalf">
-        </div>
+        <div className="rightHalf"></div>
       </Animated>
     </Container>
   );

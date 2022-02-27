@@ -3,11 +3,22 @@ import { Animated } from "react-animated-css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../Store";
 import { GetMarvelCharacter } from "../actions/MarvelActions";
-import styled from 'styled-components';
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import styled from "styled-components";
+import {
+  Dimmer,
+  Loader,
+  Image,
+  Segment,
+  Button,
+  Input,
+  Icon,
+} from "semantic-ui-react";
+import md5 from "js-md5";
+import uid2 from "uid2";
+import { Header } from "../Header";
+import { Card } from "../Card";
 
 import { fleurimondColors } from "../theme";
-
 
 export const ProjectsSectionContainer = styled.div`
   display: grid;
@@ -37,18 +48,6 @@ export const ProjectsSectionContainer = styled.div`
     grid-gap: 10px;
     justify-items: center;
     align-items: center;
-  }
-`;
-
-export const Header = styled.h1`
-  font-size: 3rem;
-  text-align: center;
-  grid-column: span 3;
-
-  @media (max-width: 800px) {
-    font-size: 2rem;
-    text-align: center;
-    grid-column: span 2;
   }
 `;
 
@@ -112,12 +111,13 @@ export const Bolt = styled.span`
     position: absolute;
     border-style: solid;
     border-width: 0 0 10px 5px;
-    border-color: transparent transparent ${fleurimondColors.graySmoke} transparent;
+    border-color: transparent transparent ${fleurimondColors.graySmoke}
+      transparent;
     top: 0px;
     left: -11px;
     padding: 0;
     margin: 0;
-    content: '';
+    content: "";
   }
 
   &:after {
@@ -125,10 +125,11 @@ export const Bolt = styled.span`
     position: absolute;
     border-style: solid;
     border-width: 0 0 10px 5px;
-    border-color: transparent transparent transparent ${fleurimondColors.graySmoke};
+    border-color: transparent transparent transparent
+      ${fleurimondColors.graySmoke};
     bottom: 0px;
     right: 3px;
-    content: '';
+    content: "";
   }
 `;
 export const FlippedCardInfoFieldset = styled.span`
@@ -136,35 +137,35 @@ export const FlippedCardInfoFieldset = styled.span`
   display: block;
   font-size: 15px;
   width: 100%;
-  font-family: 'proxima-nova', 'sans-serif';
+  font-family: "proxima-nova", "sans-serif";
   font-weight: 500;
   position: relative;
   padding: 0 10px;
   margin: 5px;
 `;
 
-
-
 const JFBanner = (props): JSX.Element => {
   const dispatch = useDispatch();
   const [marvelCharacterName, setMarvelCharacterName] = useState("");
   const [message, setMessage] = useState("");
   const marvelState = useSelector((state: RootStore) => state.pokemon);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setMarvelCharacterName(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setMarvelCharacterName(event.target.value);
   const handleSubmit = () => dispatch(GetMarvelCharacter(marvelCharacterName));
   console.log(setMessage);
-
+  let UID = uid2(8);
+  let keyNumber = md5(UID);
   if (!marvelState) {
     return (
       <div>
         <Segment>
           <Dimmer active>
-            <Loader size='massive'>....API Data Is Loading....</Loader>
+            <Loader size="massive">....API Data Is Loading....</Loader>
           </Dimmer>
-          <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-          <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-          <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-          <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+          <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+          <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+          <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+          <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
         </Segment>
       </div>
     );
@@ -178,24 +179,52 @@ const JFBanner = (props): JSX.Element => {
         animationOut="slideOutDown"
         isVisible
       >
-        <Header>
-          Pokemon Characters
-        </Header>
+        <Header>Pokemon Characters</Header>
         <CineDiv>
-          <input
-            onChange={handleChange}
-          />
-          <button type="submit" onClick={handleSubmit}>
+          <Input onChange={handleChange} />
+          <Button type="submit" onClick={handleSubmit}>
             submit
-          </button>
+          </Button>
           <p> {message && JSON.stringify(message, null, 4)}</p>
         </CineDiv>
         <CineDiv>
           {marvelState.pokemon && (
             <div>
-              <img src={marvelState.pokemon.sprites.front_default} alt="" />
-              {marvelState.pokemon.abilities.map(ability => {
-                return <p>{ability.ability.name}</p>
+              <Image
+                src={marvelState.pokemon.sprites.front_default}
+                wrapped
+                ui={true}
+              />{" "}
+              {marvelState.pokemon.abilities.map((ability) => {
+                return (
+                  <div key={keyNumber}>
+                    <Animated
+                      animationInDelay={0}
+                      animationIn="fadeInLeft"
+                      animationOut="fadeOutRight"
+                      isVisible
+                    >
+                      <Card>
+                        <Card.Content>
+                          <Image
+                            src={marvelState.pokemon.sprites.front_default}
+                            wrapped
+                            ui={true}
+                          />
+                        </Card.Content>
+                        <Card.Content>
+                          <Card.Header>{ability.ability.name}</Card.Header>
+                          <Card.Description></Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                          <a>
+                            <Icon name="user" />
+                          </a>
+                        </Card.Content>
+                      </Card>
+                    </Animated>
+                  </div>
+                );
               })}
             </div>
           )}

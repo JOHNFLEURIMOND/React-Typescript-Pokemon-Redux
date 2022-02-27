@@ -11,7 +11,6 @@ import { Header } from "../Header";
 import { fleurimondColors } from "../theme";
 import TextInput from "../Form/TextInput";
 
-
 const baseBannerStyles = css({
   boxSizing: "border-box",
   minWidth: 0,
@@ -153,23 +152,11 @@ const JFSignUp = (props): JSX.Element => {
                 }}
                 render={({ isSubmitting, dirty }) => (
                   <Form>
-                    <TextInput
-                      size="small"
-                      onChange={()=>""}
-                    />
-                    <TextInput
-                      size="small"
-                      onChange={()=>""}
-                    />
+                    <TextInput size="small" onChange={() => ""} />
+                    <TextInput size="small" onChange={() => ""} />
                     <hr className="hr hr--sq" />
-                    <TextInput
-                      size="small"
-                      onChange={()=>""}
-                    />
-                    <TextInput
-                      size="small"
-                      onChange={()=>""}
-                    />
+                    <TextInput size="small" onChange={() => ""} />
+                    <TextInput size="small" onChange={() => ""} />
 
                     <button
                       type="submit"

@@ -7,8 +7,8 @@ import { Nav } from "./Navbar";
 import { Banner } from "./Banner";
 import { SearchBar } from "./SearchBar";
 import { Card } from "./Card";
-import {  Heros } from "./Heros";
-import {  Footer } from "./Footer";
+import { Heros } from "./Heros";
+import { Footer } from "./Footer";
 
 export {
   Button,
@@ -24,5 +24,5 @@ export {
   SearchBar,
   Card,
   Heros,
-  Footer
+  Footer,
 };

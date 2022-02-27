@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { fleurimondColors } from "../theme";
-import { Container } from '../layout/global-style';
-import { BiRestaurant, BiMenu, BiX } from 'react-icons/bi';
+import { Container } from "../layout/global-style";
+import { BiRestaurant, BiMenu, BiX } from "react-icons/bi";
 
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 export const Nav = styled.nav`
   font-size: 18px;
@@ -157,8 +156,8 @@ export const MenuLinkBtn = styled(Link)`
   outline: none;
 `;
 
-
-const JFNav = (): JSX.Element => {//click is the initial state and setclick will be the update state
+const JFNav = (): JSX.Element => {
+  //click is the initial state and setclick will be the update state
   const [click, setClick] = useState(false);
 
   //Create a function to handle the click state of the menu icon.
@@ -168,12 +167,14 @@ const JFNav = (): JSX.Element => {//click is the initial state and setclick will
   return (
     <Nav>
       <NavbarContainer>
-        <NavLogo to='/'>Fleurimond</NavLogo>
-        <MenuIcon onClick={handleClick}>{click ? <BiX /> : <BiMenu />}</MenuIcon>
+        <NavLogo to="/">Fleurimond</NavLogo>
+        <MenuIcon onClick={handleClick}>
+          {click ? <BiX /> : <BiMenu />}
+        </MenuIcon>
 
         <Menu onClick={handleClick}>
           <MenuItem>
-            <MenuLink onClick={handleClick} to='/CharacterPage'>
+            <MenuLink onClick={handleClick} to="/CharacterPage">
               Pokemon Movesets
             </MenuLink>
             <MenuLink onClick={handleClick} to="/SignUp">
