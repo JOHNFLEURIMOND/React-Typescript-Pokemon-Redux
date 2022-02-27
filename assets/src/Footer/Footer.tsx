@@ -35,7 +35,7 @@ export const FooterLogo = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  font-size:1.4rem;
+  font-size: 1.4rem;
   font-weight: 800;
   transition: all 0.5s ease;
   &:hover,
