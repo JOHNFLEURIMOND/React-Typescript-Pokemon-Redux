@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
-import MarvelReducer from "./MarvelReducer";
+import PokemonReducer from "./PokemonReducer";
 
 const RootReducer = combineReducers({
-  pokemon: MarvelReducer
+  pokemon: PokemonReducer
 });
 
 export default RootReducer
