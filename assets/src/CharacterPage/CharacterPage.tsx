@@ -2,7 +2,7 @@ import React from "react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Animated } from "react-animated-css";
-import { Container } from "../layout/global-style";
+import { GlobalStyle, Container } from "../layout/global-style";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
 import Nav from "../Navbar/Nav";
@@ -38,6 +38,7 @@ const baseBannerStyles = css({
 const JFCharacterCards = (props: any): JSX.Element => {
   return (
     <Container {...props}>
+      <GlobalStyle />
       <Nav />
       <Animated
         animationInDelay={0}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Animated } from "react-animated-css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../Store";
-import { GetMarvelCharacter } from "../actions/MarvelActions";
+import { GetPokemonCharacter } from "../actions/PokemonActions";
 import styled from "styled-components";
 import {
   Dimmer,
@@ -145,17 +145,17 @@ export const FlippedCardInfoFieldset = styled.span`
 `;
 
 const JFBanner = (props): JSX.Element => {
+  const [card, flipCard] = useState(false);
   const dispatch = useDispatch();
-  const [marvelCharacterName, setMarvelCharacterName] = useState("");
-  const [message, setMessage] = useState("");
-  const marvelState = useSelector((state: RootStore) => state.pokemon);
+  const [pokemonCharacterName, setPokemonCharacterName] = useState("");
+  const PokemonState = useSelector((state: RootStore) => state.pokemon);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setMarvelCharacterName(event.target.value);
-  const handleSubmit = () => dispatch(GetMarvelCharacter(marvelCharacterName));
-  console.log(setMessage);
+    setPokemonCharacterName(event.target.value);
+  const handleSubmit = () =>
+    dispatch(GetPokemonCharacter(pokemonCharacterName));
   let UID = uid2(8);
   let keyNumber = md5(UID);
-  if (!marvelState) {
+  if (!PokemonState) {
     return (
       <div>
         <Segment>
@@ -185,47 +185,74 @@ const JFBanner = (props): JSX.Element => {
           <Button type="submit" onClick={handleSubmit}>
             submit
           </Button>
-          <p> {message && JSON.stringify(message, null, 4)}</p>
         </CineDiv>
+        {console.log(PokemonState.pokemon)}
         <CineDiv>
-          {marvelState.pokemon && (
+          {PokemonState.pokemon && (
             <div>
               <Image
-                src={marvelState.pokemon.sprites.front_default}
+                src={PokemonState.pokemon.sprites.front_default}
                 wrapped
                 ui={true}
               />{" "}
-              {marvelState.pokemon.abilities.map((ability) => {
-                return (
-                  <div key={keyNumber}>
-                    <Animated
-                      animationInDelay={0}
-                      animationIn="fadeInLeft"
-                      animationOut="fadeOutRight"
-                      isVisible
-                    >
-                      <Card>
+              <Animated
+                animationInDelay={0}
+                animationIn="fadeInLeft"
+                animationOut="fadeOutRight"
+                isVisible
+              >
+                {PokemonState.pokemon.abilities.map((ability) => {
+                  return card ? (
+                    <div>
+                      <Card key={keyNumber} onClick={() => flipCard(false)}>
                         <Card.Content>
                           <Image
-                            src={marvelState.pokemon.sprites.front_default}
+                            src={PokemonState.pokemon.sprites.front_default}
                             wrapped
                             ui={true}
                           />
                         </Card.Content>
                         <Card.Content>
-                          <Card.Header>{ability.ability.name}</Card.Header>
+                          <Card.Header>
+                            Abilities: {ability.ability.name}
+                          </Card.Header>
                           <Card.Description></Card.Description>
                         </Card.Content>
                         <Card.Content extra>
                           <a>
+                            {PokemonState.pokemon.moves.moves}{" "}
                             <Icon name="user" />
                           </a>
                         </Card.Content>
                       </Card>
-                    </Animated>
-                  </div>
-                );
-              })}
+                    </div>
+                  ) : (
+                    <div>
+                      <Card key={keyNumber} onClick={() => flipCard(true)}>
+                        <Card.Content>
+                          <Image
+                            src={PokemonState.pokemon.sprites.front_shiny}
+                            wrapped
+                            ui={true}
+                          />
+                        </Card.Content>
+                        <Card.Content>
+                          <Card.Header>
+                            Base: {PokemonState.pokemon.stats.base_stat}
+                          </Card.Header>
+                          <Card.Description></Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                          <a>
+                            {PokemonState.pokemon.moves.moves}{" "}
+                            <Icon name="hand rock" /> Moves
+                          </a>
+                        </Card.Content>
+                      </Card>
+                    </div>
+                  );
+                })}
+              </Animated>
             </div>
           )}
         </CineDiv>
