@@ -21,46 +21,46 @@ import { Card } from "../Card";
 import { fleurimondColors } from "../theme";
 
 export const ProjectsSectionContainer = styled.div`
-justify-items: center;
-align-items: center;
-grid-gap: 1rem;
-width: 100%;
-min-height: 100vh;
-box-sizing: border-box;
-font-size: 1rem;
-text-align: center;
-font-weight: 500;
-margin: 0;
-padding: 2em;
-line-height: normal;
-background-color: ${fleurimondColors.white};
-
-@media (max-width: 800px) {
+  justify-items: center;
+  align-items: center;
+  grid-gap: 1rem;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
   margin: 0;
   padding: 2em;
-  grid-gap: 10px;
-  justify-items: center;
-  align-items: center;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  grid-template-rows:repeat(auto-fit, minmax(350px, 1fr));
-}
-@media (max-width: 400px) {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 2em;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fit, minmax(350px, 1fr));
-  grid-gap: 10px;
-  justify-items: center;
-  align-items: center;
-}
+  line-height: normal;
+  background-color: ${fleurimondColors.white};
+
+  @media (max-width: 800px) {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 2em;
+    grid-gap: 10px;
+    justify-items: center;
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(350px, 1fr));
+  }
+  @media (max-width: 400px) {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 2em;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fit, minmax(350px, 1fr));
+    grid-gap: 10px;
+    justify-items: center;
+    align-items: center;
+  }
 `;
 
 export const CardDiv = styled.div`
@@ -196,7 +196,11 @@ const JFBanner = (props): JSX.Element => {
       >
         <Divie>
           <Header>Pokemon Characters</Header>
-          <Input style={{ margin: " 2rem 0", padding: "2rem 0" }} size="large" onChange={handleChange} />
+          <Input
+            style={{ margin: " 2rem 0", padding: "2rem 0" }}
+            size="large"
+            onChange={handleChange}
+          />
           <Button
             variant="primary"
             aria-label="Primary Small Button"
