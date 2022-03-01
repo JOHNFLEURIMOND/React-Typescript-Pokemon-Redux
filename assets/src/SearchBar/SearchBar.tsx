@@ -21,34 +21,46 @@ import { Card } from "../Card";
 import { fleurimondColors } from "../theme";
 
 export const ProjectsSectionContainer = styled.div`
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  grid-gap: 1rem;
+justify-items: center;
+align-items: center;
+grid-gap: 1rem;
+width: 100%;
+min-height: 100vh;
+box-sizing: border-box;
+font-size: 1rem;
+text-align: center;
+font-weight: 500;
+margin: 0;
+padding: 2em;
+line-height: normal;
+background-color: ${fleurimondColors.white};
+
+@media (max-width: 800px) {
   width: 100%;
-  height: 700px;
+  min-height: 100vh;
   box-sizing: border-box;
-  font-size: 1rem;
-  text-align: center;
-  font-weight: 500;
   margin: 0;
   padding: 2em;
-  line-height: normal;
-  background-color: ${fleurimondColors.white};
-
-  @media (max-width: 800px) {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 2em;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-gap: 10px;
-    justify-items: center;
-    align-items: center;
-  }
+  grid-gap: 10px;
+  justify-items: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-rows:repeat(auto-fit, minmax(350px, 1fr));
+}
+@media (max-width: 400px) {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2em;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fit, minmax(350px, 1fr));
+  grid-gap: 10px;
+  justify-items: center;
+  align-items: center;
+}
 `;
 
 export const CardDiv = styled.div`
@@ -85,7 +97,9 @@ export const ItemContainer = styled.div`
   }
 `;
 
-export const Right = styled.div``;
+export const Divie = styled.div`
+  display: block;
+`;
 
 export const Hamburger = styled.span`
   width: 32px;
@@ -95,6 +109,7 @@ export const Hamburger = styled.span`
   justify-content: space-between;
   cursor: pointer;
 `;
+
 export const Bolt = styled.span`
   position: relative;
   margin: 50px;
@@ -179,9 +194,9 @@ const JFBanner = (props): JSX.Element => {
         animationOut="slideOutDown"
         isVisible
       >
-        <Header>Pokemon Characters</Header>
-        <div className="innie">
-          <Input size="large" onChange={handleChange} />
+        <Divie>
+          <Header>Pokemon Characters</Header>
+          <Input style={{ margin: " 2rem 0", padding: "2rem 0" }} size="large" onChange={handleChange} />
           <Button
             variant="primary"
             aria-label="Primary Small Button"
@@ -190,40 +205,42 @@ const JFBanner = (props): JSX.Element => {
           >
             submit
           </Button>
-        </div>
-        <Animated
-          animationInDelay={0}
-          animationIn="fadeInLeft"
-          animationOut="fadeOutRight"
-          isVisible
-        >
-          <CineDiv>
-            {marvelState.pokemon && (
-              <div>
-                {marvelState.pokemon.abilities.map((ability) => {
-                  return card ? (
-                    <div>
-                      <Card key={keyNumber} onClick={() => flipCard(false)}>
-                        <Card.Content>
-                          <Image
-                            src={marvelState.pokemon.sprites.front_default}
-                            wrapped
-                            ui={true}
-                          />
-                        </Card.Content>
-                        <Card.Content>
-                          <Card.Header>{ability.ability.name}</Card.Header>
-                          <Card.Description></Card.Description>
-                        </Card.Content>
-                        <Card.Content extra>
-                          <a>
-                            <Icon name="user" />
-                          </a>
-                        </Card.Content>
-                      </Card>
-                    </div>
-                  ) : (
-                    <div>
+        </Divie>
+      </Animated>
+
+      <Animated
+        animationInDelay={0}
+        animationIn="fadeInLeft"
+        animationOut="fadeOutRight"
+        isVisible
+      >
+        <CineDiv>
+          {marvelState.pokemon && (
+            <div>
+              {marvelState.pokemon.abilities.map((ability) => {
+                return card ? (
+                  <div>
+                    <Card key={keyNumber} onClick={() => flipCard(false)}>
+                      <Card.Content>
+                        <Image
+                          src={marvelState.pokemon.sprites.front_default}
+                          wrapped
+                          ui={true}
+                        />
+                      </Card.Content>
+                      <Card.Content>
+                        <Card.Header>{ability.ability.name}</Card.Header>
+                        <Card.Description></Card.Description>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <a>
+                          <Icon name="user" />
+                        </a>
+                      </Card.Content>
+                    </Card>
+                  </div>
+                ) : (
+                  <div>
                     <Card key={keyNumber} onClick={() => flipCard(true)}>
                       <Card.Content>
                         <Image
@@ -233,8 +250,7 @@ const JFBanner = (props): JSX.Element => {
                         />
                       </Card.Content>
                       <Card.Content>
-                        <Card.Header>
-                        </Card.Header>
+                        <Card.Header></Card.Header>
                         <Card.Description></Card.Description>
                       </Card.Content>
                       <Card.Content extra>
@@ -243,13 +259,12 @@ const JFBanner = (props): JSX.Element => {
                         </a>
                       </Card.Content>
                     </Card>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </CineDiv>
-        </Animated>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </CineDiv>
       </Animated>
     </ProjectsSectionContainer>
   );
