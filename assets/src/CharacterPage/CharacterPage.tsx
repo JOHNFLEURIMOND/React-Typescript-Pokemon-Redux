@@ -5,7 +5,6 @@ import { Animated } from "react-animated-css";
 import { GlobalStyle, Container } from "../layout/global-style";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
-import Nav from "../Navbar/Nav";
 import SearchBar from "../SearchBar/SearchBar";
 import { fleurimondColors } from "../theme";
 
@@ -18,18 +17,10 @@ const baseBannerStyles = css({
   fontWeight: 600,
   margin: 0,
   padding: 0,
-  height: "700px",
+  minHeight: "75%",
   width: "100%",
   backgroundColor: fleurimondColors.white,
 
-  ".leftHalf": {
-    width: "50%",
-    display: "inline-block",
-  },
-  ".rightHalf": {
-    width: "50%",
-    display: "inline-block",
-  },
   "*": {
     fontFamily: "Montserrat, sans-serif",
   },
@@ -39,7 +30,6 @@ const JFCharacterCards = (props: any): JSX.Element => {
   return (
     <Container {...props}>
       <GlobalStyle />
-      <Nav />
       <Animated
         animationInDelay={0}
         animationIn="slideInUp"

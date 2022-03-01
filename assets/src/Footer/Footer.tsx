@@ -7,7 +7,7 @@ import { Container } from "../layout/global-style";
 
 export const Footer = styled.footer`
   width: 100%;
-  height: 10vh;
+  height: 80px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -27,6 +27,7 @@ export const FooterContainer = styled(Container)`
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  width: 100%;
 `;
 
 export const FooterLogo = styled(Link)`
