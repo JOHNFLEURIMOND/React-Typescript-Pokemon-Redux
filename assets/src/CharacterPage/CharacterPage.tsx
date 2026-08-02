@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
-import { Animated } from "react-animated-css";
 import { GlobalStyle, Container } from "../layout/global-style";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
@@ -30,14 +29,9 @@ const JFCharacterCards = (props: any): JSX.Element => {
   return (
     <Container {...props}>
       <GlobalStyle />
-      <Animated
-        animationInDelay={0}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        isVisible
-      >
+      <div>
         <SearchBar />
-      </Animated>
+      </div>
     </Container>
   );
 };
