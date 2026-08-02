@@ -7,7 +7,6 @@ import { Nav } from "./Navbar";
 import { Banner } from "./Banner";
 import { SearchBar } from "./SearchBar";
 import { Card } from "./Card";
-import { Heros } from "./Heros";
 import { Footer } from "./Footer";
 
 export {
@@ -23,6 +22,5 @@ export {
   TextInput,
   SearchBar,
   Card,
-  Heros,
   Footer,
 };

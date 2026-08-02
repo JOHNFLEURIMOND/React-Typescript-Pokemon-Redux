@@ -1,7 +1,7 @@
 # :checkered_flag:What It Looks Like :checkered_flag:: 
 ![pokemon](public/pokemon.png)
 # How It's Made :nut_and_bolt:🔨 :hammer::wrench::
- This application built with Nodemon.
+ This application is a React + TypeScript Pokémon search app.
 
 
  # How It's Works:white_check_mark::
@@ -24,19 +24,6 @@ https://typescript-pokemon-api.netlify.app/
 
 In the project directory, you can run:
 
-### `npm run start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.<br>
@@ -48,3 +35,5 @@ Your app is ready to be deployed!
 See the section about [deployment](#deployment) for more information.
 ### `npm run prettier`
 This corrects the format.
+
+The legacy Express/Nodemon backend and its old proxy path are no longer part of the active Pokémon application.
