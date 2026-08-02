@@ -11,6 +11,11 @@ dist/
 #storybook ts build output
 build/
 
+# Environment files
+.env
+.env.*
+!.env.example
+
 #Webstorm metadata
 .idea/
 *.iml
