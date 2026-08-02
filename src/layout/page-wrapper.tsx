@@ -1,7 +1,13 @@
-import React from "react";
+import type { ReactNode } from "react";
 import styled from "styled-components";
 
-export default function PageWrapper(props) {
+interface PageWrapperProps {
+  children: ReactNode;
+  heading: string;
+  icon: string;
+}
+
+export default function PageWrapper(props: PageWrapperProps): JSX.Element {
   const { children, heading, icon } = props;
 
   const iconSrc = `/static/menu-icons/${icon}-big.svg`;

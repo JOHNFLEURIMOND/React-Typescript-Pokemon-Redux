@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import type { ComponentProps } from "react";
 import moment from "moment";
 import styled from "styled-components";
 import { fleurimondColors } from "../theme";
@@ -144,13 +144,8 @@ export const MenuLinkBtn = styled(Link)`
   outline: none;
 `;
 
-const JFFooter = (props) => {
-  //click is the initial state and setclick will be the update state
-  const [click, setClick] = useState(false);
-
-  //Create a function to handle the click state of the menu icon.
-  //if the menu icon was the menu bar at the beginning when clicked it will have the close icon
-  const handleClick = () => setClick(!click);
+const JFFooter = (props: ComponentProps<typeof Footer>): JSX.Element => {
+  const handleClick = (): void => {};
 
   return (
     <Footer {...props}>

@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+import type { SelectHTMLAttributes } from "react";
+import { css } from "@emotion/core";
 
 const baseSelectStyles = css({
   display: "inline-block",
@@ -15,7 +15,7 @@ const baseSelectStyles = css({
   border: "1px solid #ccc",
 });
 
-const JFSelect = (props: any): JSX.Element => {
+const JFSelect = (props: SelectHTMLAttributes<HTMLSelectElement>): JSX.Element => {
   return <select {...props} css={baseSelectStyles} />;
 };
 

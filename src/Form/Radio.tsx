@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { Radio as SUIRadio } from "semantic-ui-react";
+import { css } from "@emotion/core";
+import { Radio as SUIRadio, RadioProps } from "semantic-ui-react";
 
 const baseRadioButtonStyles = css({
   display: "block",
@@ -14,7 +13,7 @@ const baseRadioButtonStyles = css({
   },
 });
 
-const VCRadioButton = (props): JSX.Element => {
+const VCRadioButton = (props: RadioProps): JSX.Element => {
   return <SUIRadio {...props} css={baseRadioButtonStyles} />;
 };
 

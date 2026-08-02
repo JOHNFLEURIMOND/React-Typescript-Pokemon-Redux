@@ -1,5 +1,4 @@
-import React from "react";
-import { css } from "@emotion/core";
+import type { ComponentProps } from "react";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
@@ -8,7 +7,7 @@ import { Header } from "../Header";
 
 import { fleurimondColors } from "../theme";
 
-const baseBannerStyles = css({
+const baseBannerStyles = {
   boxSizing: "border-box",
   minWidth: 0,
   fontSize: "1rem",
@@ -41,9 +40,9 @@ const baseBannerStyles = css({
   "*": {
     fontFamily: "Montserrat, sans-serif",
   },
-});
+};
 
-const JFBanner = (props): JSX.Element => {
+const JFBanner = (props: ComponentProps<typeof Container>): JSX.Element => {
   return (
     <Container {...props}>
       <div>
@@ -64,6 +63,6 @@ const JFBanner = (props): JSX.Element => {
 
 const JFBannerWithStyle = styled(JFBanner, {
   shouldForwardProp,
-})(baseBannerStyles, space, flexbox, typography);
+})(baseBannerStyles as any, space, flexbox, typography);
 
 export default JFBannerWithStyle;

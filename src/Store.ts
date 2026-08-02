@@ -1,10 +1,15 @@
-import { createStore, applyMiddleware } from "redux";
-import RootReducer from "./reducers/RootReducer";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
+import { pokemonApi } from "./services/pokemonApi";
 
-const Store = createStore(RootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const Store = configureStore({
+	reducer: {
+		[pokemonApi.reducerPath]: pokemonApi.reducer,
+	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(pokemonApi.middleware),
+});
 
-export type RootStore = ReturnType<typeof RootReducer>;
+export type RootStore = ReturnType<typeof Store.getState>;
+export type AppDispatch = typeof Store.dispatch;
 
 export default Store;
