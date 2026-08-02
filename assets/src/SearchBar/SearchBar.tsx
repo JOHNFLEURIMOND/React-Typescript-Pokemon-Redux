@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Animated } from "react-animated-css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../Store";
 import { GetPokemonCharacter } from "../actions/PokemonActions";
@@ -184,12 +183,7 @@ const JFBanner = (props): JSX.Element => {
 
   return (
     <ProjectsSectionContainer {...props}>
-      <Animated
-        animationInDelay={0}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        isVisible
-      >
+      <div>
         <Divie>
           <Header>Pokemon Characters</Header>
           <Input
@@ -206,14 +200,9 @@ const JFBanner = (props): JSX.Element => {
             submit
           </Button>
         </Divie>
-      </Animated>
+      </div>
 
-      <Animated
-        animationInDelay={0}
-        animationIn="fadeInLeft"
-        animationOut="fadeOutRight"
-        isVisible
-      >
+      <div>
         <CineDiv>
           {pokemonState.pokemon && (
             <div>
@@ -265,7 +254,7 @@ const JFBanner = (props): JSX.Element => {
             </div>
           )}
         </CineDiv>
-      </Animated>
+      </div>
     </ProjectsSectionContainer>
   );
 };
