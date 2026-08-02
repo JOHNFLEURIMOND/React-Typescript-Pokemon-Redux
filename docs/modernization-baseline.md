@@ -14,14 +14,14 @@ Date: 2026-08-02
 
 ## Confirmed Findings
 - Current branch: `security/remove-exposed-credentials`
-- Repository root is `/Users/johnfleurimond/Documents/IMPORTANT/Code/React-Typescript-Pokemon-Redux`
+- Repository root was confirmed locally via `git rev-parse --show-toplevel`
 - Working tree is clean
 - Remote `origin` points to the GitHub repository and the remote default branch is `main`
 - Runtime versions: Node `v22.23.1`, npm `10.9.8`
 - The active app is still the legacy React + Redux + TypeScript + Webpack + Semantic UI + Emotion stack
 - The deployed app loads at `https://typescript-pokemon-api.netlify.app/`
-- `.env` exists and is tracked
-- `Server.js`, `assets/setupProxy.js`, and `assets/src/Heros/Icons.tsx` are tracked legacy files
+- A local `.env` file existed during baseline inspection
+- `assets/src/Heros/Icons.tsx` was the remaining tracked legacy file inspected in this area
 - `assets/src/actions/PokemonActions.ts` calls the PokeAPI directly through Axios
 - Storybook stories exist, but there is no Storybook dependency set or Storybook script in `package.json`
 
@@ -40,7 +40,7 @@ Date: 2026-08-02
 - `node --version`: `v22.23.1`
 - `npm --version`: `10.9.8`
 - `npm ci`: failed with npm `403 Forbidden` while fetching `https://registry.npmjs.org/react`; exit code `1`
-- `npm run`: available scripts are `prettier`, `start`, `build`, `dev`, and `serve`
+- `npm run`: available scripts are `prettier`, `build`, and `dev`
 - `npm run dev`: failed immediately because `webpack-dev-server` was not available in the active install state
 - `npm run build`: not attempted because the install step did not succeed
 
@@ -68,8 +68,6 @@ Date: 2026-08-02
 ## Current Build Flow
 - `build` currently maps to `webpack`
 - `dev` currently maps to `webpack-dev-server --open`
-- `start` currently maps to `nodemon Server.js`
-- `serve` currently combines the frontend dev server and the obsolete backend server
 - `index.html` is the HTML entry file for the Webpack setup
 - `webpack.config.js` is the active production and development build configuration
 - `tsconfig.json` is configured for the older Webpack-era toolchain and includes `assets`
@@ -87,11 +85,11 @@ Date: 2026-08-02
 - `react`, `react-dom`, `react-redux`, `redux`, `redux-thunk`, `axios`, `semantic-ui-react`, `styled-components`, `react-router-dom`, `react-animated-css`, `redux-devtools-extension`
 
 ### Required Development Dependencies
-- `typescript`, `webpack`, `webpack-cli`, `webpack-dev-server`, `ts-loader`, `babel-loader`-style tooling via Babel packages, `css-loader`, `sass-loader`, `mini-css-extract-plugin`, `html-webpack-plugin`, `eslint` toolchain, `prettier`, `nodemon`, `concurrently`
+- `typescript`, `webpack`, `webpack-cli`, `webpack-dev-server`, `ts-loader`, `babel-loader`-style tooling via Babel packages, `css-loader`, `sass-loader`, `mini-css-extract-plugin`, `html-webpack-plugin`, `eslint` toolchain, `prettier`
 
 ### Potentially Unused or Overlapping Dependencies
-- `express`, `cors`, `body-parser`, `node-fetch`, `moment`, `js-md5`, `uid2`, `http-proxy-middleware`, `react-scripts`, `tsdx`, `swc-loader`, `file-loader`, `style-loader`, `path`
-- Several dependencies appear to exist only for the legacy server, legacy proxy, or legacy tutorial-era build paths
+- `moment`, `js-md5`, `uid2`, `react-scripts`, `tsdx`, `swc-loader`, `file-loader`, `style-loader`, `path`
+- Several dependencies appear to exist only for legacy tutorial-era build paths
 
 ### Styling and Animation Dependencies
 - `styled-components`, `@emotion/core`, `@emotion/styled`, `styled-system`, `semantic-ui-react`, `react-animated-css`, `sass`, `normalize.css`
@@ -105,13 +103,11 @@ Date: 2026-08-02
 - `npm ci` emitted numerous peer-resolution warnings before failing on the registry fetch
 
 ## Security Findings
-- `.env` is present and tracked
+- A local `.env` file was present during baseline inspection
 - No secret values are reproduced in this report
 - Manual credential revocation or regeneration is required outside the repository before any cleanup can be considered complete
 
 ## Dead-Code Candidates
-- `Server.js`
-- `assets/setupProxy.js`
 - `assets/src/Heros/Icons.tsx`
 - `assets/src/Heros/Heros.tsx`
 - `assets/src/Heros/index.ts`
@@ -149,7 +145,7 @@ Date: 2026-08-02
 - Browser-based validation of the local app is blocked until installation works again
 
 ## Recommended Phase 1 Scope
-- Remove exposed credentials and any tracked environment file from the working tree
+- Remove exposed credentials and any environment file from the working tree
 - Clean stale naming in the Pokémon action and reducer types
 - Preserve the Pokémon search behavior while preparing for a later build-tool migration
 
