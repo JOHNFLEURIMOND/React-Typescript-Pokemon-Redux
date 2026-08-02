@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { css } from "@emotion/core";
+import { useState, type ComponentProps } from "react";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
@@ -9,7 +8,7 @@ import { Modal, ConfirmModal } from ".";
 import { Button } from "../Button";
 import { fleurimondColors } from "../theme";
 
-const baseBannerStyles = css({
+const baseBannerStyles = {
   boxSizing: "border-box",
   minWidth: 0,
   fontSize: "1rem",
@@ -32,9 +31,9 @@ const baseBannerStyles = css({
   "*": {
     fontFamily: "Montserrat, sans-serif",
   },
-});
+};
 
-const JFHomePageModal = (props): JSX.Element => {
+const JFHomePageModal = (props: ComponentProps<typeof Container>): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -87,6 +86,6 @@ const JFHomePageModal = (props): JSX.Element => {
 
 const JFHomePageModalWithStyle = styled(JFHomePageModal, {
   shouldForwardProp,
-})(baseBannerStyles, space, flexbox, typography);
+})(baseBannerStyles as any, space, flexbox, typography);
 
 export default JFHomePageModalWithStyle;

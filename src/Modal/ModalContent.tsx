@@ -1,5 +1,8 @@
-import React from "react";
-import { ModalContent as SUIModalContent } from "semantic-ui-react";
+import type { ReactElement } from "react";
+import {
+  ModalContent as SUIModalContent,
+  ModalContentProps as SUIModalContentProps,
+} from "semantic-ui-react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
@@ -19,7 +22,7 @@ const modalContentStyles = css({
   flex: "1 1 auto",
 });
 
-const VCModalContent = (props): React.ReactElement => {
+const VCModalContent = (props: SUIModalContentProps): ReactElement => {
   return <SUIModalContent {...props} />;
 };
 

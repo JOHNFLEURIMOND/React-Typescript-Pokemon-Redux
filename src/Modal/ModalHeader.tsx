@@ -1,5 +1,4 @@
-import React from "react";
-import { Header as SUIModalHeader } from "semantic-ui-react";
+import { Header as SUIModalHeader, HeaderProps as SUIModalHeaderProps } from "semantic-ui-react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 import shouldForwardProp from "@styled-system/should-forward-prop";
@@ -19,7 +18,7 @@ const modalHeaderStyles = css({
   flex: "0 0 auto",
 });
 
-const VCModalHeader = (props): JSX.Element => {
+const VCModalHeader = (props: SUIModalHeaderProps): JSX.Element => {
   return <SUIModalHeader {...props} />;
 };
 
