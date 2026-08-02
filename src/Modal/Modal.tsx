@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { jsx, css, SerializedStyles } from "@emotion/core";
-import { Modal as SUIModal } from "semantic-ui-react";
+import { css, SerializedStyles } from "@emotion/core";
+import { Modal as SUIModal, ModalProps as SUIModalProps } from "semantic-ui-react";
 import ModalContent from "./ModalContent";
 import ModalActions from "./ModalActions";
 import ModalHeader from "./ModalHeader";
@@ -72,7 +71,7 @@ const getModalStyles = (): SerializedStyles => {
   return css([modalStyles]);
 };
 
-const JFModal = (props): JSX.Element => {
+const JFModal = (props: SUIModalProps): JSX.Element => {
   return <SUIModal {...props} dimmer="inverted" css={getModalStyles()} />;
 };
 

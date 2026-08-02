@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
-import React, { useState } from "react";
-import { css } from "@emotion/core";
+import { useState, type ComponentProps } from "react";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
@@ -16,7 +15,7 @@ export interface JFCardProps {
   variant?: CardVariation;
 }
 
-const baseExperienceStyles = css({
+const baseExperienceStyles = {
   boxSizing: "border-box",
   minWidth: 0,
   color: fleurimondColors.black,
@@ -107,9 +106,9 @@ const baseExperienceStyles = css({
     width: "88rem",
     margin: "0px 2%",
   },
-});
+};
 
-const JFBanner = (props): JSX.Element => {
+const JFBanner = (props: ComponentProps<typeof Container>): JSX.Element => {
   const [unSetDivMenu, setDivMenu] = useState<boolean>(false);
 
   return (
@@ -179,6 +178,6 @@ const JFBanner = (props): JSX.Element => {
 
 const JFExperienceWithStyle = styled(JFBanner, {
   shouldForwardProp,
-})(baseExperienceStyles, space, flexbox, typography);
+})(baseExperienceStyles as any, space, flexbox, typography);
 
 export default JFExperienceWithStyle;

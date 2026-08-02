@@ -1,5 +1,4 @@
-import React from "react";
-import { Checkbox as SUICheckbox } from "semantic-ui-react";
+import { Checkbox as SUICheckbox, CheckboxProps } from "semantic-ui-react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 
@@ -15,7 +14,7 @@ const baseCheckboxStyles = css({
   },
 });
 
-const VCRadioButton = (props): JSX.Element => {
+const VCRadioButton = (props: CheckboxProps): JSX.Element => {
   return <SUICheckbox {...props} />;
 };
 

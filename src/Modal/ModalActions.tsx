@@ -1,5 +1,8 @@
-import React from "react";
-import { ModalActions as SUIModalActions } from "semantic-ui-react";
+import type { ReactElement } from "react";
+import {
+  ModalActions as SUIModalActions,
+  ModalActionsProps as SUIModalActionsProps,
+} from "semantic-ui-react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
@@ -17,7 +20,7 @@ const modalActionsStyles = css({
   flex: "0 0 auto",
 });
 
-const VCModalActions = (props): React.ReactElement => {
+const VCModalActions = (props: SUIModalActionsProps): ReactElement => {
   return <SUIModalActions {...props} />;
 };
 const VCModalActionsWithStyles = styled(VCModalActions, { shouldForwardProp })(

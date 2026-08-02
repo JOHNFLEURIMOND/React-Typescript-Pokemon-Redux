@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx, css, SerializedStyles } from "@emotion/core";
+import { css, SerializedStyles } from "@emotion/core";
 import { Input as SUIInput } from "semantic-ui-react";
 
 import { fleurimondColors } from "../theme";
@@ -35,7 +34,7 @@ const largeInput = {
   },
 };
 
-const getInputStyles = (size): SerializedStyles => {
+const getInputStyles = (size: InputProps["size"]): SerializedStyles => {
   switch (size) {
     case "small":
       return css([baseInputStyles, smallInput]);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { fleurimondColors } from "../theme";
 import { Container } from "../layout/global-style";

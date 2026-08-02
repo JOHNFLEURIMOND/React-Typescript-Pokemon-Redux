@@ -1,5 +1,8 @@
-import React from "react";
-import { CardContent as SUICardContent } from "semantic-ui-react";
+import type { ReactElement } from "react";
+import {
+  CardContent as SUICardContent,
+  CardContentProps as SUICardContentProps,
+} from "semantic-ui-react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
@@ -19,7 +22,7 @@ const JFCardContentStyles = css({
   flex: "1 1 auto",
 });
 
-const JFCardContent = (props): React.ReactElement => {
+const JFCardContent = (props: SUICardContentProps): ReactElement => {
   return <SUICardContent {...props} />;
 };
 

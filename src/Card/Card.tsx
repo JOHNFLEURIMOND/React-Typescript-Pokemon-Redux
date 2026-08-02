@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import React from "react";
-import { jsx, css, SerializedStyles } from "@emotion/core";
+import { css, SerializedStyles } from "@emotion/core";
+import type { ReactNode } from "react";
 import { Card as SUICard, CardProps as SUICardProps } from "semantic-ui-react";
 import CardContent from "./CardContent";
 import CardDescription from "./CardDescription";
@@ -10,7 +9,7 @@ import { fleurimondColors } from "../theme";
 
 export interface JFCardProps extends SUICardProps {
   as?: string;
-  content?: React.ReactNode;
+  content?: ReactNode;
 }
 
 const baseCardStyles = css({
