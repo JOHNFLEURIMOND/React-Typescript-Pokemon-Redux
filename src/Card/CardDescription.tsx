@@ -1,5 +1,8 @@
-import React from "react";
-import { CardDescription as SUICardDescription } from "semantic-ui-react";
+import type { ReactElement } from "react";
+import {
+  CardDescription as SUICardDescription,
+  CardDescriptionProps as SUICardDescriptionProps,
+} from "semantic-ui-react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import shouldForwardProp from "@styled-system/should-forward-prop";
@@ -16,7 +19,7 @@ const CardActionsStyles = css({
   flex: "0 0 auto",
 });
 
-const JFCardActions = (props): React.ReactElement => {
+const JFCardActions = (props: SUICardDescriptionProps): ReactElement => {
   return <SUICardDescription {...props} />;
 };
 const JFCardActionsWithStyles = styled(JFCardActions, { shouldForwardProp })(

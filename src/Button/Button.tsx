@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/** @jsx jsx */
 import {
   Button as SUIButton,
   ButtonProps as SUIButtonProps,
 } from "semantic-ui-react";
-import { jsx, css, SerializedStyles } from "@emotion/core";
+import { css, SerializedStyles } from "@emotion/core";
 import { space } from "styled-system";
 import { fleurimondColors } from "../theme";
 
@@ -15,10 +14,10 @@ type ButtonVariation =
   | "urgentPrimary"
   | "urgentSecondary";
 
-type ButtonSize = "small" | "medium" | "large" | any;
+type ButtonSize = "small" | "medium" | "large";
 
 export interface VCButtonProps extends SUIButtonProps {
-  variant?: ButtonVariation | any;
+  variant?: ButtonVariation;
   size?: ButtonSize;
 }
 
@@ -40,7 +39,7 @@ const baseButtonStyles = {
     opacity: 1,
     pointerEvents: "none", // counterintuitive but this allows hover events to fire on disabled buttons (e.g. to show a tooltip) - https://jakearchibald.com/2017/events-and-disabled-form-fields/
   },
-};
+} as const;
 
 const buttonVariants = {
   primary: {
@@ -150,7 +149,13 @@ const buttonSizes = {
   },
 };
 
-const getButtonStyles = ({ variant, size }, props): SerializedStyles => {
+const getButtonStyles = (
+  {
+    variant,
+    size,
+  }: { variant?: ButtonVariation; size?: ButtonSize },
+  props: VCButtonProps
+): SerializedStyles => {
   return css([
     baseButtonStyles,
     buttonSizes[size || "small"],
@@ -160,7 +165,7 @@ const getButtonStyles = ({ variant, size }, props): SerializedStyles => {
 };
 
 const VCButton = (props: VCButtonProps): JSX.Element => {
-  const { variant, onClick, size, ...rest } = props;
+  const { variant, size, ...rest } = props;
 
   return (
     <SUIButton

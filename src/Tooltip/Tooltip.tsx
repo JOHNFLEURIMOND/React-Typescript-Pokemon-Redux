@@ -1,9 +1,8 @@
-/** @jsx jsx */
 import {
   Popup as SUIPopup,
   PopupProps as SUIPopupProps,
 } from "semantic-ui-react";
-import { jsx, css, SerializedStyles } from "@emotion/core";
+import { css, SerializedStyles } from "@emotion/core";
 import { space } from "styled-system";
 import { fleurimondColors } from "../theme";
 
@@ -279,13 +278,16 @@ const baseTooltipStyles = css({
   },
 });
 
-const getTooltipStyles = (props): SerializedStyles => {
+const getTooltipStyles = (props: VCTooltipProps): SerializedStyles => {
   return css([baseTooltipStyles, space(props)]);
 };
 
 const getSUIPopupPosition = (
-  position: TooltipPosition | SUIPopupPosition
+  position?: TooltipPosition | SUIPopupPosition
 ): SUIPopupPosition => {
+  if (!position) {
+    return "top center";
+  }
   if (position === "top") {
     return "top center";
   }

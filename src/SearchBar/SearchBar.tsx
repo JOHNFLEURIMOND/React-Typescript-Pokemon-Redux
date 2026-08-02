@@ -1,9 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { ThunkDispatch } from "redux-thunk";
-import type { PokemonDispatchTypes } from "../actions/PokemonTypes";
-import { RootStore } from "../Store";
-import { GetPokemonCharacter } from "../actions/PokemonActions";
+import { useState, type ComponentProps } from "react";
 import styled from "styled-components";
 import {
   Dimmer,
@@ -16,6 +11,7 @@ import {
 } from "semantic-ui-react";
 import { Header } from "../Header";
 import { Card } from "../Card";
+import { useLazyGetPokemonByNameQuery } from "../services/pokemonApi";
 
 import { fleurimondColors } from "../theme";
 
@@ -158,16 +154,22 @@ export const FlippedCardInfoFieldset = styled.span`
   margin: 5px;
 `;
 
-const JFBanner = (props): JSX.Element => {
+const JFBanner = (
+  props: ComponentProps<typeof ProjectsSectionContainer>
+): JSX.Element => {
   const [card, flipCard] = useState<boolean>(false);
-  const dispatch = useDispatch<ThunkDispatch<RootStore, unknown, PokemonDispatchTypes>>();
   const [pokemonCharacterName, setPokemonCharacterName] = useState<string>("");
-  const pokemonState = useSelector((state: RootStore) => state.pokemon);
+  const [fetchPokemon, { data: pokemon, isFetching }] =
+    useLazyGetPokemonByNameQuery();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPokemonCharacterName(event.target.value);
-  const handleSubmit = () =>
-    dispatch(GetPokemonCharacter(pokemonCharacterName));
-  if (!pokemonState) {
+  const handleSubmit = (): void => {
+    const name = pokemonCharacterName.trim().toLowerCase();
+    if (name) {
+      fetchPokemon(name);
+    }
+  };
+  if (isFetching) {
     return (
       <div>
         <Segment>
@@ -206,15 +208,15 @@ const JFBanner = (props): JSX.Element => {
 
       <div>
         <CineDiv>
-          {pokemonState.pokemon && (
+          {pokemon && (
             <div>
-              {pokemonState.pokemon.abilities.map((ability) => {
+              {pokemon.abilities.map((ability) => {
                 return card ? (
                   <div key={ability.ability.name}>
                     <Card onClick={() => flipCard(false)}>
                       <Card.Content>
                         <Image
-                          src={pokemonState.pokemon.sprites.front_default}
+                          src={pokemon.sprites.front_default ?? undefined}
                           wrapped
                           ui={true}
                         />
@@ -235,7 +237,7 @@ const JFBanner = (props): JSX.Element => {
                     <Card onClick={() => flipCard(true)}>
                       <Card.Content>
                         <Image
-                          src={pokemonState.pokemon.sprites.front_shiny}
+                          src={pokemon.sprites.front_shiny ?? undefined}
                           wrapped
                           ui={true}
                         />

@@ -1,7 +1,7 @@
-import React from "react";
+import type { ComponentProps, ReactElement } from "react";
 import Modal from "./Modal";
 
-const ConfirmModal = (props): React.ReactElement => {
+const ConfirmModal = (props: ComponentProps<typeof Modal>): ReactElement => {
   return <Modal size="tiny" {...props} />;
 };
 
