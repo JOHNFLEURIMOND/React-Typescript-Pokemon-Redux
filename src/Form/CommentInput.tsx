@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { ChangeEventHandler, FocusEventHandler } from "react";
 import { TextArea as SUITextArea } from "semantic-ui-react";
 
 export interface TextAreaProps {
   size: "small" | "large";
   name: string;
   value: string;
-  onChange: any;
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
   required?: boolean;
   error?: string;
-  onBlur: any;
+  onBlur: FocusEventHandler<HTMLTextAreaElement>;
   title: string;
   placeholder: string;
 }
