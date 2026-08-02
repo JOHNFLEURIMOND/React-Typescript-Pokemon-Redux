@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
-import { Animated } from "react-animated-css";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
 import { Container } from "semantic-ui-react";
@@ -40,12 +39,7 @@ const JFHomePageModal = (props): JSX.Element => {
 
   return (
     <Container {...props}>
-      <Animated
-        animationInDelay={0}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        isVisible
-      >
+      <div>
         <Header className="BannerHeader" as="h1" pt={200} pl={100}>
           Membership
         </Header>
@@ -86,7 +80,7 @@ const JFHomePageModal = (props): JSX.Element => {
             </Button>
           </Modal.Actions>
         </ConfirmModal>
-      </Animated>
+      </div>
     </Container>
   );
 };
