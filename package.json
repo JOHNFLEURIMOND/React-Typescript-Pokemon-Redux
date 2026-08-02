@@ -2,14 +2,11 @@
   "name": "fullstackapp",
   "version": "1.0.0",
   "description": "",
-  "proxy": "http://localhost:8080",
   "main": "Main.js",
   "scripts": {
     "prettier": "prettier --write assets/**/*.{ts,tsx,js}",
-    "start": "nodemon Server.js",
     "build": "webpack",
-    "dev": "webpack-dev-server --open",
-    "serve": "concurrently \"npm run dev\" \"npm run start\""
+    "dev": "webpack-dev-server --open"
   },
   "keywords": [
     "John",
