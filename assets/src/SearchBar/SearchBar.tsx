@@ -13,8 +13,6 @@ import {
   Input,
   Icon,
 } from "semantic-ui-react";
-import md5 from "js-md5";
-import uid2 from "uid2";
 import { Header } from "../Header";
 import { Card } from "../Card";
 
@@ -168,8 +166,6 @@ const JFBanner = (props): JSX.Element => {
     setPokemonCharacterName(event.target.value);
   const handleSubmit = () =>
     dispatch(GetPokemonCharacter(pokemonlCharacterName));
-  let UID = uid2(8);
-  let keyNumber = md5(UID);
   if (!pokemonState) {
     return (
       <div>
@@ -223,8 +219,8 @@ const JFBanner = (props): JSX.Element => {
             <div>
               {pokemonState.pokemon.abilities.map((ability) => {
                 return card ? (
-                  <div>
-                    <Card key={keyNumber} onClick={() => flipCard(false)}>
+                  <div key={ability.ability.name}>
+                    <Card onClick={() => flipCard(false)}>
                       <Card.Content>
                         <Image
                           src={pokemonState.pokemon.sprites.front_default}
@@ -244,8 +240,8 @@ const JFBanner = (props): JSX.Element => {
                     </Card>
                   </div>
                 ) : (
-                  <div>
-                    <Card key={keyNumber} onClick={() => flipCard(true)}>
+                  <div key={ability.ability.name}>
+                    <Card onClick={() => flipCard(true)}>
                       <Card.Content>
                         <Image
                           src={pokemonState.pokemon.sprites.front_shiny}
