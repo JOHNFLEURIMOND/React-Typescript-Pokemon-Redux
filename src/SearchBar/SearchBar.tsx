@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Animated } from "react-animated-css";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStore } from "../../Store";
+import type { ThunkDispatch } from "redux-thunk";
+import type { PokemonDispatchTypes } from "../actions/PokemonTypes";
+import { RootStore } from "../Store";
 import { GetPokemonCharacter } from "../actions/PokemonActions";
 import styled from "styled-components";
 import {
@@ -13,8 +14,6 @@ import {
   Input,
   Icon,
 } from "semantic-ui-react";
-import md5 from "js-md5";
-import uid2 from "uid2";
 import { Header } from "../Header";
 import { Card } from "../Card";
 
@@ -161,15 +160,13 @@ export const FlippedCardInfoFieldset = styled.span`
 
 const JFBanner = (props): JSX.Element => {
   const [card, flipCard] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const [pokemonlCharacterName, setPokemonCharacterName] = useState<string>("");
+  const dispatch = useDispatch<ThunkDispatch<RootStore, unknown, PokemonDispatchTypes>>();
+  const [pokemonCharacterName, setPokemonCharacterName] = useState<string>("");
   const pokemonState = useSelector((state: RootStore) => state.pokemon);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPokemonCharacterName(event.target.value);
   const handleSubmit = () =>
-    dispatch(GetPokemonCharacter(pokemonlCharacterName));
-  let UID = uid2(8);
-  let keyNumber = md5(UID);
+    dispatch(GetPokemonCharacter(pokemonCharacterName));
   if (!pokemonState) {
     return (
       <div>
@@ -188,12 +185,7 @@ const JFBanner = (props): JSX.Element => {
 
   return (
     <ProjectsSectionContainer {...props}>
-      <Animated
-        animationInDelay={0}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        isVisible
-      >
+      <div>
         <Divie>
           <Header>Pokemon Characters</Header>
           <Input
@@ -210,21 +202,16 @@ const JFBanner = (props): JSX.Element => {
             submit
           </Button>
         </Divie>
-      </Animated>
+      </div>
 
-      <Animated
-        animationInDelay={0}
-        animationIn="fadeInLeft"
-        animationOut="fadeOutRight"
-        isVisible
-      >
+      <div>
         <CineDiv>
           {pokemonState.pokemon && (
             <div>
               {pokemonState.pokemon.abilities.map((ability) => {
                 return card ? (
-                  <div>
-                    <Card key={keyNumber} onClick={() => flipCard(false)}>
+                  <div key={ability.ability.name}>
+                    <Card onClick={() => flipCard(false)}>
                       <Card.Content>
                         <Image
                           src={pokemonState.pokemon.sprites.front_default}
@@ -244,8 +231,8 @@ const JFBanner = (props): JSX.Element => {
                     </Card>
                   </div>
                 ) : (
-                  <div>
-                    <Card key={keyNumber} onClick={() => flipCard(true)}>
+                  <div key={ability.ability.name}>
+                    <Card onClick={() => flipCard(true)}>
                       <Card.Content>
                         <Image
                           src={pokemonState.pokemon.sprites.front_shiny}
@@ -269,7 +256,7 @@ const JFBanner = (props): JSX.Element => {
             </div>
           )}
         </CineDiv>
-      </Animated>
+      </div>
     </ProjectsSectionContainer>
   );
 };
