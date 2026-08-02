@@ -163,14 +163,14 @@ const JFBanner = (props): JSX.Element => {
   const [card, flipCard] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [pokemonlCharacterName, setPokemonCharacterName] = useState<string>("");
-  const marvelState = useSelector((state: RootStore) => state.pokemon);
+  const pokemonState = useSelector((state: RootStore) => state.pokemon);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPokemonCharacterName(event.target.value);
   const handleSubmit = () =>
     dispatch(GetPokemonCharacter(pokemonlCharacterName));
   let UID = uid2(8);
   let keyNumber = md5(UID);
-  if (!marvelState) {
+  if (!pokemonState) {
     return (
       <div>
         <Segment>
@@ -219,15 +219,15 @@ const JFBanner = (props): JSX.Element => {
         isVisible
       >
         <CineDiv>
-          {marvelState.pokemon && (
+          {pokemonState.pokemon && (
             <div>
-              {marvelState.pokemon.abilities.map((ability) => {
+              {pokemonState.pokemon.abilities.map((ability) => {
                 return card ? (
                   <div>
                     <Card key={keyNumber} onClick={() => flipCard(false)}>
                       <Card.Content>
                         <Image
-                          src={marvelState.pokemon.sprites.front_default}
+                          src={pokemonState.pokemon.sprites.front_default}
                           wrapped
                           ui={true}
                         />
@@ -248,7 +248,7 @@ const JFBanner = (props): JSX.Element => {
                     <Card key={keyNumber} onClick={() => flipCard(true)}>
                       <Card.Content>
                         <Image
-                          src={marvelState.pokemon.sprites.front_shiny}
+                          src={pokemonState.pokemon.sprites.front_shiny}
                           wrapped
                           ui={true}
                         />
