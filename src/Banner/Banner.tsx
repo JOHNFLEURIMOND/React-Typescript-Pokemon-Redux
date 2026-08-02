@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
-import { Animated } from "react-animated-css";
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import { space, flexbox, typography } from "styled-system";
 import { Container } from "semantic-ui-react";
@@ -47,12 +46,7 @@ const baseBannerStyles = css({
 const JFBanner = (props): JSX.Element => {
   return (
     <Container {...props}>
-      <Animated
-        animationInDelay={0}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        isVisible
-      >
+      <div>
         <div className="leftHalf">
           <Header className="BannerHeader" as="h1" pt={200} pl={100}>
             Pokemon
@@ -63,7 +57,7 @@ const JFBanner = (props): JSX.Element => {
         </div>
 
         <div className="rightHalf"></div>
-      </Animated>
+      </div>
     </Container>
   );
 };
