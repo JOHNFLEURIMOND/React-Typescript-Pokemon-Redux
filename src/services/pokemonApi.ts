@@ -4,7 +4,7 @@ import {
   normalizePokemonServiceError,
   type PokemonServiceError,
 } from "../types/pokemon.error";
-import { mapPokeApiPokemon } from "../types/pokemon.mapper";
+import { mapPokeApiPokemon, toDisplayName } from "../types/pokemon.mapper";
 import {
   type PokemonCatalogPage,
   type PokemonCatalogQuery,
@@ -13,9 +13,6 @@ import {
   type PokeApiPokemonDto,
   type PokemonProfile,
 } from "../types/pokemon";
-
-const toDisplayName = (name: string): string =>
-  `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
 
 const parsePokemonIdFromUrl = (url: string): number => {
   const match = url.match(/\/(\d+)\/?$/);

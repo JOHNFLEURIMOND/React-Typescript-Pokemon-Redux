@@ -1,6 +1,6 @@
 import type { PokeApiPokemonDto, PokemonProfile } from "./pokemon";
 
-const toDisplayName = (name: string): string =>
+export const toDisplayName = (name: string): string =>
   `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
 
 export const mapPokeApiPokemon = (
