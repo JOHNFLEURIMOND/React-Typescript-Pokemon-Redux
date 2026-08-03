@@ -26,15 +26,23 @@ Modern React and TypeScript Pokemon explorer with a paginated Pokemon catalog, d
 
 ## Getting Started
 
+Required Node.js version: >=22.12.0 <23
+
+If you use nvm:
+
+1. Activate the project version
+
+   nvm use
+
 1. Install dependencies
 
    npm install
 
-2. Start local development
+1. Start local development
 
    npm run dev
 
-3. Run validation
+1. Run validation
 
    npm run ci
 
