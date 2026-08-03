@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mapPokeApiPokemon } from "./pokemon.mapper";
+import { mapPokeApiPokemon, toDisplayName } from "./pokemon.mapper";
 import type { PokeApiPokemonDto } from "./pokemon";
 
 const source: PokeApiPokemonDto = {
@@ -48,5 +48,26 @@ describe("mapPokeApiPokemon", () => {
     expect(mapped.stats[0].value).toBe(35);
     expect(mapped.types[0].name).toBe("electric");
     expect(mapped.sprites.artwork).toBe("artwork.png");
+  });
+
+  it("uses the shared display-name mapping format", () => {
+    expect(toDisplayName("pikachu")).toBe("Pikachu");
+    expect(toDisplayName("mr-mime")).toBe("Mr-mime");
+  });
+
+  it("handles missing optional artwork data consistently", () => {
+    const withoutArtwork: PokeApiPokemonDto = {
+      ...source,
+      sprites: {
+        front_default: null,
+        front_shiny: null,
+      },
+    };
+
+    const mapped = mapPokeApiPokemon(withoutArtwork);
+
+    expect(mapped.sprites.default).toBeNull();
+    expect(mapped.sprites.shiny).toBeNull();
+    expect(mapped.sprites.artwork).toBeNull();
   });
 });
