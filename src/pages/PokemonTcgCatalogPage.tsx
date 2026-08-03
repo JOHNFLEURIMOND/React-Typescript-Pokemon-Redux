@@ -1,14 +1,15 @@
 import { useMemo } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ExplorerSearch } from "../components/explorer/ExplorerSearch";
+import { useHistoryLocation } from "../lib/useHistoryLocation";
 import { PaginationControls } from "../components/explorer/PaginationControls";
 import { PokemonTcgCardTile } from "../components/explorer/PokemonTcgCardTile";
 import { useSearchCardsQuery } from "../services/pokemonTcgApi";
 import { normalizePokemonSearch } from "../types/pokemon";
 
 const useCardsQueryParams = (): { q: string; page: number } => {
-  const { search } = useLocation();
+  const { search } = useHistoryLocation();
 
   return useMemo(() => {
     const params = new URLSearchParams(search);
@@ -68,6 +69,11 @@ const PokemonTcgCatalogPage = (): JSX.Element => {
       <ExplorerSearch
         initialQuery={q}
         initialScope="cards"
+        onScopeChange={({ scope }) => {
+          if (scope === "pokemon") {
+            history.push("/?page=1");
+          }
+        }}
         onSubmit={({ scope, query }) => {
           if (scope === "pokemon") {
             const normalized = normalizePokemonSearch(query);

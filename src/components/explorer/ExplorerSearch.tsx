@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Select } from "../ui/select";
@@ -9,15 +9,25 @@ interface ExplorerSearchProps {
   initialQuery?: string;
   initialScope?: ExplorerScope;
   onSubmit: (payload: { scope: ExplorerScope; query: string }) => void;
+  onScopeChange?: (payload: { scope: ExplorerScope; query: string }) => void;
 }
 
 export const ExplorerSearch = ({
   initialQuery = "",
   initialScope = "pokemon",
   onSubmit,
+  onScopeChange,
 }: ExplorerSearchProps): JSX.Element => {
   const [scope, setScope] = useState<ExplorerScope>(initialScope);
   const [query, setQuery] = useState<string>(initialQuery);
+
+  useEffect(() => {
+    setScope(initialScope);
+  }, [initialScope]);
+
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
 
   return (
     <form
@@ -30,7 +40,11 @@ export const ExplorerSearch = ({
       <Select
         aria-label="Search scope"
         value={scope}
-        onChange={(event) => setScope(event.target.value as ExplorerScope)}
+        onChange={(event) => {
+          const nextScope = event.target.value as ExplorerScope;
+          setScope(nextScope);
+          onScopeChange?.({ scope: nextScope, query });
+        }}
       >
         <option value="pokemon">Pokemon</option>
         <option value="cards">Trading Cards</option>

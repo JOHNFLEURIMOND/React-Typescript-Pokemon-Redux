@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
+import { useHistoryLocation } from "./lib/useHistoryLocation";
 import PokemonCatalogPage from "./pages/PokemonCatalogPage";
 import PokemonDetailPage from "./pages/PokemonDetailPage";
 import PokemonTcgCatalogPage from "./pages/PokemonTcgCatalogPage";
@@ -59,26 +60,26 @@ const AppShell = ({ children }: { children: JSX.Element }): JSX.Element => (
 );
 
 const App = (): JSX.Element => {
+  const location = useHistoryLocation();
+
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          <AppShell>
-            <PokemonCatalogPage />
-          </AppShell>
-        </Route>
-        <Route path="/pokemon/:nameOrId" exact>
-          <AppShell>
-            <PokemonDetailPage />
-          </AppShell>
-        </Route>
-        <Route path="/cards" exact>
-          <AppShell>
-            <PokemonTcgCatalogPage />
-          </AppShell>
-        </Route>
-      </Switch>
-    </Router>
+    <Switch location={location}>
+      <Route path="/cards" exact>
+        <AppShell>
+          <PokemonTcgCatalogPage />
+        </AppShell>
+      </Route>
+      <Route path="/pokemon/:nameOrId" exact>
+        <AppShell>
+          <PokemonDetailPage />
+        </AppShell>
+      </Route>
+      <Route path="/" exact>
+        <AppShell>
+          <PokemonCatalogPage />
+        </AppShell>
+      </Route>
+    </Switch>
   );
 };
 
