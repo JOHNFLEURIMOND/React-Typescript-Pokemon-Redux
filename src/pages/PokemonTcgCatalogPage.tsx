@@ -1,11 +1,13 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ExplorerSearch } from "../components/explorer/ExplorerSearch";
 import { useHistoryLocation } from "../lib/useHistoryLocation";
 import { PaginationControls } from "../components/explorer/PaginationControls";
 import { PokemonTcgCardTile } from "../components/explorer/PokemonTcgCardTile";
-import { useSearchCardsQuery } from "../services/pokemonTcgApi";
+import {
+  type PokemonTcgServiceError,
+  useSearchCardsQuery,
+} from "../services/pokemonTcgApi";
 import { normalizePokemonSearch } from "../types/pokemon";
 
 const useCardsQueryParams = (): { q: string; page: number } => {
@@ -26,36 +28,67 @@ const useCardsQueryParams = (): { q: string; page: number } => {
 const PokemonTcgCatalogPage = (): JSX.Element => {
   const history = useHistory();
   const { q, page } = useCardsQueryParams();
+  const [retryBlockedUntil, setRetryBlockedUntil] = useState<number | null>(
+    null,
+  );
+  const [now, setNow] = useState<number>(() => Date.now());
 
-  const { data, isLoading, isFetching, isError, error } = useSearchCardsQuery({
-    query: q,
-    page,
-    pageSize: 16,
-  });
+  const { data, isLoading, isFetching, isError, error, refetch } =
+    useSearchCardsQuery({
+      query: q,
+      page,
+      pageSize: 16,
+    });
 
-  const tcgError = error as FetchBaseQueryError | undefined;
+  const tcgError = error as PokemonTcgServiceError | undefined;
+  const totalPages = data
+    ? Math.max(1, Math.ceil(data.totalCount / data.pageSize))
+    : 1;
+  const retrySecondsRemaining = retryBlockedUntil
+    ? Math.max(0, Math.ceil((retryBlockedUntil - now) / 1000))
+    : 0;
+  const canRetry = retrySecondsRemaining === 0;
 
   let tcgErrorMessage =
     "Unable to load card results right now. Try a different query.";
+  let isRetryableError = false;
 
   if (tcgError) {
-    if (typeof tcgError.status === "number") {
-      if (tcgError.status === 429) {
-        tcgErrorMessage =
-          "Anonymous Pokemon TCG API rate limit reached. Please retry later.";
-      } else if (tcgError.status >= 500 && tcgError.status <= 599) {
-        tcgErrorMessage =
-          "Pokemon TCG upstream service is temporarily unavailable. Please retry later.";
-      }
-    } else if (
-      tcgError.status === "FETCH_ERROR" ||
-      tcgError.status === "TIMEOUT_ERROR" ||
-      tcgError.status === "PARSING_ERROR"
-    ) {
-      tcgErrorMessage =
-        "Pokemon TCG connection error. Please check your network and retry.";
-    }
+    tcgErrorMessage = tcgError.message;
+    isRetryableError =
+      tcgError.kind === "rate-limit" ||
+      tcgError.kind === "upstream" ||
+      tcgError.kind === "network";
   }
+
+  useEffect(() => {
+    if (!tcgError || !tcgError.retryAfterMs) {
+      setRetryBlockedUntil(null);
+      return;
+    }
+
+    setRetryBlockedUntil(Date.now() + tcgError.retryAfterMs);
+  }, [tcgError]);
+
+  useEffect(() => {
+    if (!retryBlockedUntil) {
+      return;
+    }
+
+    const timerId = window.setInterval(() => {
+      setNow(Date.now());
+    }, 500);
+
+    return () => {
+      window.clearInterval(timerId);
+    };
+  }, [retryBlockedUntil]);
+
+  useEffect(() => {
+    if (retryBlockedUntil && Date.now() >= retryBlockedUntil) {
+      setRetryBlockedUntil(null);
+    }
+  }, [retryBlockedUntil, now]);
 
   const setCardsLocation = (query: string, nextPage: number): void => {
     const params = new URLSearchParams();
@@ -109,7 +142,28 @@ const PokemonTcgCatalogPage = (): JSX.Element => {
 
       {isError ? (
         <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
-          {tcgErrorMessage}
+          <div>{tcgErrorMessage}</div>
+          {isRetryableError ? (
+            <div className="mt-3">
+              <button
+                type="button"
+                className="rounded-lg border border-rose-300 bg-white px-3 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={() => {
+                  if (!canRetry) {
+                    return;
+                  }
+                  refetch();
+                }}
+                disabled={!canRetry || isFetching}
+              >
+                {canRetry
+                  ? isFetching
+                    ? "Retrying..."
+                    : "Retry"
+                  : `Retry in ${retrySecondsRemaining}s`}
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
@@ -129,6 +183,7 @@ const PokemonTcgCatalogPage = (): JSX.Element => {
 
           <PaginationControls
             page={page}
+            totalPages={totalPages}
             hasPreviousPage={data.hasPreviousPage}
             hasNextPage={data.hasNextPage}
             onPageChange={(nextPage) => setCardsLocation(q, nextPage)}

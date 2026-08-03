@@ -86,7 +86,9 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 0,
     });
-    expect(screen.getByText("Page 1")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 1" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText(/Showing 1 to 20 of 151/)).toBeInTheDocument();
     expect(screen.getByText("#1")).toBeInTheDocument();
     expect(screen.getByText("#20")).toBeInTheDocument();
@@ -99,7 +101,9 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 20,
     });
-    expect(screen.getByText("Page 2")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 2" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText(/Showing 21 to 40 of 151/)).toBeInTheDocument();
     expect(screen.getByText("#21")).toBeInTheDocument();
     expect(screen.getByText("#40")).toBeInTheDocument();
@@ -112,7 +116,9 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 40,
     });
-    expect(screen.getByText("Page 3")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 3" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText("#41")).toBeInTheDocument();
     expect(screen.getByText("#60")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Next" })).toBeEnabled();
@@ -125,7 +131,9 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 60,
     });
-    expect(screen.getByText("Page 4")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 4" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText(/Showing 61 to 80 of 151/)).toBeInTheDocument();
     expect(screen.getByText("#61")).toBeInTheDocument();
     expect(screen.getByText("#80")).toBeInTheDocument();
@@ -138,10 +146,13 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 80,
     });
-    expect(screen.getByText("Page 5")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 5" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText(/Showing 81 to 100 of 151/)).toBeInTheDocument();
     expect(screen.getByText("#81")).toBeInTheDocument();
     expect(screen.getByText("#100")).toBeInTheDocument();
+    expect(screen.getAllByText("...")).toHaveLength(1);
   });
 
   it("renders the final page with the remaining results", () => {
@@ -151,11 +162,14 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 140,
     });
-    expect(screen.getByText("Page 8")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 8" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText(/Showing 141 to 151 of 151/)).toBeInTheDocument();
     expect(screen.getByText("#141")).toBeInTheDocument();
     expect(screen.getByText("#151")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Next" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Previous" })).toBeEnabled();
   });
 
   it("falls back safely to page 1 when page is invalid", () => {
@@ -165,7 +179,9 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 0,
     });
-    expect(screen.getByText("Page 1")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 1" }),
+    ).toHaveAttribute("aria-current", "page");
   });
 
   it("falls back safely to page 1 when page is zero", () => {
@@ -175,7 +191,10 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 0,
     });
-    expect(screen.getByText("Page 1")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 1" }),
+    ).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("button", { name: "Previous" })).toBeDisabled();
   });
 
   it("clicking Next updates the URL and renders next page data", () => {
@@ -188,9 +207,28 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 20,
     });
-    expect(screen.getByText("Page 2")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 2" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText("#21")).toBeInTheDocument();
     expect(screen.getByText("#40")).toBeInTheDocument();
+  });
+
+  it("clicking a numbered button updates URL and renders selected page", () => {
+    const history = renderPage("?page=1");
+
+    fireEvent.click(screen.getByRole("button", { name: "Go to page 3" }));
+
+    expect(history.location.search).toBe("?page=3");
+    expect(mockUseGetPokemonCatalogPageQuery).toHaveBeenLastCalledWith({
+      limit: 20,
+      offset: 40,
+    });
+    expect(
+      screen.getByRole("button", { name: "Go to page 3" }),
+    ).toHaveAttribute("aria-current", "page");
+    expect(screen.getByText("#41")).toBeInTheDocument();
+    expect(screen.getByText("#60")).toBeInTheDocument();
   });
 
   it("normalizes a page above final page to the final valid page", async () => {
@@ -204,7 +242,9 @@ describe("PokemonCatalogPage URL pagination", () => {
       limit: 20,
       offset: 140,
     });
-    expect(screen.getByText("Page 8")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 8" }),
+    ).toHaveAttribute("aria-current", "page");
     expect(screen.getByText(/Showing 141 to 151 of 151/)).toBeInTheDocument();
   });
 });

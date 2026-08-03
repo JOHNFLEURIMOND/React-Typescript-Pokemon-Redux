@@ -126,7 +126,10 @@ describe("App routing and interaction reactivity", () => {
   it("updates pagination results immediately without remounting", async () => {
     const history = renderApp("/?page=1");
 
-    expect(screen.getByText("Page 1")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Go to page 1" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     expect(screen.getByText(/Showing 1 to 20 of 1351/)).toBeInTheDocument();
     expect(screen.getByText("#1")).toBeInTheDocument();
     expect(screen.getByText("#20")).toBeInTheDocument();
@@ -135,7 +138,10 @@ describe("App routing and interaction reactivity", () => {
 
     await waitFor(() => {
       expect(history.location.search).toBe("?page=2");
-      expect(screen.getByText("Page 2")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to page 2" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
       expect(screen.getByText(/Showing 21 to 40 of 1351/)).toBeInTheDocument();
       expect(screen.getByText("#21")).toBeInTheDocument();
       expect(screen.getByText("#40")).toBeInTheDocument();
@@ -145,7 +151,10 @@ describe("App routing and interaction reactivity", () => {
 
     await waitFor(() => {
       expect(history.location.search).toBe("?page=3");
-      expect(screen.getByText("Page 3")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to page 3" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
       expect(screen.getByText(/Showing 41 to 60 of 1351/)).toBeInTheDocument();
       expect(screen.getByText("#41")).toBeInTheDocument();
       expect(screen.getByText("#60")).toBeInTheDocument();
@@ -155,7 +164,10 @@ describe("App routing and interaction reactivity", () => {
 
     await waitFor(() => {
       expect(history.location.search).toBe("?page=2");
-      expect(screen.getByText("Page 2")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to page 2" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
       expect(screen.getByText("#21")).toBeInTheDocument();
       expect(screen.getByText("#40")).toBeInTheDocument();
     });
@@ -166,7 +178,10 @@ describe("App routing and interaction reactivity", () => {
 
     await waitFor(() => {
       expect(history.location.search).toBe("?page=3");
-      expect(screen.getByText("Page 3")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to page 3" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
     });
 
     act(() => {
@@ -175,7 +190,10 @@ describe("App routing and interaction reactivity", () => {
 
     await waitFor(() => {
       expect(history.location.search).toBe("?page=2");
-      expect(screen.getByText("Page 2")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to page 2" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
     });
   });
 
