@@ -57,6 +57,7 @@ export const PokemonPreviewCard = ({
     return () => {
       legacyMediaQuery.removeListener?.(updatePreference);
     };
+  }, []);
 
   const sprite = useMemo(() => {
     const sprites = getSpriteFromId(pokemon.id);
