@@ -40,12 +40,23 @@ export const PokemonPreviewCard = ({
       setPrefersReducedMotion(mediaQuery.matches);
 
     updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
 
-    return () => {
-      mediaQuery.removeEventListener("change", updatePreference);
+    const legacyMediaQuery = mediaQuery as MediaQueryList & {
+      addListener?: (listener: () => void) => void;
+      removeListener?: (listener: () => void) => void;
     };
-  }, []);
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", updatePreference);
+      return () => {
+        mediaQuery.removeEventListener("change", updatePreference);
+      };
+    }
+
+    legacyMediaQuery.addListener?.(updatePreference);
+    return () => {
+      legacyMediaQuery.removeListener?.(updatePreference);
+    };
 
   const sprite = useMemo(() => {
     const sprites = getSpriteFromId(pokemon.id);
