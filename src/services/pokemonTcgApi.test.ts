@@ -28,6 +28,15 @@ const asTcgResponse = (): Response =>
     },
   );
 
+const asErrorResponse = (
+  status: number,
+  headers?: Record<string, string>,
+): Response =>
+  new Response("<html>Error</html>", {
+    status,
+    headers,
+  });
+
 const getRequestUrl = (input: RequestInfo | URL): string => {
   if (typeof input === "string") {
     return input;
@@ -93,5 +102,74 @@ describe("pokemonTcgApi.searchCards", () => {
     expect(url.searchParams.get("q")).toBe('name:""');
     expect(url.searchParams.get("page")).toBe("2");
     expect(url.searchParams.get("pageSize")).toBe("10");
+  });
+
+  it("maps 429 responses to rate-limit errors and parses retry-after seconds", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      asErrorResponse(429, {
+        "retry-after": "5",
+      }),
+    );
+
+    const store = createApiStore();
+    const args = { query: "pikachu", page: 1, pageSize: 20 };
+
+    await store.dispatch(pokemonTcgApi.endpoints.searchCards.initiate(args));
+
+    const state = pokemonTcgApi.endpoints.searchCards.select(args)(
+      store.getState(),
+    );
+
+    expect(state.error).toMatchObject({
+      kind: "rate-limit",
+      status: 429,
+    });
+
+    const retryAfterMs = (state.error as { retryAfterMs?: number } | undefined)
+      ?.retryAfterMs;
+
+    expect(retryAfterMs).toBeGreaterThanOrEqual(5000);
+    expect(retryAfterMs).toBeLessThan(6000);
+  });
+
+  it("maps 5xx responses to upstream errors", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(asErrorResponse(500));
+
+    const store = createApiStore();
+    const args = { query: "pikachu", page: 1, pageSize: 20 };
+
+    await store.dispatch(pokemonTcgApi.endpoints.searchCards.initiate(args));
+
+    const state = pokemonTcgApi.endpoints.searchCards.select(args)(
+      store.getState(),
+    );
+
+    expect(state.error).toMatchObject({
+      kind: "upstream",
+      status: 500,
+      message:
+        "Pokemon TCG upstream service is temporarily unavailable. Please retry.",
+    });
+  });
+
+  it("maps fetch failures to network errors", async () => {
+    vi.spyOn(globalThis, "fetch").mockRejectedValue(
+      new TypeError("network down"),
+    );
+
+    const store = createApiStore();
+    const args = { query: "pikachu", page: 1, pageSize: 20 };
+
+    await store.dispatch(pokemonTcgApi.endpoints.searchCards.initiate(args));
+
+    const state = pokemonTcgApi.endpoints.searchCards.select(args)(
+      store.getState(),
+    );
+
+    expect(state.error).toMatchObject({
+      kind: "network",
+      message:
+        "Pokemon TCG connection error. Please check your network and retry.",
+    });
   });
 });
