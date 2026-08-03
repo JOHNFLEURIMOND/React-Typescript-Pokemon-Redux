@@ -1,16 +1,15 @@
-import { useEffect, useMemo } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { ExplorerSearch } from "../components/explorer/ExplorerSearch";
 import { PaginationControls } from "../components/explorer/PaginationControls";
 import { PokemonPreviewCard } from "../components/explorer/PokemonPreviewCard";
+import { useHistoryLocation } from "../lib/useHistoryLocation";
 import { useGetPokemonCatalogPageQuery } from "../services/pokemonApi";
 import { normalizePokemonSearch } from "../types/pokemon";
 
 const PAGE_SIZE = 20;
 
-const usePageNumber = (): number => {
-  const { search } = useLocation();
-
+const usePageNumber = (search: string): number => {
   return useMemo(() => {
     const params = new URLSearchParams(search);
     const raw = Number(params.get("page") ?? "1");
@@ -25,37 +24,76 @@ const usePageNumber = (): number => {
 
 const PokemonCatalogPage = (): JSX.Element => {
   const history = useHistory();
-  const pageFromUrl = usePageNumber();
-  const offset = (pageFromUrl - 1) * PAGE_SIZE;
+  const location = useHistoryLocation();
+  const pageFromUrl = usePageNumber(location.search);
+  const [knownTotalCount, setKnownTotalCount] = useState<number | null>(null);
 
-  const { data, isLoading, isFetching, isError } =
+  const knownTotalPages =
+    knownTotalCount === null
+      ? undefined
+      : Math.max(1, Math.ceil(knownTotalCount / PAGE_SIZE));
+
+  const pageForQuery =
+    typeof knownTotalPages === "number"
+      ? Math.min(pageFromUrl, knownTotalPages)
+      : pageFromUrl;
+  const offset = (pageForQuery - 1) * PAGE_SIZE;
+
+  const { data, currentData, isLoading, isFetching, isError } =
     useGetPokemonCatalogPageQuery({
       limit: PAGE_SIZE,
       offset,
     });
 
-  const totalPages = data
-    ? Math.max(1, Math.ceil(data.totalCount / PAGE_SIZE))
-    : 1;
-  const page = Math.min(pageFromUrl, totalPages);
+  const pageData =
+    isFetching && !currentData ? undefined : (currentData ?? data);
 
   useEffect(() => {
-    if (page !== pageFromUrl) {
+    if (pageData) {
+      setKnownTotalCount(pageData.totalCount);
+    }
+  }, [pageData]);
+
+  const totalPages = pageData
+    ? Math.max(1, Math.ceil(pageData.totalCount / PAGE_SIZE))
+    : knownTotalPages;
+  const page =
+    typeof totalPages === "number"
+      ? Math.min(pageFromUrl, totalPages)
+      : pageForQuery;
+  const isNormalizingPage =
+    typeof totalPages === "number" && page !== pageFromUrl;
+  const displayOffset = (page - 1) * PAGE_SIZE;
+
+  useEffect(() => {
+    if (typeof totalPages === "number" && page !== pageFromUrl) {
       const params = new URLSearchParams();
       params.set("page", String(page));
       history.replace(`/?${params.toString()}`);
     }
-  }, [history, page, pageFromUrl]);
+  }, [history, page, pageFromUrl, totalPages]);
 
   const updatePage = (nextPage: number): void => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(location.search);
     params.set("page", String(nextPage));
-    history.push(`/?${params.toString()}`);
+    history.push({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
   };
 
   return (
     <section className="space-y-6">
       <ExplorerSearch
+        initialScope="pokemon"
+        onScopeChange={({ scope, query }) => {
+          if (scope === "cards") {
+            const params = new URLSearchParams();
+            params.set("q", query.trim() || "pikachu");
+            params.set("page", "1");
+            history.push(`/cards?${params.toString()}`);
+          }
+        }}
         onSubmit={({ scope, query }) => {
           if (scope === "cards") {
             const params = new URLSearchParams();
@@ -82,16 +120,19 @@ const PokemonCatalogPage = (): JSX.Element => {
             TCG cards.
           </p>
         </div>
-        {data && (
+        {pageData && !isNormalizingPage && (
           <div className="text-sm text-slate-500">
-            Showing {offset + 1} to{" "}
-            {Math.min(offset + data.items.length, data.totalCount)} of{" "}
-            {data.totalCount}
+            Showing {displayOffset + 1} to{" "}
+            {Math.min(
+              displayOffset + pageData.items.length,
+              pageData.totalCount,
+            )}{" "}
+            of {pageData.totalCount}
           </div>
         )}
       </div>
 
-      {isLoading || isFetching ? (
+      {isLoading || isFetching || isNormalizingPage ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: PAGE_SIZE }).map((_, index) => (
             <div
@@ -108,24 +149,24 @@ const PokemonCatalogPage = (): JSX.Element => {
         </div>
       ) : null}
 
-      {data && data.items.length === 0 ? (
+      {pageData && pageData.items.length === 0 && !isNormalizingPage ? (
         <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-600">
           No Pokemon found on this page.
         </div>
       ) : null}
 
-      {data && data.items.length > 0 ? (
+      {pageData && pageData.items.length > 0 && !isNormalizingPage ? (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {data.items.map((item) => (
+            {pageData.items.map((item) => (
               <PokemonPreviewCard key={item.id || item.name} pokemon={item} />
             ))}
           </div>
 
           <PaginationControls
             page={page}
-            hasPreviousPage={data.hasPreviousPage}
-            hasNextPage={data.hasNextPage}
+            hasPreviousPage={pageData.hasPreviousPage}
+            hasNextPage={pageData.hasNextPage}
             onPageChange={updatePage}
           />
         </>
