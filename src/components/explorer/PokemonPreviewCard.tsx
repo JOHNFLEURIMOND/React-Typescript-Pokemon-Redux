@@ -11,7 +11,8 @@ interface PokemonPreviewCardProps {
 const getSpriteFromId = (
   id: number,
 ): { defaultSprite: string; shinySprite: string } => {
-  const idText = Number.isFinite(id) ? String(id) : "1";
+  const safeId = Number.isFinite(id) && id > 0 ? id : 1;
+  const idText = String(safeId);
   return {
     defaultSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idText}.png`,
     shinySprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${idText}.png`,
