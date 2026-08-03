@@ -2,6 +2,8 @@
 
 Modern React and TypeScript Pokemon explorer with a paginated Pokemon catalog, detail routes, flippable preview cards, shiny toggles, and independent Pokemon TCG search.
 
+Live site: https://typescript-pokemon-api.netlify.app/
+
 ## Product Direction
 
 - Homepage is a paginated Pokemon catalog

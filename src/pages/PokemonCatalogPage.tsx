@@ -165,6 +165,7 @@ const PokemonCatalogPage = (): JSX.Element => {
 
           <PaginationControls
             page={page}
+            totalPages={totalPages ?? 1}
             hasPreviousPage={pageData.hasPreviousPage}
             hasNextPage={pageData.hasNextPage}
             onPageChange={updatePage}
