@@ -1,39 +1,66 @@
-# :checkered_flag:What It Looks Like :checkered_flag:: 
-![pokemon](public/pokemon.png)
-# How It's Made :nut_and_bolt:🔨 :hammer::wrench::
- This application is a React + TypeScript Pokémon search app.
+# Pokemon Explorer Catalog
 
+Modern React and TypeScript Pokemon explorer with a paginated Pokemon catalog, detail routes, flippable preview cards, shiny toggles, and independent Pokemon TCG search.
 
- # How It's Works:white_check_mark::
+## Product Direction
 
-## My Awesome Project 
-https://typescript-pokemon-api.netlify.app/
+- Homepage is a paginated Pokemon catalog
+- Search supports Pokemon and Trading Cards scopes
+- Pokemon detail route renders one complete profile per selected Pokemon
+- Abilities are rendered inside a single profile, not as card multipliers
+- TCG results live in an independent route and pagination state
 
-# Portfolio :open_file_folder::
+## Routes
 
-** :computer:   WEBSITE:** [John Fleurimond](http://johnfleurimond.com)
+- / : Pokemon catalog page with URL-based pagination
+- /pokemon/:nameOrId : full Pokemon profile route
+- /cards?q=pikachu&page=1 : TCG catalog route with independent pagination
 
-# How To Get It Started :arrow_forward: :
+## Tech Stack
 
-## Installation
+- React 18 + TypeScript strict mode
+- Vite 8 build pipeline
+- Redux Toolkit + RTK Query
+- Tailwind CSS + custom utility-first UI primitives
+- Vitest + Testing Library
 
-1. Clone repo
-2. run `npm install`
+## Getting Started
 
-## Available Scripts
+1. Install dependencies
 
-In the project directory, you can run:
+   npm install
 
-### `npm run build`
+2. Start local development
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   npm run dev
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+3. Run validation
 
-See the section about [deployment](#deployment) for more information.
-### `npm run prettier`
-This corrects the format.
+   npm run ci
 
-The legacy Express/Nodemon backend and its old proxy path are no longer part of the active Pokémon application.
+## Scripts
+
+- npm run dev : start Vite dev server
+- npm run typecheck : run TypeScript checks
+- npm run test : run Vitest watch mode
+- npm run test:run : run tests once
+- npm run build : typecheck + production build
+- npm run format : apply Prettier formatting
+- npm run format:check : validate formatting
+- npm run ci : typecheck + tests + build + formatting check
+
+## Deployment
+
+- Netlify config is defined in netlify.toml
+- Static output directory is dist
+- SPA fallback redirect is configured for client-side routes
+
+## CI
+
+- GitHub Actions workflow: .github/workflows/ci.yml
+- Validates install, typecheck, tests, build, and format checks
+
+## GraphQL Pokemon Research
+
+- Research note: docs/graphql-pokemon-research.md
+- Conclusion: REST-first remains the best value for current milestone scope.
