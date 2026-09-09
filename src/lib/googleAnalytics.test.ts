@@ -72,6 +72,8 @@ describe("Google Tag Manager client", () => {
       page_title: "Pokemon cards",
     });
     expect(JSON.stringify(dataLayer)).not.toContain("fictional-private-search");
-    expect(JSON.stringify(dataLayer)).not.toContain("G-GWD4BQMFEC");
+    expect(
+      dataLayer.some((entry) => Array.isArray(entry) && entry[0] === "config"),
+    ).toBe(false);
   });
 });
