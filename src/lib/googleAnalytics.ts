@@ -110,7 +110,7 @@ export function initializeGoogleAnalytics(): void {
   initialized = true;
 
   window.addEventListener(ANALYTICS_CONSENT_EVENT, applyConsent);
-  window.addEventListener("storage", (event) => {
+  window.addEventListener("storage", event => {
     if (event.key === ANALYTICS_CONSENT_KEY || event.key === null) applyConsent();
   });
 
