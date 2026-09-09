@@ -98,9 +98,8 @@ export default function CookieConsentBanner(): JSX.Element {
             className="mt-2 max-w-3xl text-sm leading-relaxed"
           >
             We would like to use Google Analytics cookies to understand site
-            usage. Analytics is not connected yet and will only run with your
-            permission. No advertising cookies. You can change your choice at
-            any time.
+            usage. Analytics will only run with your permission. No advertising
+            cookies. You can change your choice at any time.
           </p>
           <p className="mt-2 text-sm">
             Current choice:{" "}
