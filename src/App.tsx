@@ -1,4 +1,5 @@
 import { Link, Route, Switch } from "react-router-dom";
+import CookieConsentBanner from "./components/privacy/CookieConsentBanner";
 import { useHistoryLocation } from "./lib/useHistoryLocation";
 import PokemonCatalogPage from "./pages/PokemonCatalogPage";
 import PokemonDetailPage from "./pages/PokemonDetailPage";
@@ -63,23 +64,26 @@ const App = (): JSX.Element => {
   const location = useHistoryLocation();
 
   return (
-    <Switch location={location}>
-      <Route path="/cards" exact>
-        <AppShell>
-          <PokemonTcgCatalogPage />
-        </AppShell>
-      </Route>
-      <Route path="/pokemon/:nameOrId" exact>
-        <AppShell>
-          <PokemonDetailPage />
-        </AppShell>
-      </Route>
-      <Route path="/" exact>
-        <AppShell>
-          <PokemonCatalogPage />
-        </AppShell>
-      </Route>
-    </Switch>
+    <>
+      <CookieConsentBanner />
+      <Switch location={location}>
+        <Route path="/cards" exact>
+          <AppShell>
+            <PokemonTcgCatalogPage />
+          </AppShell>
+        </Route>
+        <Route path="/pokemon/:nameOrId" exact>
+          <AppShell>
+            <PokemonDetailPage />
+          </AppShell>
+        </Route>
+        <Route path="/" exact>
+          <AppShell>
+            <PokemonCatalogPage />
+          </AppShell>
+        </Route>
+      </Switch>
+    </>
   );
 };
 
