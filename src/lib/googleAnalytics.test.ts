@@ -56,10 +56,11 @@ describe("Google Tag Manager client", () => {
     ) as unknown[] | undefined;
     const pageView = dataLayer.find(
       (entry) =>
-        Array.isArray(entry) &&
-        entry[0] === "event" &&
-        entry[1] === "page_view",
-    ) as unknown[] | undefined;
+        typeof entry === "object" &&
+        entry !== null &&
+        "event" in entry &&
+        entry.event === "page_view",
+    ) as Record<string, unknown> | undefined;
 
     expect(consentUpdate?.[2]).toEqual({
       ad_storage: "denied",
@@ -67,7 +68,7 @@ describe("Google Tag Manager client", () => {
       ad_personalization: "denied",
       analytics_storage: "granted",
     });
-    expect(pageView?.[2]).toMatchObject({
+    expect(pageView).toMatchObject({
       page_location: "http://localhost:3000/cards",
       page_title: "Pokemon cards",
     });

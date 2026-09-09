@@ -81,7 +81,10 @@ function sendPageView({ pathname, title }: PageView): boolean {
   };
   if (previousPageLocation) parameters.page_referrer = previousPageLocation;
 
-  gtag("event", "page_view", parameters);
+  (window as AnalyticsWindow).dataLayer?.push({
+    event: "page_view",
+    ...parameters,
+  });
   previousPageLocation = pageLocation;
   lastPageLocation = pageLocation;
   return true;
