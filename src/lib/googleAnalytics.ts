@@ -4,9 +4,9 @@ import {
   readAnalyticsConsent,
 } from "./analyticsConsent";
 
-export const GA_MEASUREMENT_ID = "G-GWD4BQMFEC";
+export const GTM_CONTAINER_ID = "GTM-TWGDBWJQ";
 
-const SCRIPT_ID = "google-analytics-gtag";
+const SCRIPT_ID = "analytics-gtm";
 const DENIED_CONSENT = {
   ad_storage: "denied",
   ad_user_data: "denied",
@@ -23,6 +23,7 @@ type PageView = { pathname?: string; title?: string };
 
 let initialized = false;
 let configured = false;
+let unloading = false;
 let lastPageLocation: string | null = null;
 let previousPageLocation: string | null = null;
 let pendingPageView: PageView | null = null;
@@ -41,24 +42,25 @@ function sanitizePageLocation(pathname?: string): string {
   return new URL(path, window.location.origin).href;
 }
 
-function loadGoogleTag(): boolean {
-  if (configured || readAnalyticsConsent() !== "granted") return false;
+function loadAnalyticsContainer(): boolean {
+  if (configured || unloading || readAnalyticsConsent() !== "granted")
+    return false;
 
   gtag("consent", "default", DENIED_CONSENT);
   gtag("consent", "update", ANALYTICS_ONLY_CONSENT);
   gtag("set", "ads_data_redaction", true);
-  gtag("js", new Date());
-  gtag("config", GA_MEASUREMENT_ID, {
-    send_page_view: false,
-    allow_google_signals: false,
-    allow_ad_personalization_signals: false,
+  gtag("set", "allow_google_signals", false);
+  gtag("set", "allow_ad_personalization_signals", false);
+  (window as AnalyticsWindow).dataLayer?.push({
+    "gtm.start": Date.now(),
+    event: "gtm.js",
   });
 
   if (!document.getElementById(SCRIPT_ID)) {
     const script = document.createElement("script");
     script.id = SCRIPT_ID;
     script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_CONTAINER_ID}`;
     document.head.appendChild(script);
   }
 
@@ -68,7 +70,7 @@ function loadGoogleTag(): boolean {
 
 function sendPageView({ pathname, title }: PageView): boolean {
   if (readAnalyticsConsent() !== "granted") return false;
-  if (!configured && !loadGoogleTag()) return false;
+  if (!configured && !loadAnalyticsContainer()) return false;
 
   const pageLocation = sanitizePageLocation(pathname);
   if (pageLocation === lastPageLocation) return false;
@@ -96,13 +98,18 @@ function applyConsent(): void {
   const consent = readAnalyticsConsent();
 
   if (consent === "granted") {
-    if (!configured) loadGoogleTag();
+    if (!configured) loadAnalyticsContainer();
     else gtag("consent", "update", ANALYTICS_ONLY_CONSENT);
     flushPendingPageView();
     return;
   }
 
-  if (configured) gtag("consent", "update", DENIED_CONSENT);
+  if (configured && !unloading) {
+    unloading = true;
+    gtag("consent", "update", DENIED_CONSENT);
+    document.getElementById(SCRIPT_ID)?.remove();
+    window.location.reload();
+  }
 }
 
 export function initializeGoogleAnalytics(): void {

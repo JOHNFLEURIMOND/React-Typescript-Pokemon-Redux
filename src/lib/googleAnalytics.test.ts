@@ -6,7 +6,7 @@ beforeEach(() => {
   vi.resetModules();
   localStorage.clear();
   delete (window as AnalyticsWindow).dataLayer;
-  document.getElementById("google-analytics-gtag")?.remove();
+  document.getElementById("analytics-gtm")?.remove();
   window.history.replaceState(
     {},
     "",
@@ -18,8 +18,8 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("Google Analytics client", () => {
-  it("does not load or queue Google Analytics before consent", async () => {
+describe("Google Tag Manager client", () => {
+  it("does not load or queue GTM before consent", async () => {
     const { initializeGoogleAnalytics, trackPageView } =
       await import("./googleAnalytics");
 
@@ -30,9 +30,9 @@ describe("Google Analytics client", () => {
     expect((window as AnalyticsWindow).dataLayer).toBeUndefined();
   });
 
-  it("loads the correct property after consent without query text", async () => {
+  it("loads the correct container after consent without query text", async () => {
     localStorage.setItem("analytics-consent-v1", "granted");
-    const { GA_MEASUREMENT_ID, initializeGoogleAnalytics, trackPageView } =
+    const { GTM_CONTAINER_ID, initializeGoogleAnalytics, trackPageView } =
       await import("./googleAnalytics");
 
     initializeGoogleAnalytics();
@@ -41,12 +41,12 @@ describe("Google Analytics client", () => {
       title: "Pokemon cards",
     });
 
-    expect(GA_MEASUREMENT_ID).toBe("G-GWD4BQMFEC");
+    expect(GTM_CONTAINER_ID).toBe("GTM-TWGDBWJQ");
     const script = document.getElementById(
-      "google-analytics-gtag",
+      "analytics-gtm",
     ) as HTMLScriptElement | null;
     expect(script?.src).toBe(
-      "https://www.googletagmanager.com/gtag/js?id=G-GWD4BQMFEC",
+      "https://www.googletagmanager.com/gtm.js?id=GTM-TWGDBWJQ",
     );
 
     const dataLayer = (window as AnalyticsWindow).dataLayer ?? [];
@@ -72,5 +72,6 @@ describe("Google Analytics client", () => {
       page_title: "Pokemon cards",
     });
     expect(JSON.stringify(dataLayer)).not.toContain("fictional-private-search");
+    expect(JSON.stringify(dataLayer)).not.toContain("G-GWD4BQMFEC");
   });
 });
