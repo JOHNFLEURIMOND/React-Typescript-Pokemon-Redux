@@ -7,7 +7,11 @@ beforeEach(() => {
   localStorage.clear();
   delete (window as AnalyticsWindow).dataLayer;
   document.getElementById("google-analytics-gtag")?.remove();
-  window.history.replaceState({}, "", "/cards?q=fictional-private-search&page=1");
+  window.history.replaceState(
+    {},
+    "",
+    "/cards?q=fictional-private-search&page=1"
+  );
 });
 
 afterEach(() => {
@@ -40,24 +44,24 @@ describe("Google Analytics client", () => {
 
     expect(GA_MEASUREMENT_ID).toBe("G-GWD4BQMFEC");
     const script = document.getElementById(
-      "google-analytics-gtag",
+      "google-analytics-gtag"
     ) as HTMLScriptElement | null;
     expect(script?.src).toBe(
-      "https://www.googletagmanager.com/gtag/js?id=G-GWD4BQMFEC",
+      "https://www.googletagmanager.com/gtag/js?id=G-GWD4BQMFEC"
     );
 
     const dataLayer = (window as AnalyticsWindow).dataLayer ?? [];
     const consentUpdate = dataLayer.find(
-      (entry) =>
+      entry =>
         Array.isArray(entry) &&
         entry[0] === "consent" &&
-        entry[1] === "update",
+        entry[1] === "update"
     ) as unknown[] | undefined;
     const pageView = dataLayer.find(
-      (entry) =>
+      entry =>
         Array.isArray(entry) &&
         entry[0] === "event" &&
-        entry[1] === "page_view",
+        entry[1] === "page_view"
     ) as unknown[] | undefined;
 
     expect(consentUpdate?.[2]).toEqual({
