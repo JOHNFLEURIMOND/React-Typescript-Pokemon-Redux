@@ -52,9 +52,7 @@ describe("Google Analytics client", () => {
     const dataLayer = (window as AnalyticsWindow).dataLayer ?? [];
     const consentUpdate = dataLayer.find(
       (entry) =>
-        Array.isArray(entry) &&
-        entry[0] === "consent" &&
-        entry[1] === "update",
+        Array.isArray(entry) && entry[0] === "consent" && entry[1] === "update",
     ) as unknown[] | undefined;
     const pageView = dataLayer.find(
       (entry) =>
