@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import CookieConsentBanner from "./components/privacy/CookieConsentBanner";
+import { trackPageView } from "./lib/googleAnalytics";
 import { useHistoryLocation } from "./lib/useHistoryLocation";
 import PokemonCatalogPage from "./pages/PokemonCatalogPage";
 import PokemonDetailPage from "./pages/PokemonDetailPage";
@@ -62,6 +64,13 @@ const AppShell = ({ children }: { children: JSX.Element }): JSX.Element => (
 
 const App = (): JSX.Element => {
   const location = useHistoryLocation();
+
+  useEffect(() => {
+    trackPageView({
+      pathname: location.pathname,
+      title: document.title,
+    });
+  }, [location.pathname]);
 
   return (
     <>
