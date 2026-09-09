@@ -6,6 +6,7 @@ import { useHistoryLocation } from "./lib/useHistoryLocation";
 import PokemonCatalogPage from "./pages/PokemonCatalogPage";
 import PokemonDetailPage from "./pages/PokemonDetailPage";
 import PokemonTcgCatalogPage from "./pages/PokemonTcgCatalogPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 const AppShell = ({ children }: { children: JSX.Element }): JSX.Element => (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-amber-50 text-slate-900">
@@ -40,6 +41,9 @@ const AppShell = ({ children }: { children: JSX.Element }): JSX.Element => (
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm text-slate-600">
         <div>Pokemon Explorer Catalog and TCG Search</div>
         <div className="flex gap-4">
+          <Link to="/privacypolicy" className="hover:text-slate-900">
+            Privacy Policy
+          </Link>
           <a
             href="https://pokeapi.co"
             target="_blank"
@@ -76,6 +80,11 @@ const App = (): JSX.Element => {
     <>
       <CookieConsentBanner />
       <Switch location={location}>
+        <Route path="/privacypolicy" exact>
+          <AppShell>
+            <PrivacyPolicyPage />
+          </AppShell>
+        </Route>
         <Route path="/cards" exact>
           <AppShell>
             <PokemonTcgCatalogPage />
