@@ -39,10 +39,12 @@ error events after consent. No GTM or GA4 configuration was changed.
 ## Git and deployment state
 
 - Branch: `fix/ga4-gtm-recovery`.
-- Application and documentation changes are local and uncommitted at this
-  handoff update.
-- No GTM publication, GA4 setting change, deployment, pull request, or merge has
-  been performed for this recovery branch yet.
+- Commit `72ed680` is pushed to `origin/fix/ga4-gtm-recovery`.
+- Pull request #16 targets `main` because the repository has no remote `develop`
+  branch despite the branch model documented in `GIT_WORKFLOW.md`.
+- GitGuardian passed on pull request #16; repository validation was queued at
+  this handoff update. The pull request is open and unmerged.
+- No GTM publication, GA4 setting change, or deployment was performed.
 
 ## Next actions
 
