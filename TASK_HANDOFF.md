@@ -53,3 +53,30 @@ provider configuration, deployment, or external analytics system changed.
   an ignored local-tool cache only.
 - Branch remains `docs/analytics-repository-audit`; no pull request, merge, or
   deployment was performed.
+
+## GA4/GTM Recovery Update (2026-09-13)
+
+- Added structured, consent-gated page views and Pokemon search, selection,
+  detail-view, and API-error events.
+- Added navigation-key deduplication, query-only navigation tracking, and
+  redaction of query strings, fragments, and user-controlled detail routes.
+- Ran `npm run ci`: passed with TypeScript, 13 test files and 70 tests, the Vite
+  production build, and repository formatting checks.
+- Browser-tested the production build before and after consent. The application
+  emitted one sanitized page view per tested navigation and no raw search text.
+- Observed GA4 requests to `G-GWD4BQMFEC`, but the browser environment aborted
+  them. DebugView, Realtime, reporting, and property mapping remain unverified.
+- Published GTM lacks triggers for the four interaction events. The Google tag
+  also emits an automatic history page view containing the raw browser URL;
+  disable that GA4 Enhanced Measurement setting before production signoff.
+- Commits `72ed680` and `43e97f2` were pushed on
+  `fix/ga4-gtm-recovery`. Pull request #16 passed CI, GitGuardian, and Netlify,
+  then squash-merged to `main` as `53ca0ea`.
+- No GTM publication, GA4 setting change, or production deployment was
+  performed.
+
+Highest-priority next actions:
+
+1. Disable GA4 Enhanced Measurement page changes based on browser history.
+2. Publish consent-aware GTM tags for the four documented interaction events.
+3. Restore GA4 access and validate DebugView, Realtime, and property mapping.
