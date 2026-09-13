@@ -67,10 +67,11 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     trackPageView({
+      navigationKey: location.key,
       pathname: location.pathname,
       title: document.title,
     });
-  }, [location.pathname]);
+  }, [location.key, location.pathname, location.search]);
 
   return (
     <>

@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { trackAnalyticsEvent } from "../../lib/googleAnalytics";
 import type { PokemonCatalogReference } from "../../types/pokemon";
 import { Button } from "../ui/button";
 import { Card, CardDescription, CardTitle } from "../ui/card";
 
 interface PokemonPreviewCardProps {
+  listPosition?: number;
   pokemon: PokemonCatalogReference;
 }
 
@@ -20,6 +22,7 @@ const getSpriteFromId = (
 };
 
 export const PokemonPreviewCard = ({
+  listPosition,
   pokemon,
 }: PokemonPreviewCardProps): JSX.Element => {
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
@@ -156,6 +159,16 @@ export const PokemonPreviewCard = ({
             </div>
             <Link
               to={`/pokemon/${pokemon.id}`}
+              onClick={() => {
+                if (listPosition) {
+                  trackAnalyticsEvent({
+                    event: "pokemon_select",
+                    list_position: listPosition,
+                    pokemon_id: String(pokemon.id),
+                    source: "pokemon_catalog",
+                  });
+                }
+              }}
               className="inline-flex text-sm font-semibold text-sky-700 hover:text-sky-800"
               tabIndex={isFlipped ? -1 : 0}
             >
