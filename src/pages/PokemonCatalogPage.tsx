@@ -1,8 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ExplorerSearch } from "../components/explorer/ExplorerSearch";
 import { PaginationControls } from "../components/explorer/PaginationControls";
 import { PokemonPreviewCard } from "../components/explorer/PokemonPreviewCard";
+import {
+  getQueryLengthBucket,
+  trackAnalyticsEvent,
+} from "../lib/googleAnalytics";
 import { useHistoryLocation } from "../lib/useHistoryLocation";
 import { useGetPokemonCatalogPageQuery } from "../services/pokemonApi";
 import { normalizePokemonSearch } from "../types/pokemon";
@@ -39,7 +43,8 @@ const PokemonCatalogPage = (): JSX.Element => {
       : pageFromUrl;
   const offset = (pageForQuery - 1) * PAGE_SIZE;
 
-  const { data, currentData, isLoading, isFetching, isError } =
+  const lastTrackedError = useRef<unknown>(null);
+  const { data, currentData, isLoading, isFetching, isError, error } =
     useGetPokemonCatalogPageQuery({
       limit: PAGE_SIZE,
       offset,
@@ -53,6 +58,18 @@ const PokemonCatalogPage = (): JSX.Element => {
       setKnownTotalCount(pageData.totalCount);
     }
   }, [pageData]);
+
+  useEffect(() => {
+    if (!isError || !error || lastTrackedError.current === error) return;
+    lastTrackedError.current = error;
+    trackAnalyticsEvent({
+      api_name: "pokeapi",
+      error_type: "unknown",
+      event: "pokemon_api_error",
+      operation: "catalog",
+      request_status: 0,
+    });
+  }, [error, isError]);
 
   const totalPages = pageData
     ? Math.max(1, Math.ceil(pageData.totalCount / PAGE_SIZE))
@@ -95,6 +112,11 @@ const PokemonCatalogPage = (): JSX.Element => {
           }
         }}
         onSubmit={({ scope, query }) => {
+          trackAnalyticsEvent({
+            event: "pokemon_search",
+            query_length_bucket: getQueryLengthBucket(query),
+            search_scope: scope === "cards" ? "tcg" : "pokemon",
+          });
           if (scope === "cards") {
             const params = new URLSearchParams();
             params.set("q", query.trim() || "pikachu");
@@ -158,8 +180,12 @@ const PokemonCatalogPage = (): JSX.Element => {
       {pageData && pageData.items.length > 0 && !isNormalizingPage ? (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {pageData.items.map((item) => (
-              <PokemonPreviewCard key={item.id || item.name} pokemon={item} />
+            {pageData.items.map((item, index) => (
+              <PokemonPreviewCard
+                key={item.id || item.name}
+                listPosition={displayOffset + index + 1}
+                pokemon={item}
+              />
             ))}
           </div>
 

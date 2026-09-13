@@ -19,12 +19,49 @@ const ANALYTICS_ONLY_CONSENT = {
 } as const;
 
 type AnalyticsWindow = Window & { dataLayer?: unknown[] };
-type PageView = { pathname?: string; title?: string };
+type PageView = { navigationKey?: string; pathname?: string; title?: string };
+type PageType =
+  "pokemon_catalog" | "pokemon_detail" | "tcg_catalog" | "not_found";
+type AnalyticsEventInput =
+  | {
+      event: "pokemon_api_error";
+      api_name: "pokeapi" | "pokemon_tcg";
+      error_type:
+        | "network"
+        | "timeout"
+        | "rate_limited"
+        | "not_found"
+        | "server"
+        | "unknown";
+      operation: "catalog" | "detail" | "search";
+      request_status: number;
+    }
+  | {
+      event: "pokemon_detail_view";
+      pokemon_id: string;
+      pokemon_type?: string;
+    }
+  | {
+      event: "pokemon_search";
+      query_length_bucket: "empty" | "1_3" | "4_10" | "11_plus";
+      search_scope: "pokemon" | "tcg";
+    }
+  | {
+      event: "pokemon_select";
+      list_position: number;
+      pokemon_id: string;
+      source: "pokemon_catalog";
+    };
+type AnalyticsEvent = AnalyticsEventInput & {
+  app_name: "pokemon_redux";
+  environment: "production" | "development" | "test";
+  page_type: PageType;
+};
 
 let initialized = false;
 let configured = false;
 let unloading = false;
-let lastPageLocation: string | null = null;
+let lastPageViewIdentity: string | null = null;
 let previousPageLocation: string | null = null;
 let pendingPageView: PageView | null = null;
 
@@ -34,11 +71,31 @@ function gtag(...args: unknown[]): void {
   analyticsWindow.dataLayer.push(args);
 }
 
+function pushEvent(event: AnalyticsEvent | Record<string, string>): void {
+  const analyticsWindow = window as AnalyticsWindow;
+  analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+  analyticsWindow.dataLayer.push(event);
+}
+
+function getEnvironment(): AnalyticsEvent["environment"] {
+  if (import.meta.env.MODE === "production") return "production";
+  if (import.meta.env.MODE === "test") return "test";
+  return "development";
+}
+
+function getPageType(pathname = window.location.pathname): PageType {
+  if (pathname === "/") return "pokemon_catalog";
+  if (pathname === "/cards") return "tcg_catalog";
+  if (pathname.startsWith("/pokemon/")) return "pokemon_detail";
+  return "not_found";
+}
+
 function sanitizePageLocation(pathname?: string): string {
-  const path =
+  const rawPath =
     typeof pathname === "string" && pathname.startsWith("/")
       ? pathname.split(/[?#]/, 1)[0]
       : window.location.pathname;
+  const path = rawPath.replace(/^\/pokemon\/[^/]+\/?$/, "/pokemon/:nameOrId");
   return new URL(path, window.location.origin).href;
 }
 
@@ -68,22 +125,27 @@ function loadAnalyticsContainer(): boolean {
   return true;
 }
 
-function sendPageView({ pathname, title }: PageView): boolean {
+function sendPageView({ navigationKey, pathname, title }: PageView): boolean {
   if (readAnalyticsConsent() !== "granted") return false;
   if (!configured && !loadAnalyticsContainer()) return false;
 
   const pageLocation = sanitizePageLocation(pathname);
-  if (pageLocation === lastPageLocation) return false;
+  const pageViewIdentity = navigationKey || pageLocation;
+  if (pageViewIdentity === lastPageViewIdentity) return false;
 
   const parameters: Record<string, string> = {
+    app_name: "pokemon_redux",
+    environment: getEnvironment(),
     page_location: pageLocation,
+    page_path: new URL(pageLocation).pathname,
     page_title: title || document.title,
+    page_type: getPageType(new URL(pageLocation).pathname),
   };
   if (previousPageLocation) parameters.page_referrer = previousPageLocation;
 
-  gtag("event", "page_view", parameters);
+  pushEvent({ event: "page_view", ...parameters });
   previousPageLocation = pageLocation;
-  lastPageLocation = pageLocation;
+  lastPageViewIdentity = pageViewIdentity;
   return true;
 }
 
@@ -131,4 +193,28 @@ export function trackPageView(pageView: PageView = {}): boolean {
 
   pendingPageView = pageView;
   return flushPendingPageView();
+}
+
+export function trackAnalyticsEvent(event: AnalyticsEventInput): boolean {
+  if (typeof window === "undefined") return false;
+  if (readAnalyticsConsent() !== "granted") return false;
+  if (!configured && !loadAnalyticsContainer()) return false;
+
+  pushEvent({
+    app_name: "pokemon_redux",
+    environment: getEnvironment(),
+    page_type: getPageType(),
+    ...event,
+  });
+  return true;
+}
+
+export function getQueryLengthBucket(
+  query: string,
+): "empty" | "1_3" | "4_10" | "11_plus" {
+  const length = query.trim().length;
+  if (length === 0) return "empty";
+  if (length <= 3) return "1_3";
+  if (length <= 10) return "4_10";
+  return "11_plus";
 }

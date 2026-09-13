@@ -2,9 +2,11 @@
 
 ## Status and objectives
 
-This document is the analytics contract for React-Typescript-Pokemon-Redux. It
-describes intended measurement; it does not mean that every event is currently
-implemented.
+This document is the analytics contract and recovery record for
+React-Typescript-Pokemon-Redux. The application implements consent-gated,
+vendor-neutral data-layer events for page views, searches, catalog selections,
+detail views, and user-visible API failures. Filter and outbound-link events in
+the contract remain unimplemented.
 
 The objectives are to measure whether visitors can discover Pokemon, move
 between the Pokemon and trading-card catalogs, open a Pokemon detail page, and
@@ -12,27 +14,36 @@ recover from API failures. The event set intentionally excludes generic clicks,
 scrolling, Redux state changes, automatic API-success events, favorites, and
 teams. Favorites and teams do not exist in the current application.
 
-## Current implementation and no-data diagnosis
+## Current implementation and recovery diagnosis
 
-- The active branch has consent state and UI but no GA4, GTM, Tealium, analytics
-  adapter, Measurement ID, page-view call, or interaction event. It cannot send
-  GA4 data.
-- The `fix/remove-direct-ga4-test-id` worktree adds consent-gated GTM loading and
-  a `page_view` data-layer event. That work is not present in this active branch.
-- The worktree stores a GTM container ID as a source constant. It contains no
-  GA4 Measurement ID. The GA4 Measurement ID and property mapping are external
-  GTM configuration and must be verified in the published container.
-- The worktree has no development/production gate. A consenting local session
-  can load the same container as production.
-- Query-only search and pagination changes do not produce worktree page views
-  because its tracker observes only the pathname.
-- Even after the worktree is deployed, an unpublished, paused, incorrectly
-  triggered, or wrong-property GA4 tag in GTM can still produce no GA4 data.
-- Tealium is not used.
+- The application loads `GTM-TWGDBWJQ` only after analytics consent and keeps
+  advertising storage, advertising user data, advertising personalization,
+  Google signals, and ad-personalization signals disabled.
+- Application events use structured objects such as
+  `{ event: "page_view", ...parameters }`. Consent Mode commands retain the
+  gtag arguments-array format required by GTM.
+- The published container response was inspected on 2026-09-13. It configures
+  GA4 Measurement ID `G-GWD4BQMFEC`, sets `send_page_view` to `false`, and has a
+  custom-event trigger for `page_view`. The application has one page-view owner,
+  but browser validation found that the Google tag still emits an additional
+  automatic history page view.
+- The published container does not contain triggers for `pokemon_search`,
+  `pokemon_select`, `pokemon_detail_view`, or `pokemon_api_error`. Those events
+  enter the data layer after consent but will not reach GA4 until matching GA4
+  event tags and custom-event triggers are configured and published in GTM.
+- Router navigation keys provide page-view deduplication. Query-only navigation
+  produces a page view while `page_location` and `page_path` omit query strings
+  and fragments. User-controlled `/pokemon/:nameOrId` segments are normalized to
+  the route template before entering the data layer.
+- All implemented events include `app_name`, `page_type`, and `environment`.
+  Search text and raw errors are replaced with bounded categories.
+- Tealium is not used. There is no direct `gtag.js` or second GTM container.
 
-The earliest confirmed failure in the active branch is collection: no analytics
-destination loads. Production deployment state, outbound GA4 requests, the
-published GTM container, and GA4 DebugView remain unvalidated.
+The earliest confirmed application failure was the gtag arguments-array shape
+used for `page_view`; the published GTM custom-event trigger expected a
+structured event object. That failure is corrected in source. Production
+deployment, outbound GA4 requests, DebugView, Realtime, and standard reports
+still require runtime validation.
 
 ## Repository audit evidence
 
@@ -57,24 +68,24 @@ also performed.
 
 ### Audit findings
 
-1. **High - confirmed collection failure:** the active branch cannot produce GA4
-   data because it has no analytics loader or destination call.
-2. **High - configuration dependency:** the worktree can load GTM, but the GA4
-   Measurement ID, tag, trigger, and publication state exist outside the
-   repository and are unverified.
-3. **Medium - measurement gap:** no search, scope, selection, detail, API-error,
-   retry, or outbound-link event is implemented.
-4. **Medium - route gap:** query-only search and pagination cannot trigger the
-   worktree pathname-based page-view effect.
-5. **Medium - duplicate risk:** a GTM history-change or automatic page-view tag
-   could duplicate the application `page_view`; container configuration was not
-   available for inspection.
+1. **Resolved - page-view collection shape:** the app now pushes a structured
+   `page_view` object that matches the published GTM custom-event trigger.
+2. **Resolved - route gap:** query-only router navigation is tracked once using
+   the navigation key, with query strings removed from analytics URLs.
+3. **High - GTM publication dependency:** interaction events need matching GA4
+   event tags and custom-event triggers in the published container.
+4. **High - automatic history tracking:** the published Google tag emits another
+   page view from the raw browser URL on SPA navigation. This duplicates the
+   application event and can expose a user-entered route segment. Disable page
+   changes based on browser history events in Enhanced Measurement before
+   release.
+5. **Medium - remaining measurement gap:** filter, retry, and outbound-link
+   events are specified but not implemented.
 6. **Low - development contamination risk:** no source-level environment gate
-   prevents a consenting local session from loading the worktree GTM container.
+   prevents a consenting local session from loading the production container.
 
 Favorites and teams were not found in current source and remain excluded. This
-audit confirms repository behavior only; it does not establish which branch is
-deployed or prove delivery to GA4.
+record does not establish which revision is deployed or prove delivery to GA4.
 
 ## Consent and privacy
 
@@ -175,15 +186,20 @@ A console log, data-layer push, or GTM tag firing alone is not a passing result.
 
 ## Known gaps, assumptions, and risks
 
-- The production Measurement ID, GTM publication state, GA4 data stream, deployed
-  revision, outbound requests, DebugView, and reporting have not been verified.
-- GTM may already own automatic page views. Enabling both GTM history tracking
-  and application `page_view` would create duplicates; select one owner.
-- The worktree marks analytics configured when script insertion starts and has no
+- The published container identifies `G-GWD4BQMFEC`, but its mapping to GA4
+  property `properties/553377307` could not be verified because provider API
+  authorization was expired or revoked.
+- Browser validation observed consented requests to `G-GWD4BQMFEC`. Requests
+  were aborted by the browser environment, so delivery to GA4 was not proven.
+- The application emitted one structured page view for the tested navigation.
+  The Google tag also emitted an automatic history page view with the raw URL.
+- The current published container handles `page_view` only. Interaction events
+  require GTM tags and triggers before they can reach GA4.
+- The adapter marks analytics configured when script insertion starts and has no
   script-load failure recovery.
 - Static document titles may make page titles stale unless route titles are set.
 - Ad blockers and browser privacy controls can suppress otherwise valid requests.
 - Pagination is an existing interaction but is excluded from the initial event
   set until a reporting question justifies a dedicated event.
-- This specification assumes the analytics worktree will be reviewed and merged
-  before event implementation; it does not treat worktree behavior as deployed.
+- Production deployment, GTM Preview, GA4 DebugView, Realtime, and reporting
+  remain unverified.

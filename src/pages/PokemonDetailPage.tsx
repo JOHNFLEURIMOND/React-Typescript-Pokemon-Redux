@@ -1,8 +1,12 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { ExplorerSearch } from "../components/explorer/ExplorerSearch";
 import { PokemonProfileView } from "../components/explorer/PokemonProfileView";
 import { PokemonTcgCardTile } from "../components/explorer/PokemonTcgCardTile";
+import {
+  getQueryLengthBucket,
+  trackAnalyticsEvent,
+} from "../lib/googleAnalytics";
 import { useGetPokemonByNameQuery } from "../services/pokemonApi";
 import { useSearchCardsQuery } from "../services/pokemonTcgApi";
 import { isPokemonServiceError } from "../types/pokemon.error";
@@ -19,6 +23,8 @@ const PokemonDetailPage = (): JSX.Element => {
     () => normalizePokemonSearch(nameOrId),
     [nameOrId],
   );
+  const lastTrackedDetailId = useRef<number | null>(null);
+  const lastTrackedError = useRef<unknown>(null);
 
   const { data, isLoading, isError, error } = useGetPokemonByNameQuery(
     normalized,
@@ -38,12 +44,45 @@ const PokemonDetailPage = (): JSX.Element => {
     },
   );
 
+  useEffect(() => {
+    if (!data || lastTrackedDetailId.current === data.identity.id) return;
+    lastTrackedDetailId.current = data.identity.id;
+    trackAnalyticsEvent({
+      event: "pokemon_detail_view",
+      pokemon_id: String(data.identity.id),
+      pokemon_type: data.types[0]?.name,
+    });
+  }, [data]);
+
+  useEffect(() => {
+    if (!isError || !error || lastTrackedError.current === error) return;
+    lastTrackedError.current = error;
+    const errorType = isPokemonServiceError(error) ? error.kind : "unknown";
+    trackAnalyticsEvent({
+      api_name: "pokeapi",
+      error_type:
+        errorType === "not-found"
+          ? "not_found"
+          : errorType === "network"
+            ? "network"
+            : "unknown",
+      event: "pokemon_api_error",
+      operation: "detail",
+      request_status: errorType === "not-found" ? 404 : 0,
+    });
+  }, [error, isError]);
+
   return (
     <section className="space-y-6">
       <ExplorerSearch
         initialQuery={normalized}
         initialScope="pokemon"
         onSubmit={({ scope, query }) => {
+          trackAnalyticsEvent({
+            event: "pokemon_search",
+            query_length_bucket: getQueryLengthBucket(query),
+            search_scope: scope === "cards" ? "tcg" : "pokemon",
+          });
           if (scope === "cards") {
             const params = new URLSearchParams();
             params.set("q", query.trim() || "pikachu");

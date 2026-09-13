@@ -1,9 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ExplorerSearch } from "../components/explorer/ExplorerSearch";
 import { useHistoryLocation } from "../lib/useHistoryLocation";
 import { PaginationControls } from "../components/explorer/PaginationControls";
 import { PokemonTcgCardTile } from "../components/explorer/PokemonTcgCardTile";
+import {
+  getQueryLengthBucket,
+  trackAnalyticsEvent,
+} from "../lib/googleAnalytics";
 import {
   type PokemonTcgServiceError,
   useSearchCardsQuery,
@@ -32,6 +36,7 @@ const PokemonTcgCatalogPage = (): JSX.Element => {
     null,
   );
   const [now, setNow] = useState<number>(() => Date.now());
+  const lastTrackedError = useRef<unknown>(null);
 
   const { data, isLoading, isFetching, isError, error, refetch } =
     useSearchCardsQuery({
@@ -90,6 +95,25 @@ const PokemonTcgCatalogPage = (): JSX.Element => {
     }
   }, [retryBlockedUntil, now]);
 
+  useEffect(() => {
+    if (!isError || !tcgError || lastTrackedError.current === tcgError) return;
+    lastTrackedError.current = tcgError;
+    trackAnalyticsEvent({
+      api_name: "pokemon_tcg",
+      error_type:
+        tcgError.kind === "rate-limit"
+          ? "rate_limited"
+          : tcgError.kind === "upstream"
+            ? "server"
+            : tcgError.kind === "network"
+              ? "network"
+              : "unknown",
+      event: "pokemon_api_error",
+      operation: "search",
+      request_status: tcgError.status ?? 0,
+    });
+  }, [isError, tcgError]);
+
   const setCardsLocation = (query: string, nextPage: number): void => {
     const params = new URLSearchParams();
     params.set("q", query);
@@ -108,6 +132,11 @@ const PokemonTcgCatalogPage = (): JSX.Element => {
           }
         }}
         onSubmit={({ scope, query }) => {
+          trackAnalyticsEvent({
+            event: "pokemon_search",
+            query_length_bucket: getQueryLengthBucket(query),
+            search_scope: scope === "cards" ? "tcg" : "pokemon",
+          });
           if (scope === "pokemon") {
             const normalized = normalizePokemonSearch(query);
             if (normalized) {

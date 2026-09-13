@@ -8,6 +8,20 @@ const mockUseGetPokemonCatalogPageQuery = vi.hoisted(() => vi.fn());
 const mockUseGetPokemonByNameQuery = vi.hoisted(() => vi.fn());
 const mockUseLazyGetPokemonByNameQuery = vi.hoisted(() => vi.fn());
 const mockUseSearchCardsQuery = vi.hoisted(() => vi.fn());
+const mockTrackAnalyticsEvent = vi.hoisted(() => vi.fn());
+const mockTrackPageView = vi.hoisted(() => vi.fn());
+
+vi.mock("./lib/googleAnalytics", () => ({
+  getQueryLengthBucket: (query: string) => {
+    const length = query.trim().length;
+    if (length === 0) return "empty";
+    if (length <= 3) return "1_3";
+    if (length <= 10) return "4_10";
+    return "11_plus";
+  },
+  trackAnalyticsEvent: mockTrackAnalyticsEvent,
+  trackPageView: mockTrackPageView,
+}));
 
 vi.mock("./services/pokemonApi", () => ({
   useGetPokemonCatalogPageQuery: mockUseGetPokemonCatalogPageQuery,
@@ -110,6 +124,7 @@ const setDefaultMocks = (): void => {
 };
 
 const renderApp = (initialPath = "/?page=1") => {
+  vi.clearAllMocks();
   setDefaultMocks();
   const history = createMemoryHistory({ initialEntries: [initialPath] });
 
@@ -123,6 +138,68 @@ const renderApp = (initialPath = "/?page=1") => {
 };
 
 describe("App routing and interaction reactivity", () => {
+  it("tracks a deliberate search once without sending the query", async () => {
+    const history = renderApp();
+
+    fireEvent.change(screen.getByLabelText("Search query"), {
+      target: { value: "bulbasaur" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Search" }));
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe("/pokemon/bulbasaur");
+    });
+    expect(mockTrackAnalyticsEvent).toHaveBeenCalledTimes(1);
+    expect(mockTrackAnalyticsEvent).toHaveBeenCalledWith({
+      event: "pokemon_search",
+      query_length_bucket: "4_10",
+      search_scope: "pokemon",
+    });
+    expect(JSON.stringify(mockTrackAnalyticsEvent.mock.calls)).not.toContain(
+      "bulbasaur",
+    );
+  });
+
+  it("tracks a catalog selection and successful detail view once each", async () => {
+    const history = renderApp();
+    mockUseGetPokemonByNameQuery.mockReturnValue({
+      data: {
+        identity: { id: 1, name: "bulbasaur" },
+        displayName: "Bulbasaur",
+        height: 7,
+        weight: 69,
+        abilities: [],
+        stats: [],
+        types: [{ name: "grass", slot: 1 }],
+        sprites: { default: null, shiny: null, artwork: null },
+      },
+      isLoading: false,
+      isError: false,
+      error: undefined,
+    });
+
+    fireEvent.click(screen.getAllByRole("link", { name: "View details" })[0]);
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe("/pokemon/1");
+      expect(
+        screen.getByRole("heading", { name: "Pokemon detail" }),
+      ).toBeInTheDocument();
+    });
+    expect(mockTrackAnalyticsEvent).toHaveBeenCalledTimes(2);
+    expect(mockTrackAnalyticsEvent).toHaveBeenNthCalledWith(1, {
+      event: "pokemon_select",
+      list_position: 1,
+      pokemon_id: "1",
+      source: "pokemon_catalog",
+    });
+    expect(mockTrackAnalyticsEvent).toHaveBeenNthCalledWith(2, {
+      event: "pokemon_detail_view",
+      pokemon_id: "1",
+      pokemon_type: "grass",
+    });
+  });
+
   it("updates pagination results immediately without remounting", async () => {
     const history = renderApp("/?page=1");
 
