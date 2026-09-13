@@ -39,11 +39,12 @@ error events after consent. No GTM or GA4 configuration was changed.
 ## Git and deployment state
 
 - Branch: `fix/ga4-gtm-recovery`.
-- Commit `72ed680` is pushed to `origin/fix/ga4-gtm-recovery`.
+- Commits `72ed680` and `43e97f2` are pushed to
+  `origin/fix/ga4-gtm-recovery`.
 - Pull request #16 targets `main` because the repository has no remote `develop`
   branch despite the branch model documented in `GIT_WORKFLOW.md`.
-- GitGuardian passed on pull request #16; repository validation was queued at
-  this handoff update. The pull request is open and unmerged.
+- CI, GitGuardian, and the Netlify deploy preview passed on pull request #16.
+- Pull request #16 was squash-merged to `main` as `53ca0ea` on 2026-09-13.
 - No GTM publication, GA4 setting change, or deployment was performed.
 
 ## Next actions
